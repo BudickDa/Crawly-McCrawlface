@@ -3,11 +3,15 @@ import cheerio from 'cheerio';
 import URL from 'url';
 import _ from 'underscore';
 import Levenshtein from 'levenshtein';
+import redis from 'redis';
 
 export default class Crawly {
-  constructor(urlString) {
+  constructor(urlString, databaseClient) {
     if (!urlString) {
       return;
+    }
+    if (databaseClient) {
+      this.client = databaseClient;
     }
     const crawler = {};
     crawler.url = URL.parse(urlString);
@@ -58,10 +62,24 @@ export default class Crawly {
 
   async getDOM(url) {
     let response;
+    if (this.client) {
+      try {
+        const data = await this.client.get('url');
+        if (data) {
+          return cheerio.load(data);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
     try {
       response = await this.fetch(url);
     } catch (e) {
       console.error(e);
+    }
+    if (this.client) {
+      this.client.setex(url, 21600, response);
     }
     return cheerio.load(response);
   }
@@ -123,7 +141,7 @@ export default class Crawly {
 
   removeTemplate($, threshold = 0.3) {
     this.removeTheWeak($('body'), $, threshold);
-    console.log($.html());
+    return $.html();
   }
 
   removeTheWeak(node, $, threshold) {
@@ -142,9 +160,9 @@ export default class Crawly {
     const limit = mean * (1 - threshold);
 
     children.forEach(element => {
-      if($(element).data('full-score') > limit) {
+      if ($(element).data('full-score') > limit) {
         this.removeTheWeak(element, $, threshold);
-      }else{
+      } else {
         $(element).remove();
       }
     });

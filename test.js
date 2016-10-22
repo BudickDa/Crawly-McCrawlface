@@ -1,5 +1,6 @@
 const Cheerio = require('cheerio');
 const Crawly = require('./index');
+const redis = require('redis');
 
 const crawler = new Crawly();
 /**
@@ -45,7 +46,7 @@ console.log('Test A scoreNode passed: ', testThree('.content').data('score') ===
 console.log('Test B scoreNode passed: ', testThree('.content').data('full-score') === 6);
 
 /**
- * 
+ * Test scoreDOM:
  */
 const testFour = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 1</div></body>');
 const compareDomsTwo = [
@@ -57,6 +58,26 @@ crawler.scoreDOM(testFour, compareDomsTwo);
 console.log('Test scoreDOM passed: ', testFour('.content').data('score') === 360);
 
 /**
+ * Test database cache
+ */
+const storeToDb = new Crawly('https://budick.eu', redis.createClient()).then(html => {
+  console.log('Test A crawler with database passed: ', html.length > 100);
+  return;
+});
+const getFromDb = new Crawly('https://budick.eu', redis.createClient()).then(html => {
+  console.log('Test B crawler with database passed: ', html.length > 100);
+  return;
+});
+
+
+/**
  * Test crawler on website:
  */
-const budickeu = new Crawly('https://budick.eu');
+const budickeu = new Crawly('https://budick.eu').then(html => {
+  console.log('Test crawler without database passed: ', html.length > 100);
+  return;
+});
+
+console.log('Waiting...');
+
+Promise.all([storeToDb, getFromDb, budickeu]).then(res => {return console.log('Tests are finished!');});
