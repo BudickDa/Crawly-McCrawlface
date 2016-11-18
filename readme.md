@@ -5,6 +5,8 @@ A small crawler that downloads html from the web and applying some content extra
 `npm install crawly-mccrawlface`
 
 # Test
-This crawler needs redis installed and running or else the test want pass.
+This crawler needs redis installed and running or else the tests will fail.
+
 Test with:
+
 `npm test`

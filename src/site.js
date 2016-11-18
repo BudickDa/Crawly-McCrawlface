@@ -3,6 +3,9 @@ import XXH from 'xxhashjs';
 import URL from 'url';
 import _ from 'underscore';
 import Levenshtein from 'levenshtein';
+import Chance from 'chance';
+
+const chance = new Chance();
 
 export default class Site {
   constructor(url, crawler) {
@@ -16,6 +19,7 @@ export default class Site {
       this.domain = URL.parse(URL.resolve(this.url.href, '/'));
     }
     this.scores = [];
+    this.entropies = [];
     this.content = {};
   }
 
@@ -36,33 +40,38 @@ export default class Site {
   }
 
   getContent() {
-    const elements = [];
-    let sumEntropy = 0;
-    const length = this.$('*').length;
-    this.$('*').each((index, element) => {
-      const score = parseInt(element.attribs['data-score'] || 0);
-      const fullScore = parseInt(element.attribs['data-full-score'] || 0);
-      const text = this.getOnlyText(element);
-      const textLength = text.length;
-      const entropy = Math.floor(score / (textLength + 1));
-      sumEntropy += entropy;
-      elements.push({
-        element: element,
-        entropy: entropy,
-        fullScore: fullScore
+    if (this.entropies.length > 0) {
+      const sumEntropy = this.entropies.reduce((a, b) => a + b, 0);
+      const length = this.entropies.length;
+      const mean = Math.round(sumEntropy / length);
+      const highestElements = this.entropies.filter(e => {
+        return e > mean;
       });
-    });
-    const mean = Math.round(sumEntropy / length);
+      const content = [];
+      const $ = this.$;
 
-    const content = elements.filter(element => {
-      return element.entropy > mean;
-    });
-    let html = '';
-    content.forEach(c => {
-      html += this.$(c.element).html();
-    });
+      console.log(highestElements);
 
-    return html;
+      function traverse(node) {
+        node = $(node);
+        if (_.contains(highestElements, parseInt(node.attr('data-entropy')))) {
+          content.push($(node));
+        } else {
+          _.forEach(node.children(), traverse);
+        }
+      }
+
+      _.forEach(this.$('body').children(), traverse);
+
+      let html = '';
+      content.forEach(e => {
+        html += this.$(e).html();
+      });
+      console.log('Content:');
+      console.log(html);
+      return html;
+    }
+    return '';
   }
 
   cleanDOM($ = this.$) {
@@ -76,6 +85,7 @@ export default class Site {
     $('*').each((index, element) => {
       $(element).attr('class', null);
       $(element).attr('id', null);
+      $(element).attr('id', chance.hash());
       if (element.name === 'img') {
         return;
       }
@@ -128,9 +138,13 @@ export default class Site {
       score += distance;
     }
     this.scores.push(score);
+    const entropy = Math.floor(score / (text.length + 1));
+    this.entropies.push(entropy);
+
+    site.$(node).attr('data-entropy', entropy);
     site.$(node).attr('data-score', score);
 
-
+    const id = site.$(node).attr('id');
     _.forEach(node.children(), (child, index) => {
       score += this.scoreNode(site.$(child), otherNodes.map((element, i) => {
         return sites[i].$(element.children()[index]);

@@ -12,10 +12,18 @@ describe('Site', function() {
     it('should clean the dom from empty nodes, styles and scripts but not images', function() {
       const site = new Crawly.Site('', crawler);
       const testOneResult = site.cleanDOM(Cheerio.load('<style></style><div><script></script><span>Test</span><div></div><img></div>'));
+
+      testOneResult('*').each((index, element) => {
+        testOneResult(element).attr('id', null);
+      });
       assert.equal(testOneResult.html(), '<div><span>Test</span><img></div>');
 
       site.$ = Cheerio.load('<style></style><div><script></script><span>Test</span><div></div><img></div>');
       site.cleanDOM();
+
+      site.$('*').each((index, element) => {
+        site.$(element).attr('id', null);
+      });
       assert.equal(site.$.html(), '<div><span>Test</span><img></div>');
     });
   });
