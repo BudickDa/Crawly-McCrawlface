@@ -1,62 +1,78 @@
-import request from 'request';
 import cheerio from 'cheerio';
+import request from 'request';
 import URL from 'url';
 import _ from 'underscore';
+import Chance from 'chance';
+import Site from './site';
 import Levenshtein from 'levenshtein';
-import redis from 'redis';
+
+const chance = new Chance();
 
 export default class Crawly {
-  constructor(urlString, databaseClient) {
-    if (!urlString) {
-      return;
-    }
-    if (databaseClient) {
-      this.client = databaseClient;
-    }
-    const crawler = {};
-    crawler.url = URL.parse(urlString);
-    crawler.domain = URL.parse(URL.resolve(crawler.url.href, '/'));
-    crawler.sites = [];
-    return this.getDOM(crawler.url.href).then($ => {
-      $ = this.cleanDOM($);
-      $('a').each(function() {
-        const href = $(this).attr('href');
-        if (urlString === href) {
-          return;
-        }
-        if (href.indexOf('mailto:') !== -1) {
-          return;
-        }
-        if (URL.parse($(this).attr('href')).hostname !== null
-          && crawler.domain.hostname !== URL.parse($(this).attr('href')).hostname) {
-          return;
-        }
-        crawler.sites.push(URL.resolve(crawler.domain.href, $(this).attr('href')));
+  constructor(seed, goCrazy) {
+    this.queue = [];
+    if (Array.isArray(seed)) {
+      this.queue = seed.map(url => {
+        return URL.parse(url);
       });
-      crawler.dom = $;
-      crawler.sites = _.uniq(crawler.sites);
-      return crawler;
-    }).then(crawler => {
-      return Promise.all(crawler.sites.map(urlString => {
-        return this.getDOM(urlString);
-      }));
-    }).then(all => {
-      const doms = all.map(this.cleanDOM);
-      this.scoreDOM(crawler.dom, doms);
-      return crawler;
-    }).then(crawler => {
-      return this.removeTemplate(crawler.dom);
-    });
+    } else if (typeof seed === 'string') {
+      this.queue.push(URL.parse(seed));
+    }
+    this.domains = _.unique(this.queue.map(url => {
+      return URL.parse(URL.resolve(url.href, '/')).hostname;
+    }));
+
+    if (goCrazy) {
+      this.goCrazy = Boolean(goCrazy);
+    }
+
+    this.sites = [];
+    this.crawled = [];
   }
 
-  fetch(url) {
-    return new Promise(function(resolve, reject) {
-      request.get(url, function(err, response, body) {
-        if (err) {
-          reject(err);
-        }
-        resolve(body);
+  getByUrl(url) {
+    if (this.sites.length === 0) {
+      return;
+    }
+    let index = -1;
+    let distance = url.length / 2;
+    this.sites.forEach((site, i) => {
+      const tmp = new Levenshtein(site.url.href, url).distance;
+      if (tmp < distance) {
+        distance = tmp;
+        index = i;
+      }
+    });
+    if (index === -1) {
+      return;
+    }
+    return this.sites[index];
+  }
+
+
+  addCache(databaseClient) {
+    this.client = databaseClient;
+  }
+
+  workQueue(crawler = this) {
+    if (crawler.queue.length > 0) {
+      const url = _.first(crawler.queue);
+      crawler.crawled.push(url.href);
+      crawler.queue.shift();
+      const site = new Site(url.href, crawler);
+      site.load().then(() => {
+        const urls = site.returnUrls();
+
+        _.forEach(urls, url => {
+          if (crawler.crawled.indexOf(url.href) === -1 && (crawler.goCrazy || crawler.domains.indexOf(url.hostname) !== -1)) {
+            crawler.queue.push(url);
+          }
+        });
+        crawler.sites.push(site);
       });
+    }
+    _.defer(() => {
+      crawler.workQueue(crawler);
     });
   }
 
@@ -64,7 +80,7 @@ export default class Crawly {
     let response;
     if (this.client) {
       try {
-        const data = await this.client.get('url');
+        const data = await this.client.get(url);
         if (data) {
           return cheerio.load(data);
         }
@@ -84,88 +100,14 @@ export default class Crawly {
     return cheerio.load(response);
   }
 
-  cleanDOM($) {
-    $('style').remove();
-    $('script').remove();
-    $('link').remove();
-    $('meta').remove();
-    /**
-     * Clean every emtpy tag except images
-     */
-    $('*').each((index, element) => {
-      $(element).attr('class', null);
-      $(element).attr('id', null);
-      if (element.name === 'img') {
-        return;
-      }
-      if ($(element).text().length === 0) {
-        $(this).remove()
-      }
+  fetch(url) {
+    return new Promise(function(resolve, reject) {
+      request.get(url, function(err, response, body) {
+        if (err) {
+          reject(err);
+        }
+        resolve(body);
+      });
     });
-    return $;
-  }
-
-  getOnlyText(node, dom) {
-    const clone = dom(node).clone();
-    clone.children().remove();
-    return clone.text();
-  }
-
-  scoreNode(node, otherDomNodes, dom, otherDoms) {
-    let score = 0;
-    const lengthOtherDoms = otherDoms.length;
-    const text = this.getOnlyText(node, dom);
-
-    for (let i = 0; i < lengthOtherDoms; i++) {
-      let otherText = this.getOnlyText(otherDomNodes[i], otherDoms[i]);
-      let distance = new Levenshtein(text, otherText).distance;
-      score += distance;
-    }
-    dom(node).data('score', score);
-
-
-    _.forEach(node.children(), (child, index) => {
-      score += this.scoreNode(dom(child), otherDomNodes.map((element, i) => {
-        return otherDoms[i](element.children()[index]);
-      }), dom, otherDoms);
-    });
-    dom(node).data('full-score', score);
-    return score;
-  }
-
-  scoreDOM(dom, otherDoms) {
-    return this.scoreNode(dom('body'), otherDoms.map(item => {
-      return item('body');
-    }), dom, otherDoms);
-  }
-
-  removeTemplate($, threshold = 0.3) {
-    this.removeTheWeak($('body'), $, threshold);
-    return $.html();
-  }
-
-  removeTheWeak(node, $, threshold) {
-    const children = $(node).children().toArray();
-    if (children.length === 0) {
-      return;
-    }
-
-    const scores = children.map(e => {
-      return parseInt($(e).data('full-score'));
-    });
-
-    const mean = scores.reduce(function(a, b) {
-        return a + b;
-      }) / scores.length;
-    const limit = mean * (1 - threshold);
-
-    children.forEach(element => {
-      if ($(element).data('full-score') > limit) {
-        this.removeTheWeak(element, $, threshold);
-      } else {
-        $(element).remove();
-      }
-    });
-
   }
 }
