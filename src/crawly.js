@@ -52,11 +52,9 @@ export default class Crawly extends EventEmitter {
     return this.sites[index];
   }
 
-
-  addCache(databaseClient) {
-    this.client = databaseClient;
+  addCache(cache) {
+    this.cache = cache;
   }
-
 
   workQueue(crawler = this) {
     if (crawler.queue.length > 0) {
@@ -95,9 +93,9 @@ export default class Crawly extends EventEmitter {
 
   async getDOM(url) {
     let response;
-    if (this.client) {
+    if (this.cache) {
       try {
-        const data = await this.client.get(url);
+        const data = await this.cache.get(url);
         if (data) {
           return cheerio.load(data);
         }
@@ -111,8 +109,8 @@ export default class Crawly extends EventEmitter {
     } catch (e) {
       console.error(e);
     }
-    if (this.client) {
-      this.client.setex(url, 21600, response);
+    if (this.cache) {
+      this.cache.set(url, response);
     }
     return cheerio.load(response);
   }

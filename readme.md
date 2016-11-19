@@ -6,8 +6,6 @@ A small crawler that downloads html from the web and applying some content extra
 
     //Create crawler and supply seed as string or array of strings
     const crawler = new Crawly('https://budick.eu');
-    //optional: add redis as cache
-    crawler.addCache(redis.createClient());
 
     //start crawling
     crawler.start();
@@ -19,6 +17,43 @@ A small crawler that downloads html from the web and applying some content extra
 
     });
 
+
+# Caching
+You can cache responses from websites using a simple object that has a set and get method and some persistence.
+
+Some examples:
+
+## Redis:
+
+    const cache = {
+        client: redis.createClient(),
+        get: function(key){
+            return this.client.get(key);
+        },
+        set: function(key, value){
+            this.client.setex(key, 21600, value);
+        }
+    }
+    crawler.addCache(cache);
+
+## MongoDB in Meteor
+
+    const cache = {
+        client: new Mongo.Collection('cache'),
+        //get can return a promise
+        get: function(key){
+            const doc = this.client.findOne({key: key});
+            if(doc && new Date().getTime() - doc.timestamp < 21600){
+                return doc.value;
+            }else{
+                return;
+            }
+        },
+        set: function(key, value){
+            this.client.upsert({key: key}, {value: value, timestamp: new Date().getTime()});
+        }
+    }
+    crawler.addCache(cache);
 
 # Going haywire
 If you want your crawler never to stop, set the second parameter to true:
