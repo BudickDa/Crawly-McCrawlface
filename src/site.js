@@ -4,6 +4,7 @@ import URL from 'url';
 import _ from 'underscore';
 import Levenshtein from 'levenshtein';
 import Chance from 'chance';
+import EventEmitter from 'events';
 
 const chance = new Chance();
 
@@ -25,14 +26,16 @@ export default class Site {
 
   async load() {
     if (this.url && this.crawler) {
-      this.$ = await this.crawler.getDOM(this.url.href);
-      let text = this.$('body').html();
+      const $ = await this.crawler.getDOM(this.url.href);
+      let text = $('body').html();
       if (!text) {
         text = '';
       }
       this.hash = XXH.h32(text, 0xABCD).toString(16);
-      this.$ = this.cleanDOM(this.$);
+      this.$ = this.cleanDOM($);
+      return this;
     }
+    return false;
   }
 
   html(selector) {
@@ -50,8 +53,6 @@ export default class Site {
       const content = [];
       const $ = this.$;
 
-      console.log(highestElements);
-
       function traverse(node) {
         node = $(node);
         if (_.contains(highestElements, parseInt(node.attr('data-entropy')))) {
@@ -67,8 +68,6 @@ export default class Site {
       content.forEach(e => {
         html += this.$(e).html();
       });
-      console.log('Content:');
-      console.log(html);
       return html;
     }
     return '';
@@ -85,7 +84,6 @@ export default class Site {
     $('*').each((index, element) => {
       $(element).attr('class', null);
       $(element).attr('id', null);
-      $(element).attr('id', chance.hash());
       if (element.name === 'img') {
         return;
       }
@@ -110,6 +108,7 @@ export default class Site {
         return;
       }
       const parsedUrl = URL.parse(href);
+      parsedUrl.hash = null;
       if (parsedUrl.hostname !== null) {
         urls.push(parsedUrl);
       } else {
@@ -117,7 +116,7 @@ export default class Site {
         urls.push(URL.parse(absoluteUrl));
       }
     });
-    return urls;
+    return _.unique(urls);
   }
 
 

@@ -1,7 +1,7 @@
 const Cheerio = require('cheerio');
 const assert = require('assert');
 const Chance = require('chance');
-
+const redis = require('redis');
 const Crawly = require('./../index');
 const chance = new Chance();
 
@@ -13,17 +13,11 @@ describe('Site', function() {
       const site = new Crawly.Site('', crawler);
       const testOneResult = site.cleanDOM(Cheerio.load('<style></style><div><script></script><span>Test</span><div></div><img></div>'));
 
-      testOneResult('*').each((index, element) => {
-        testOneResult(element).attr('id', null);
-      });
       assert.equal(testOneResult.html(), '<div><span>Test</span><img></div>');
 
       site.$ = Cheerio.load('<style></style><div><script></script><span>Test</span><div></div><img></div>');
       site.cleanDOM();
 
-      site.$('*').each((index, element) => {
-        site.$(element).attr('id', null);
-      });
       assert.equal(site.$.html(), '<div><span>Test</span><img></div>');
     });
   });
@@ -99,11 +93,11 @@ describe('Site', function() {
 
   describe('#load()', function() {
     it('should load the site from the defined url', function(done) {
-      const site = new Crawly.Site('https://www.w3.org/TR/html51/', crawler);
       this.timeout(10000);
+      const site = new Crawly.Site('https://budick.eu', crawler);
       site.load().then(() => {
-        assert.equal(site.$('h1').html(), 'HTML 5.1');
-        assert.equal(site.html('h1'), 'HTML 5.1');
+        assert.equal(site.$('h4').html(), 'Daniel Budick, B.Eng.');
+        assert.equal(site.html('h4'), 'Daniel Budick, B.Eng.');
         done();
       });
     });

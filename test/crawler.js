@@ -1,3 +1,4 @@
+
 const Cheerio = require('cheerio');
 const assert = require('assert');
 const redis = require('redis');
@@ -7,12 +8,6 @@ const Crawly = require('./../index');
 
 describe('Crawler', function() {
   const crawler = new Crawly('https://budick.eu');
-
-  describe('#addCache()', function() {
-    it('should accept the redis client', function() {
-      //crawler.addCache(redis.createClient());
-    });
-  });
 
   describe('#getByUrl()', function() {
     it('should return a site from the crawler via its url', function() {
@@ -35,29 +30,21 @@ describe('Crawler', function() {
 
   describe('#workQueue()', function() {
     it('should store fetched html to redis db when queue is started', function(done) {
-      this.timeout(11000);
+      this.timeout(30000);
       crawler.workQueue();
-      setTimeout(() => {
+      crawler.on('finished', () => {
         const site = crawler.getByUrl('https://budick.eu/impressum');
         assert.equal(site.url.href, 'https://budick.eu/impressum');
         done();
-      }, 10000);
-    });
-  });
-
-  describe('#scoreDOM()', function() {
-    it('should store fetched html to redis db when queue is started', function() {
-      const site = crawler.getByUrl('https://budick.eu/impressum');
-      site.scoreDOM();
-      assert.equal(site.scores.length, 86);
+      });
     });
   });
 
   describe('#getContent()', function() {
     it('should return the content without clutter', function() {
-      const site = crawler.getByUrl('https://budick.eu/impressum');
-      const content = site.getContent();
+      this.timeout(5000);
+      const content = crawler.getContent('https://budick.eu/impressum');
       assert.equal(content.length > 2000, true);
     });
   });
-})
+});

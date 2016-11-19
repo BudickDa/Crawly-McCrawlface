@@ -3,13 +3,16 @@ import request from 'request';
 import URL from 'url';
 import _ from 'underscore';
 import Chance from 'chance';
+import EventEmitter from 'events';
 import Site from './site';
 import Levenshtein from 'levenshtein';
 
 const chance = new Chance();
 
-export default class Crawly {
+export default class Crawly extends EventEmitter {
   constructor(seed, goCrazy) {
+    super();
+    EventEmitter.call(this);
     this.queue = [];
     if (Array.isArray(seed)) {
       this.queue = seed.map(url => {
@@ -54,26 +57,40 @@ export default class Crawly {
     this.client = databaseClient;
   }
 
+
   workQueue(crawler = this) {
     if (crawler.queue.length > 0) {
       const url = _.first(crawler.queue);
       crawler.crawled.push(url.href);
       crawler.queue.shift();
       const site = new Site(url.href, crawler);
-      site.load().then(() => {
-        const urls = site.returnUrls();
-
-        _.forEach(urls, url => {
-          if (crawler.crawled.indexOf(url.href) === -1 && (crawler.goCrazy || crawler.domains.indexOf(url.hostname) !== -1)) {
-            crawler.queue.push(url);
-          }
-        });
-        crawler.sites.push(site);
-      });
+      site.load().then(site => crawler.workSite(site, crawler));
     }
-    _.defer(() => {
-      crawler.workQueue(crawler);
+  }
+
+  workSite(site, crawler) {
+    const urls = site.returnUrls();
+    _.forEach(urls, url => {
+      if (crawler.crawled.indexOf(url.href) === -1 && (crawler.goCrazy || crawler.domains.indexOf(url.hostname) !== -1)) {
+        crawler.queue.push(url);
+      }
     });
+    crawler.sites.push(site);
+    this.emit('siteAdded', site);
+    this.emit('sitesChanged', crawler.sites.length);
+    console.log(crawler.queue.length);
+    if (crawler.queue.length === 0) {
+      console.log('Queue is empty');
+      this.emit('finished');
+    } else {
+      crawler.workQueue(crawler);
+    }
+  }
+
+  getContent(url) {
+    const site = this.getByUrl(url);
+    site.scoreDOM();
+    return site.getContent();
   }
 
   async getDOM(url) {
