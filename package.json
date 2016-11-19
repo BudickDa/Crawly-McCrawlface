@@ -1,11 +1,11 @@
 {
   "name": "crawly-mccrawlface",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Crawl data from webpages and apply content extraction.",
   "main": "index.js",
   "scripts": {
     "test": "npm run build && mocha",
-    "build": "babel src -d lib",
+    "build": "babel src -d dist",
     "prepublish": "npm run build"
   },
   "repository": {
