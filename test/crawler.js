@@ -1,4 +1,4 @@
-
+import 'babel-polyfill';
 const Cheerio = require('cheerio');
 const assert = require('assert');
 const redis = require('redis');
