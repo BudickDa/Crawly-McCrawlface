@@ -163,6 +163,7 @@ var Site = function () {
       $('script').remove();
       $('link').remove();
       $('meta').remove();
+      $('i').remove();
       /**
        * Clean every emtpy tag except images
        */

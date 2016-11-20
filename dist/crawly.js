@@ -132,9 +132,7 @@ var Crawly = function (_EventEmitter) {
       crawler.sites.push(site);
       this.emit('siteAdded', site);
       this.emit('sitesChanged', crawler.sites.length);
-      console.log(crawler.queue.length);
       if (crawler.queue.length === 0) {
-        console.log('Queue is empty');
         this.emit('finished');
       } else {
         crawler.workQueue(crawler);
