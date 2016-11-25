@@ -62,7 +62,9 @@ export default class Crawly extends EventEmitter {
       crawler.crawled.push(url.href);
       crawler.queue.shift();
       const site = new Site(url.href, crawler);
-      site.load().then(site => crawler.workSite(site, crawler));
+      site.load().then(site => crawler.workSite(site, crawler)).catch(e => {
+        this.emit('error', e);
+      });
     }
   }
 
@@ -99,6 +101,7 @@ export default class Crawly extends EventEmitter {
         }
       } catch (e) {
         console.error(e);
+        throw e;
       }
     }
 
@@ -106,6 +109,7 @@ export default class Crawly extends EventEmitter {
       response = await this.fetch(url);
     } catch (e) {
       console.error(e);
+      throw e;
     }
     if (this.cache) {
       this.cache.set(url, response);
