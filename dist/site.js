@@ -192,6 +192,9 @@ var Site = function () {
       var urls = [];
       $('a').each(function (index, element) {
         var href = $(element).attr('href');
+        if (typeof href !== 'string') {
+          return;
+        }
         if (href.indexOf('mailto:') !== -1) {
           return;
         }

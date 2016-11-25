@@ -46,4 +46,19 @@ describe('Crawler', function() {
       assert.equal(content.length > 2000, true);
     });
   });
+
+  describe('#getContent()', function() {
+    it('get content of complex site', function(done) {
+      this.timeout(20000);
+      const url = 'http://www.spiegel.de/politik/deutschland/cdu-csu-und-spd-marschieren-in-den-renten-wahlkampf-a-1123069.html';
+      const c = new Crawly(url);
+      c.workQueue();
+      setTimeout(() => {
+        const site = c.getByUrl(url);
+        const content = c.getContent(url);
+        console.log(content);
+        done();
+      }, 10000);
+    });
+  });
 });

@@ -102,6 +102,9 @@ export default class Site {
     const urls = [];
     $('a').each((index, element) => {
       const href = $(element).attr('href');
+      if(typeof href !== 'string') {
+        return;
+      }
       if (href.indexOf('mailto:') !== -1) {
         return;
       }
@@ -116,6 +119,7 @@ export default class Site {
         const absoluteUrl = URL.resolve(this.domain.href, href);
         urls.push(URL.parse(absoluteUrl));
       }
+
     });
     return _.unique(urls);
   }
