@@ -108,6 +108,8 @@ var Crawly = function (_EventEmitter) {
   }, {
     key: 'workQueue',
     value: function workQueue() {
+      var _this2 = this;
+
       var crawler = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
 
       if (crawler.queue.length > 0) {
@@ -117,6 +119,8 @@ var Crawly = function (_EventEmitter) {
         var site = new _site2.default(url.href, crawler);
         site.load().then(function (site) {
           return crawler.workSite(site, crawler);
+        }).catch(function (e) {
+          _this2.emit('error', e);
         });
       }
     }
@@ -157,7 +161,7 @@ var Crawly = function (_EventEmitter) {
                 response = void 0;
 
                 if (!this.cache) {
-                  _context.next = 13;
+                  _context.next = 14;
                   break;
                 }
 
@@ -176,7 +180,7 @@ var Crawly = function (_EventEmitter) {
                 return _context.abrupt('return', _cheerio2.default.load(data));
 
               case 8:
-                _context.next = 13;
+                _context.next = 14;
                 break;
 
               case 10:
@@ -184,35 +188,37 @@ var Crawly = function (_EventEmitter) {
                 _context.t0 = _context['catch'](2);
 
                 console.error(_context.t0);
+                throw _context.t0;
 
-              case 13:
-                _context.prev = 13;
-                _context.next = 16;
+              case 14:
+                _context.prev = 14;
+                _context.next = 17;
                 return this.fetch(url);
 
-              case 16:
+              case 17:
                 response = _context.sent;
-                _context.next = 22;
+                _context.next = 24;
                 break;
 
-              case 19:
-                _context.prev = 19;
-                _context.t1 = _context['catch'](13);
+              case 20:
+                _context.prev = 20;
+                _context.t1 = _context['catch'](14);
 
                 console.error(_context.t1);
+                throw _context.t1;
 
-              case 22:
+              case 24:
                 if (this.cache) {
                   this.cache.set(url, response);
                 }
                 return _context.abrupt('return', _cheerio2.default.load(response));
 
-              case 24:
+              case 26:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[2, 10], [13, 19]]);
+        }, _callee, this, [[2, 10], [14, 20]]);
       }));
 
       function getDOM(_x2) {
