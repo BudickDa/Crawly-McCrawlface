@@ -55,13 +55,38 @@ Some examples:
     }
     crawler.addCache(cache);
 
-# Going haywire
-If you want your crawler never to stop, set the second parameter to true:
-    const crawler = new Crawly([...some urls...], true);
+# Options
+
+    const optinons = {
+        goHaywire: false,
+        readyIn: 15
+    };
+    const crawler = new Crawly([...some urls...], options);
+
+readyIn (Number):
+Number of sites, that have to be loaded that ready-event is fired.
+
+goHaywire (Boolean):
 On defautl the crawler will only get content from the domains that where in the seed.
 On haywire mode the crawler will never stop and go crazy on the web. You should not use this mode for now.
 Or use it at your own risk, I'm not you boss.
 
+# Events:
+
+## Crawler
+`ready` is fired when five sites where loaded, this is the first point where content extraction can be applied.
+If the content is crawled from different domains, the event will not be helpful anymore. You should use `siteAdded` or `sitesChanged`.
+
+`siteAdded` is fired when a new site was added. It contains the new site as object.
+
+`sitesChanged` is fired when a new site was added, it contains the count of all sites.
+
+`finished` is fired when the queue is empty. On default usages, this is the point when everything is ready.
+
+`ready` is called, when there are enough sites (default: 15) to do a content extraction.
+
+# API
+todo
 
 # Test
 
@@ -73,21 +98,3 @@ Test with:
 Content extraction will only work if at least five sites with the same template were crawled.
 The extraction works by looking on the differences between the sites.
 The nodes with a difference more than the mean differences of all nodes are extracted as content.
-
-## Events:
-
-### Crawler
-`ready` is fired when five sites where loaded, this is the first point where content extraction can be applied.
-If the content is crawled from different domains, the event will not be helpful anymore. You should use `siteAdded` or `sitesChanged`.
-
-`siteAdded` is fired when a new site was added. It contains the new site as object.
-
-`sitesChanged` is fired when a new site was added, it contains the count of all sites.
-
-`finished` is fired when the queue is empty. On default usages, this is the point when everything is ready.
-
-`ready` is called, when there are enough sites (default: 10) to do a content extraction
-
-## API
-
-todo
