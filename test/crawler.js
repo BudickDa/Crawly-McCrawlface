@@ -6,7 +6,7 @@ const _ = require('underscore');
 const Crawly = require('./../index');
 
 describe('Crawler', function() {
-  const crawler = new Crawly('https://budick.eu');
+  const crawler = new Crawly('https://de.wikipedia.org/wiki/Test');
 
   describe('#getByUrl()', function() {
     it('should return a site from the crawler via its url', function() {
@@ -31,34 +31,27 @@ describe('Crawler', function() {
     it('should store fetched html to redis db when queue is started', function(done) {
       this.timeout(30000);
       crawler.workQueue();
-      crawler.on('finished', () => {
-        const site = crawler.getByUrl('https://budick.eu/impressum');
-        assert.equal(site.url.href, 'https://budick.eu/impressum');
+      crawler.on('ready', () => {
+        const site = crawler.getByUrl('https://de.wikipedia.org/wiki/Test');
+        assert.equal(site.url.href, 'https://de.wikipedia.org/wiki/Test');
         done();
       });
     });
   });
 
   describe('#getContent()', function() {
-    it('should return the content without clutter', function() {
-      this.timeout(5000);
-      const content = crawler.getContent('https://budick.eu/impressum');
-      assert.equal(content.length > 2000, true);
-    });
-  });
-
-  describe('#getContent()', function() {
     it('get content of complex site', function(done) {
       this.timeout(20000);
-      const url = 'http://www.spiegel.de/politik/deutschland/cdu-csu-und-spd-marschieren-in-den-renten-wahlkampf-a-1123069.html';
+      const url = 'https://de.wikipedia.org/wiki/Test';
       const c = new Crawly(url);
       c.workQueue();
-      setTimeout(() => {
+      c.on('ready', () => {
+        c.stop();
         const site = c.getByUrl(url);
         const content = c.getContent(url);
-        console.log(content);
+				assert.equal(content.length > 2000, true);
         done();
-      }, 10000);
+      });
     });
   });
 });

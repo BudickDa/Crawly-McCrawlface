@@ -86,6 +86,8 @@ If the content is crawled from different domains, the event will not be helpful 
 
 `finished` is fired when the queue is empty. On default usages, this is the point when everything is ready.
 
+`ready` is called, when there are enough sites (default: 10) to do a content extraction
+
 ## API
 
 todo

@@ -1,10 +1,8 @@
-import cheerio from 'cheerio';
 import XXH from 'xxhashjs';
 import URL from 'url';
 import _ from 'underscore';
 import Levenshtein from 'levenshtein';
 import Chance from 'chance';
-import EventEmitter from 'events';
 
 const chance = new Chance();
 

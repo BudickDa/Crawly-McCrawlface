@@ -94,10 +94,10 @@ describe('Site', function() {
   describe('#load()', function() {
     it('should load the site from the defined url', function(done) {
       this.timeout(10000);
-      const site = new Crawly.Site('https://budick.eu', crawler);
+      const site = new Crawly.Site('https://de.wikipedia.org/wiki/Test', crawler);
       site.load().then(() => {
-        assert.equal(site.$('h4').html(), 'Daniel Budick, B.Eng.');
-        assert.equal(site.html('h4'), 'Daniel Budick, B.Eng.');
+        assert.equal(site.$('h1').html(), 'Test');
+        assert.equal(site.html('h1'), 'Test');
         done();
       });
     });
