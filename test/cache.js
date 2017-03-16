@@ -1,5 +1,6 @@
 const assert = require('assert');
 const _ = require('underscore');
+const {config} = require('./webpages');
 
 const Crawly = require('./../index');
 const cache = {
@@ -12,17 +13,23 @@ const cache = {
 	}
 };
 
+
+
 describe('Cache', function() {
 	this.timeout(5000);
-	const url = 'https://de.wikipedia.org/wiki/Test';
+	const port = config.port;
+	const url = `http://localhost:${port}/index.html`;
+
 	const crawler = new Crawly(url);
 	crawler.setCache(cache);
 	crawler.workQueue();
+	crawler.options.readyIn = 3;
 
 	it('test', function(done) {
 		crawler.on('ready', () => {
+			crawler.stop();
 			const text = cache.get(url);
-			assert.equal(typeof text, 'string');
+			assert.equal(text.length, 483);
 			done();
 		});
 	});

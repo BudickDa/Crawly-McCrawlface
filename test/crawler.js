@@ -1,57 +1,63 @@
 const Cheerio = require('cheerio');
 const assert = require('assert');
-const redis = require('redis');
 const _ = require('underscore');
+const {config} = require('./webpages');
 
 const Crawly = require('./../index');
 
 describe('Crawler', function() {
-  const crawler = new Crawly('https://de.wikipedia.org/wiki/Test');
+	const port = config.port;
+	const url = `http://localhost:${port}`;
+	const crawler = new Crawly(url);
 
-  describe('#getByUrl()', function() {
-    it('should return a site from the crawler via its url', function() {
-      const testCrawler = new Crawly();
-      testCrawler.sites = [
-        new Crawly.Site('http://test.com'),
-        new Crawly.Site('http://test.com/asdf'),
-        new Crawly.Site('http://test.com/foo.html'),
-        new Crawly.Site('http://test.com/1234.php'),
-        new Crawly.Site('http://test.com/xyz/1')
-      ];
-      const empty = testCrawler.getByUrl('this should return nothing');
-      assert.strictEqual(empty, undefined);
+	describe('#getByUrl()', function() {
+		it('should return a site from the crawler via its url', function() {
+			const testCrawler = new Crawly();
+			testCrawler.sites = [
+				new Crawly.Site(url),
+				new Crawly.Site(url + '/details.html'),
+				new Crawly.Site(url + '/profile.html'),
+			];
+			const empty = testCrawler.getByUrl('this should return nothing');
+			assert.strictEqual(empty, undefined);
 
-      const url = 'http://test.com/asdf';
-      const site = testCrawler.getByUrl(url);
-      assert.strictEqual(site.url.href, url);
-    });
-  });
+			const site = testCrawler.getByUrl(url + '/profile.html');
+			assert.strictEqual(site.url.href, url + '/profile.html');
+		});
+	});
 
-  describe('#workQueue()', function() {
-    it('should store fetched html to redis db when queue is started', function(done) {
-      this.timeout(30000);
-      crawler.workQueue();
-      crawler.on('ready', () => {
-        const site = crawler.getByUrl('https://de.wikipedia.org/wiki/Test');
-        assert.equal(site.url.href, 'https://de.wikipedia.org/wiki/Test');
-        done();
-      });
-    });
-  });
+	describe('#workQueue()', function() {
+		it('should store fetched html when queue is started', function(done) {
+			this.timeout(20000);
+			crawler.options.readyIn = 4;
+			crawler.workQueue();
+			crawler.on('ready', () => {
+				crawler.stop();
+				const siteOne = crawler.getByUrl(url + '/details.html');
+				assert.equal(siteOne.url.href, url + '/details.html');
+				const siteTwo = crawler.getByUrl(url + '/profile.html');
+				assert.equal(siteTwo.url.href, url + '/profile.html');
+				done();
+			});
+		});
+	});
 
-  describe('#getContent()', function() {
-    it('get content of complex site', function(done) {
-      this.timeout(20000);
-      const url = 'https://de.wikipedia.org/wiki/Test';
-      const c = new Crawly(url);
-      c.workQueue();
-      c.on('ready', () => {
-        c.stop();
-        const site = c.getByUrl(url);
-        const content = c.getContent(url);
-				assert.equal(content.length > 2000, true);
-        done();
-      });
-    });
-  });
+	describe('#getContent()', function() {
+		it('get content of complex site', function() {
+			let content = crawler.getContent(url + '/index.html');
+			console.log('index:');
+			console.log(content);
+			assert.equal(content.length, 222);
+
+			content = crawler.getContent(url + '/details.html');
+			console.log('details:');
+			console.log(content);
+			assert.equal(content.length, 1290);
+
+			content = crawler.getContent(url + '/profile.html');
+			console.log('profile:');
+			console.log(content);
+			assert.equal(content.length, 1772);
+		});
+	});
 });

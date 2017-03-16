@@ -1,10 +1,8 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -37,270 +35,270 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var chance = new _chance2.default();
 
 var Site = function () {
-  function Site(url, crawler) {
-    _classCallCheck(this, Site);
+	function Site(url, crawler) {
+		_classCallCheck(this, Site);
 
-    if (crawler) {
-      this.crawler = crawler;
-    } else {
-      console.warn('This constructor should not be called manually.');
-    }
-    if (url) {
-      this.url = _url2.default.parse(url);
-      this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
-    }
-    this.scores = [];
-    this.entropies = [];
-    this.content = {};
-  }
+		if (crawler) {
+			this.crawler = crawler;
+		} else {
+			console.warn('This constructor should not be called manually.');
+		}
+		if (url) {
+			this.url = _url2.default.parse(url);
+			this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
+		}
+		this.scores = [];
+		this.entropies = [];
+		this.content = {};
+	}
 
-  _createClass(Site, [{
-    key: 'load',
-    value: function () {
-      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-        var $, text;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(this.url && this.crawler)) {
-                  _context.next = 9;
-                  break;
-                }
+	_createClass(Site, [{
+		key: 'load',
+		value: function () {
+			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+				var $, text;
+				return regeneratorRuntime.wrap(function _callee$(_context) {
+					while (1) {
+						switch (_context.prev = _context.next) {
+							case 0:
+								if (!(this.url && this.crawler)) {
+									_context.next = 9;
+									break;
+								}
 
-                _context.next = 3;
-                return this.crawler.getDOM(this.url.href);
+								_context.next = 3;
+								return this.crawler.getDOM(this.url.href);
 
-              case 3:
-                $ = _context.sent;
-                text = $('body').html();
+							case 3:
+								$ = _context.sent;
+								text = $('body').html();
 
-                if (!text) {
-                  text = '';
-                }
-                this.hash = _xxhashjs2.default.h32(text, 0xABCD).toString(16);
-                this.$ = this.cleanDOM($);
-                return _context.abrupt('return', this);
+								if (!text) {
+									text = '';
+								}
+								this.hash = _xxhashjs2.default.h32(text, 0xABCD).toString(16);
+								this.$ = this.cleanDOM($);
+								return _context.abrupt('return', this);
 
-              case 9:
-                return _context.abrupt('return', false);
+							case 9:
+								return _context.abrupt('return', false);
 
-              case 10:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
+							case 10:
+							case 'end':
+								return _context.stop();
+						}
+					}
+				}, _callee, this);
+			}));
 
-      function load() {
-        return _ref.apply(this, arguments);
-      }
+			function load() {
+				return _ref.apply(this, arguments);
+			}
 
-      return load;
-    }()
-  }, {
-    key: 'html',
-    value: function html(selector) {
-      return this.$(selector).html();
-    }
-  }, {
-    key: 'getContent',
-    value: function getContent() {
-      var _this = this;
+			return load;
+		}()
+	}, {
+		key: 'html',
+		value: function html(selector) {
+			return this.$(selector).html();
+		}
+	}, {
+		key: 'getContent',
+		value: function getContent() {
+			var _this = this;
 
-      if (this.entropies.length > 0) {
-        var _ret = function () {
-          var traverse = function traverse(node) {
-            node = $(node);
-            if (_underscore2.default.contains(highestElements, parseInt(node.attr('data-entropy')))) {
-              content.push($(node));
-            } else {
-              _underscore2.default.forEach(node.children(), traverse);
-            }
-          };
+			if (this.entropies.length > 0) {
+				var _traverse = function _traverse(node, mean, deviation) {
+					node = $(node);
+					if (parseInt(node.attr('data-entropy')) > 0) {
+						content.push($(node));
+					} else {
+						_underscore2.default.forEach(node.children(), function (node) {
+							return _traverse(node, mean, deviation);
+						});
+					}
+				};
 
-          var sumEntropy = _this.entropies.reduce(function (a, b) {
-            return a + b;
-          }, 0);
-          var length = _this.entropies.length;
-          var mean = Math.round(sumEntropy / length);
-          var highestElements = _this.entropies.filter(function (e) {
-            return e > mean;
-          });
-          var content = [];
-          var $ = _this.$;
+				var sumEntropy = this.entropies.reduce(function (a, b) {
+					return a + b;
+				}, 0);
+				var length = this.entropies.length;
 
-          _underscore2.default.forEach(_this.$('body').children(), traverse);
+				/**
+     * Calculate mean
+     * @type {number}
+     */
+				this.mean = Math.round(sumEntropy / length);
 
-          var html = '';
-          content.forEach(function (e) {
-            html += _this.$(e).html();
-          });
-          return {
-            v: html
-          };
-        }();
+				/**
+     * Calcualte standard deviation
+     * @type {number}
+     */
+				var deviation = 0;
+				this.entropies.forEach(function (v) {
+					deviation += Math.pow(parseFloat(v) - _this.mean, 2);
+				});
+				this.deviation = Math.sqrt(deviation / length);
 
-        if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-      }
-      return '';
-    }
-  }, {
-    key: 'cleanDOM',
-    value: function cleanDOM() {
-      var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
+				/**
+     * Normalize values
+     * @type {Array.<*>}
+     */
+				this.entropies.forEach(function (entropy, index) {
+					_this.entropies[index] = entropy - _this.mean / _this.deviation;
+				});
 
-      $('style').remove();
-      $('script').remove();
-      $('link').remove();
-      $('meta').remove();
-      //$('i').remove();
-      /**
-       * Clean every emtpy tag except images
-       */
-      $('*').each(function (index, element) {
-        $(element).attr('class', null);
-        $(element).attr('id', null);
-        if (element.name === 'img') {
-          return;
-        }
-        if (element.name === 'a') {
-          return;
-        }
-        if ($(element).text().length === 0) {
-          $(element).remove();
-        }
-      });
-      return $;
-    }
-  }, {
-    key: 'returnUrls',
-    value: function returnUrls() {
-      var _this2 = this;
+				var content = [];
+				var $ = this.$;
 
-      var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
+				this.traverse($('body'), function (root, args) {
+					args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
+				}, { mean: this.mean, deviation: this.deviation, $: this.$ });
 
-      var urls = [];
-      $('a').each(function (index, element) {
-        var href = $(element).attr('href');
-        if (typeof href !== 'string') {
-          return;
-        }
-        if (href.indexOf('mailto:') !== -1) {
-          return;
-        }
-        if (href.indexOf('.pdf') !== -1) {
-          return;
-        }
-        var parsedUrl = _url2.default.parse(href);
-        parsedUrl.hash = null;
-        if (parsedUrl.hostname !== null) {
-          urls.push(parsedUrl);
-        } else {
-          var absoluteUrl = _url2.default.resolve(_this2.domain.href, href);
-          urls.push(_url2.default.parse(absoluteUrl));
-        }
-      });
-      return _underscore2.default.unique(urls);
-    }
-  }, {
-    key: 'getOnlyText',
-    value: function getOnlyText(node) {
-      var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+				_underscore2.default.forEach($('body').children(), function (node) {
+					return _traverse(node, _this.mean, _this.deviation);
+				});
 
-      var clone = site.$(node).clone();
-      clone.children().remove();
-      return clone.text();
-    }
-  }, {
-    key: 'scoreNode',
-    value: function scoreNode(node, otherNodes) {
-      var _this3 = this;
+				var html = '';
+				content.forEach(function (e) {
+					html += $(e).html() + '\n';
+				});
+				return html;
+			}
+			return '';
+		}
+	}, {
+		key: 'cleanDOM',
+		value: function cleanDOM() {
+			var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
 
-      var site = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
-      var sites = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : this.sites;
+			$('style').remove();
+			$('script').remove();
+			$('link').remove();
+			$('meta').remove();
+			//$('i').remove();
+			/**
+    * Clean every emtpy tag except images
+    */
+			$('*').each(function (index, element) {
+				$(element).attr('class', null);
+				$(element).attr('id', null);
+				if (element.name === 'img') {
+					return;
+				}
+				if (element.name === 'a') {
+					return;
+				}
+				if ($(element).text().length === 0) {
+					$(element).remove();
+				}
+			});
+			return $;
+		}
+	}, {
+		key: 'returnUrls',
+		value: function returnUrls() {
+			var _this2 = this;
 
-      var score = 0;
-      var lengthSites = sites.length;
-      var text = this.getOnlyText(node, site);
+			var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
 
-      for (var i = 0; i < lengthSites; i++) {
-        var otherText = this.getOnlyText(otherNodes[i], sites[i]);
-        var distance = new _levenshtein2.default(text, otherText).distance;
-        score += distance;
-      }
-      this.scores.push(score);
-      var entropy = Math.floor(score / (text.length + 1));
-      this.entropies.push(entropy);
+			var urls = [];
+			$('a').each(function (index, element) {
+				var href = $(element).attr('href');
+				if (typeof href !== 'string') {
+					return;
+				}
+				if (href.indexOf('mailto:') !== -1) {
+					return;
+				}
+				if (href.indexOf('.pdf') !== -1) {
+					return;
+				}
+				var parsedUrl = _url2.default.parse(href);
+				parsedUrl.hash = null;
+				if (parsedUrl.hostname !== null) {
+					urls.push(parsedUrl);
+				} else {
+					var absoluteUrl = _url2.default.resolve(_this2.domain.href, href);
+					urls.push(_url2.default.parse(absoluteUrl));
+				}
+			});
+			return _underscore2.default.unique(urls, false, function (url) {
+				return url.href;
+			});
+		}
+	}, {
+		key: 'getOnlyText',
+		value: function getOnlyText(node) {
+			var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
 
-      site.$(node).attr('data-entropy', entropy);
-      site.$(node).attr('data-score', score);
+			var clone = site.$(node).clone();
+			clone.children().remove();
+			return clone.text();
+		}
+	}, {
+		key: 'scoreNode',
+		value: function scoreNode(node, otherNodes) {
+			var _this3 = this;
 
-      var id = site.$(node).attr('id');
-      _underscore2.default.forEach(node.children(), function (child, index) {
-        score += _this3.scoreNode(site.$(child), otherNodes.map(function (element, i) {
-          return sites[i].$(element.children()[index]);
-        }), site, sites);
-      });
-      site.$(node).attr('data-full-score', score);
-      return score;
-    }
-  }, {
-    key: 'scoreDOM',
-    value: function scoreDOM() {
-      var site = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
-      var sites = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler.sites;
+			var site = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
+			var sites = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : this.sites;
 
-      sites = sites.filter(function (item) {
-        return site.hash !== item.hash;
-      });
-      var dom = site.$;
-      var other = sites.map(function (site) {
-        return site.$;
-      });
-      return this.scoreNode(dom('body'), other.map(function (item) {
-        return item('body');
-      }), site, sites);
-    }
-  }, {
-    key: 'removeTemplate',
-    value: function removeTemplate($) {
-      var threshold = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.3;
+			var score = 0;
+			var lengthSites = sites.length;
+			var text = this.getOnlyText(node, site);
 
-      this.removeTheWeak($('body'), $, threshold);
-      return $.html();
-    }
-  }, {
-    key: 'removeTheWeak',
-    value: function removeTheWeak(node, $, threshold) {
-      var _this4 = this;
+			for (var i = 0; i < lengthSites; i++) {
+				var otherText = this.getOnlyText(otherNodes[i], sites[i]);
+				var distance = new _levenshtein2.default(text, otherText).distance;
+				score += distance;
+			}
+			this.scores.push(score);
+			var entropy = Math.floor(score / (text.length + 1));
+			this.entropies.push(entropy);
+			site.$(node).attr('data-score', score);
+			site.$(node).attr('data-entropy', entropy);
 
-      var children = $(node).children().toArray();
-      if (children.length === 0) {
-        return;
-      }
+			var id = site.$(node).attr('id');
+			_underscore2.default.forEach(node.children(), function (child, index) {
+				score += _this3.scoreNode(site.$(child), otherNodes.map(function (element, i) {
+					return sites[i].$(element.children()[index]);
+				}), site, sites);
+			});
+			site.$(node).attr('data-full-score', score);
+			return score;
+		}
+	}, {
+		key: 'scoreDOM',
+		value: function scoreDOM() {
+			var site = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
+			var sites = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler.sites;
 
-      var scores = children.map(function (e) {
-        return parseInt($(e).data('full-score'));
-      });
+			sites = sites.filter(function (item) {
+				return site.hash !== item.hash;
+			});
+			var dom = site.$;
+			var other = sites.map(function (site) {
+				return site.$;
+			});
+			return this.scoreNode(dom('body'), other.map(function (item) {
+				return item('body');
+			}), site, sites);
+		}
+	}, {
+		key: 'traverse',
+		value: function traverse(root, fnc, args) {
+			var _this4 = this;
 
-      var mean = scores.reduce(function (a, b) {
-        return a + b;
-      }) / scores.length;
-      var limit = mean * (1 - threshold);
+			root = args.$(root);
+			fnc(root, args);
+			_underscore2.default.forEach(root.children(), function (node) {
+				return _this4.traverse(node, fnc, args);
+			});
+		}
+	}]);
 
-      children.forEach(function (element) {
-        if ($(element).data('full-score') > limit) {
-          _this4.removeTheWeak(element, $, threshold);
-        } else {
-          $(element).remove();
-        }
-      });
-    }
-  }]);
-
-  return Site;
+	return Site;
 }();
 
 exports.default = Site;

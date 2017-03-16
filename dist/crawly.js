@@ -135,7 +135,7 @@ var Crawly = function (_EventEmitter) {
 		key: 'workSite',
 		value: function workSite(site, crawler) {
 			var urls = site.returnUrls();
-			_underscore2.default.forEach(urls, function (url) {
+			urls.forEach(function (url) {
 				if (crawler.crawled.indexOf(url.href) === -1 && (crawler.goCrazy || crawler.domains.indexOf(url.hostname) !== -1)) {
 					crawler.queue.push(url);
 				}
@@ -143,7 +143,7 @@ var Crawly = function (_EventEmitter) {
 			crawler.sites.push(site);
 			this.emit('siteAdded', site);
 			this.emit('sitesChanged', crawler.sites.length);
-			if (crawler.sites.length === this.options.readyIn) {
+			if (crawler.sites.length >= this.options.readyIn) {
 				this.emit('ready');
 			}
 			if (crawler.queue.length === 0 || this.stopped) {

@@ -77,7 +77,7 @@ export default class Crawly extends EventEmitter {
 
 	workSite(site, crawler) {
 		const urls = site.returnUrls();
-		_.forEach(urls, url => {
+		urls.forEach(url => {
 			if (crawler.crawled.indexOf(url.href) === -1 && (crawler.goCrazy || crawler.domains.indexOf(url.hostname) !== -1)) {
 				crawler.queue.push(url);
 			}
@@ -85,7 +85,7 @@ export default class Crawly extends EventEmitter {
 		crawler.sites.push(site);
 		this.emit('siteAdded', site);
 		this.emit('sitesChanged', crawler.sites.length);
-		if (crawler.sites.length === this.options.readyIn) {
+		if (crawler.sites.length >= this.options.readyIn) {
 			this.emit('ready');
 		}
 		if (crawler.queue.length === 0 || this.stopped) {
