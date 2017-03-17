@@ -3,8 +3,27 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.default = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by Daniel Budick on 17 Mär 2017.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Copyright 2017 Daniel Budick All rights reserved.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Contact: daniel@budick.eu / http://budick.eu
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * This file is part of Crawly McCrawlface
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Crawly McCrawlface is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * it under the terms of the GNU Affero General Public License as
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * published by the Free Software Foundation, either version 3 of the
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * License, or (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Crawly McCrawlface is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * GNU Affero General Public License for more details.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * You should have received a copy of the GNU Affero General Public License
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
 var _xxhashjs = require('xxhashjs');
 
@@ -25,6 +44,10 @@ var _levenshtein2 = _interopRequireDefault(_levenshtein);
 var _chance = require('chance');
 
 var _chance2 = _interopRequireDefault(_chance);
+
+var _cheerio = require('cheerio');
+
+var _cheerio2 = _interopRequireDefault(_cheerio);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -107,6 +130,8 @@ var Site = function () {
 		value: function getContent() {
 			var _this = this;
 
+			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'HTML';
+
 			if (this.entropies.length > 0) {
 				var _traverse = function _traverse(node, mean, deviation) {
 					node = $(node);
@@ -163,7 +188,13 @@ var Site = function () {
 				content.forEach(function (e) {
 					html += $(e).html() + '\n';
 				});
-				return html;
+
+				if (type === 'PLAIN_TEXT') {
+					return this.html2text(html);
+				}
+				if (type === 'HTML') {
+					return html;
+				}
 			}
 			return '';
 		}
@@ -228,15 +259,6 @@ var Site = function () {
 			});
 		}
 	}, {
-		key: 'getOnlyText',
-		value: function getOnlyText(node) {
-			var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-
-			var clone = site.$(node).clone();
-			clone.children().remove();
-			return clone.text();
-		}
-	}, {
 		key: 'scoreNode',
 		value: function scoreNode(node, otherNodes) {
 			var _this3 = this;
@@ -295,6 +317,66 @@ var Site = function () {
 			_underscore2.default.forEach(root.children(), function (node) {
 				return _this4.traverse(node, fnc, args);
 			});
+		}
+	}, {
+		key: 'getOnlyText',
+		value: function getOnlyText(node) {
+			var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+
+			var clone = site.$(node).clone();
+			clone.children().remove();
+			return clone.text();
+		}
+	}, {
+		key: 'html2text',
+		value: function html2text(html) {
+			var tmpDOM = _cheerio2.default.load(html);
+			tmpDOM('*').each(function (index, element) {
+				var node = tmpDOM(element);
+				switch (element.name) {
+					case 'div':
+						node.prepend('\n');
+						node.append('\n');
+						break;
+					case 'ul':
+						node.prepend('\n');
+						node.append('\n');
+						break;
+					case 'ol':
+						node.prepend('\n');
+						node.append('\n');
+						break;
+					case 'li':
+						node.prepend('\t');
+						node.append('\n');
+						break;
+					case 'p':
+						node.append('\n');
+						break;
+					case 'h1':
+						node.append('\n');
+						break;
+					case 'h2':
+						node.append('\n');
+						break;
+					case 'h3':
+						node.append('\n');
+						break;
+					case 'h4':
+						node.append('\n');
+						break;
+					case 'h5':
+						node.append('\n');
+						break;
+					case 'h6':
+						node.append('\n');
+						break;
+					default:
+						break;
+				}
+				node.append(' ');
+			});
+			return tmpDOM.text().replace(/\s+/, '');
 		}
 	}]);
 

@@ -1,12 +1,33 @@
+/**
+ * Created by Daniel Budick on 17 Mär 2017.
+ * Copyright 2017 Daniel Budick All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
+ *
+ * This file is part of Crawly McCrawlface
+ * Crawly McCrawlface is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Crawly McCrawlface is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import XXH from 'xxhashjs';
 import URL from 'url';
 import _ from 'underscore';
 import Levenshtein from 'levenshtein';
 import Chance from 'chance';
+import cheerio from 'cheerio';
 
 const chance = new Chance();
 
-export default class Site {
+class Site {
 	constructor(url, crawler) {
 		if (crawler) {
 			this.crawler = crawler;
@@ -40,7 +61,7 @@ export default class Site {
 		return this.$(selector).html();
 	}
 
-	getContent() {
+	getContent(type='HTML') {
 		if (this.entropies.length > 0) {
 			const sumEntropy = this.entropies.reduce((a, b) => a + b, 0);
 			const length = this.entropies.length;
@@ -86,6 +107,7 @@ export default class Site {
 					});
 				}
 			}
+
 			_.forEach($('body').children(), node => {
 				return traverse(node, this.mean, this.deviation);
 			});
@@ -94,7 +116,13 @@ export default class Site {
 			content.forEach(e => {
 				html += $(e).html() + '\n';
 			});
-			return html;
+
+			if (type === 'PLAIN_TEXT') {
+				return this.html2text(html);
+			}
+			if (type === 'HTML') {
+				return html;
+			}
 		}
 		return '';
 	}
@@ -149,13 +177,6 @@ export default class Site {
 		return _.unique(urls, false, url => url.href);
 	}
 
-
-	getOnlyText(node, site = this) {
-		const clone = site.$(node).clone();
-		clone.children().remove();
-		return clone.text();
-	}
-
 	scoreNode(node, otherNodes, site = this, sites = this.sites) {
 		let score = 0;
 		const lengthSites = sites.length;
@@ -200,4 +221,61 @@ export default class Site {
 			return this.traverse(node, fnc, args);
 		});
 	}
+
+	getOnlyText(node, site = this) {
+		const clone = site.$(node).clone();
+		clone.children().remove();
+		return clone.text();
+	}
+
+	html2text(html) {
+		const tmpDOM = cheerio.load(html);
+		tmpDOM('*').each((index, element) => {
+			const node = tmpDOM(element);
+			switch (element.name) {
+				case 'div':
+					node.prepend('\n');
+					node.append('\n');
+					break;
+				case 'ul':
+					node.prepend('\n');
+					node.append('\n');
+					break;
+				case 'ol':
+					node.prepend('\n');
+					node.append('\n');
+					break;
+				case 'li':
+					node.prepend('\t');
+					node.append('\n');
+					break;
+				case 'p':
+					node.append('\n');
+					break;
+				case 'h1':
+					node.append('\n');
+					break;
+				case 'h2':
+					node.append('\n');
+					break;
+				case 'h3':
+					node.append('\n');
+					break;
+				case 'h4':
+					node.append('\n');
+					break;
+				case 'h5':
+					node.append('\n');
+					break;
+				case 'h6':
+					node.append('\n');
+					break;
+				default:
+					break;
+			}
+			node.append(' ');
+		});
+		return tmpDOM.text().replace(/\s+/,'');
+	}
 }
+export {Site as default};

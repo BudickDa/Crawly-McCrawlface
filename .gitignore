@@ -7,3 +7,4 @@
 *.iml
 lib/
 node_modules/
+.env

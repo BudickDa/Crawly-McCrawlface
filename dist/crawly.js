@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -38,6 +39,14 @@ var _levenshtein = require('levenshtein');
 
 var _levenshtein2 = _interopRequireDefault(_levenshtein);
 
+var _process = require('process');
+
+var _process2 = _interopRequireDefault(_process);
+
+var _googleNlpApi = require('google-nlp-api');
+
+var _googleNlpApi2 = _interopRequireDefault(_googleNlpApi);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -46,8 +55,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by Daniel Budick on 17 Mär 2017.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Copyright 2017 Daniel Budick All rights reserved.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Contact: daniel@budick.eu / http://budick.eu
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * This file is part of Crawly McCrawlface
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Crawly McCrawlface is free software: you can redistribute it and/or modify
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * it under the terms of the GNU Affero General Public License as
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * published by the Free Software Foundation, either version 3 of the
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * License, or (at your option) any later version.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Crawly McCrawlface is distributed in the hope that it will be useful,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * but WITHOUT ANY WARRANTY; without even the implied warranty of
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * GNU Affero General Public License for more details.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * You should have received a copy of the GNU General Public License
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
+var nlp = new _googleNlpApi2.default();
 var chance = new _chance2.default();
 
 var Crawly = function (_EventEmitter) {
@@ -156,9 +184,11 @@ var Crawly = function (_EventEmitter) {
 	}, {
 		key: 'getContent',
 		value: function getContent(url) {
+			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
+
 			var site = this.getByUrl(url);
 			site.scoreDOM();
-			return site.getContent();
+			return site.getContent(type);
 		}
 	}, {
 		key: 'getDOM',
@@ -232,11 +262,50 @@ var Crawly = function (_EventEmitter) {
 				}, _callee, this, [[2, 10], [14, 20]]);
 			}));
 
-			function getDOM(_x2) {
+			function getDOM(_x3) {
 				return _ref.apply(this, arguments);
 			}
 
 			return getDOM;
+		}()
+	}, {
+		key: 'getData',
+		value: function () {
+			var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
+				var text, data;
+				return regeneratorRuntime.wrap(function _callee2$(_context2) {
+					while (1) {
+						switch (_context2.prev = _context2.next) {
+							case 0:
+								if (_process2.default.env.GOOGLE_NLP_API) {
+									_context2.next = 2;
+									break;
+								}
+
+								throw new Error('Please supply Google NLP API key as environment variable googleNlpApi');
+
+							case 2:
+								text = this.getContent(url, 'HTML');
+								_context2.next = 5;
+								return nlp.annotateText(text, 'HTML');
+
+							case 5:
+								data = _context2.sent;
+								return _context2.abrupt('return', data);
+
+							case 7:
+							case 'end':
+								return _context2.stop();
+						}
+					}
+				}, _callee2, this);
+			}));
+
+			function getData(_x4) {
+				return _ref2.apply(this, arguments);
+			}
+
+			return getData;
 		}()
 	}, {
 		key: 'fetch',

@@ -1,3 +1,23 @@
+/**
+ * Created by Daniel Budick on 17 Mär 2017.
+ * Copyright 2017 Daniel Budick All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
+ *
+ * This file is part of Crawly McCrawlface
+ * Crawly McCrawlface is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Crawly McCrawlface is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 const Cheerio = require('cheerio');
 const assert = require('assert');
 const Chance = require('chance');
@@ -32,6 +52,15 @@ describe('Site', function() {
 			site.$ = Cheerio.load('<div id="target">This should be returned!<span>This should be ignored</span><div>This should be ignored too.</div></div>');
 			assert.equal(site.getOnlyText(site.$('#target')), 'This should be returned!');
 			assert.equal(site.getOnlyText(site.$('#target'), site), 'This should be returned!');
+		});
+	});
+
+	describe('#html2text()', function() {
+		it('should convert html to text, add a linebreak before and after block elements, linebreaks after paragraphs, a tab before list items', function() {
+			const site = new Crawly.Site('', crawler);
+			const html = '<div><p>This is a paragraph</p><h2>Followed by a headline</h2><ul><li>Point A</li><li>Point B</li></ul><ol><li>Point A</li><li>Point B</li></ol><h1>Headline</h1><p>Paragraph</p><div>This is a div.</div></div>';
+			const expected = 'This is a paragraph\n Followed by a headline\n \n\tPoint A\n \tPoint B\n \n \n\tPoint A\n \tPoint B\n \n Headline\n Paragraph\n \nThis is a div.\n \n ';
+			assert.equal(site.html2text(html), expected);
 		});
 	});
 
@@ -82,7 +111,6 @@ describe('Site', function() {
 				return s;
 			});
 			site.scoreDOM(site, sites);
-			console.log(site.$.html());
 			assert.equal(parseInt(site.$('.content').attr('data-entropy')), 36);
 		});
 	});

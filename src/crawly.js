@@ -1,3 +1,23 @@
+/**
+ * Created by Daniel Budick on 17 Mär 2017.
+ * Copyright 2017 Daniel Budick All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
+ *
+ * This file is part of Crawly McCrawlface
+ * Crawly McCrawlface is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Crawly McCrawlface is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import cheerio from 'cheerio';
 import request from 'request';
 import URL from 'url';
@@ -6,10 +26,13 @@ import Chance from 'chance';
 import EventEmitter from 'events';
 import Site from './site';
 import Levenshtein from 'levenshtein';
+import process from 'process';
+import NLP from 'google-nlp-api';
 
+const nlp = new NLP();
 const chance = new Chance();
 
-export default class Crawly extends EventEmitter {
+class Crawly extends EventEmitter {
 	constructor(seed, options) {
 		super();
 		EventEmitter.call(this);
@@ -96,17 +119,18 @@ export default class Crawly extends EventEmitter {
 		}
 	}
 
-	getContent(url) {
+	getContent(url, type = 'PLAIN_TEXT') {
 		const site = this.getByUrl(url);
 		site.scoreDOM();
-		return site.getContent();
+		return site.getContent(type);
 	}
 
 	async getDOM(url) {
 		let response;
 		if (this.cache) {
 			try{
-				const data = await this.cache.get(url);
+				const data = await
+					this.cache.get(url);
 				if (data) {
 					return cheerio.load(data);
 				}
@@ -115,9 +139,9 @@ export default class Crawly extends EventEmitter {
 				throw e;
 			}
 		}
-
 		try{
-			response = await this.fetch(url);
+			response = await
+				this.fetch(url);
 		}catch (e){
 			console.error(e);
 			throw e;
@@ -126,6 +150,15 @@ export default class Crawly extends EventEmitter {
 			this.cache.set(url, response);
 		}
 		return cheerio.load(response);
+	}
+
+	async getData(url) {
+		if (!process.env.GOOGLE_NLP_API) {
+			throw new Error('Please supply Google NLP API key as environment variable googleNlpApi');
+		}
+		const text = this.getContent(url, 'HTML');
+		const data = await nlp.annotateText(text, 'HTML');
+		return data;
 	}
 
 	fetch(url) {
@@ -150,3 +183,4 @@ export default class Crawly extends EventEmitter {
 		this.cache = cache;
 	}
 }
+export {Crawly as default};

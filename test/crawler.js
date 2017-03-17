@@ -1,6 +1,27 @@
+/**
+ * Created by Daniel Budick on 17 Mär 2017.
+ * Copyright 2017 Daniel Budick All rights reserved.
+ * Contact: daniel@budick.eu / http://budick.eu
+ *
+ * This file is part of Crawly McCrawlface
+ * Crawly McCrawlface is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * Crawly McCrawlface is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 const Cheerio = require('cheerio');
 const assert = require('assert');
 const _ = require('underscore');
+const process = require('process');
 const {config} = require('./webpages');
 
 const Crawly = require('./../index');
@@ -43,21 +64,61 @@ describe('Crawler', function() {
 	});
 
 	describe('#getContent()', function() {
-		it('get content of complex site', function() {
-			let content = crawler.getContent(url + '/index.html');
-			console.log('index:');
-			console.log(content);
+		it('get content of a complex site', function() {
+			/**
+			 * Get HTML
+			 */
+			let content = crawler.getContent(url + '/index.html', 'HTML');
 			assert.equal(content.length, 222);
 
-			content = crawler.getContent(url + '/details.html');
-			console.log('details:');
-			console.log(content);
+			content = crawler.getContent(url + '/details.html', 'HTML');
 			assert.equal(content.length, 1290);
 
-			content = crawler.getContent(url + '/profile.html');
-			console.log('profile:');
-			console.log(content);
+			content = crawler.getContent(url + '/profile.html', 'HTML');
 			assert.equal(content.length, 1772);
+
+			/**
+			 * Get PLAIN_TEXT
+			 */
+			content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
+			assert.equal(content.length, 38);
+
+			content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
+			assert.equal(content.length, 1289);
+
+			content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
+			assert.equal(content.length, 782);
+
+
+			/**
+			 * Get default (PLAIN_TEXT)
+			 */
+			content = crawler.getContent(url + '/index.html');
+			assert.equal(content.length, 38);
+
+			content = crawler.getContent(url + '/details.html');
+			assert.equal(content.length, 1289);
+
+			content = crawler.getContent(url + '/profile.html');
+			assert.equal(content.length, 782);
+		});
+	});
+
+	describe('#getData()', function() {
+		it('get data of a complex site', function(done) {
+			crawler.getData(url + '/profile.html').then(data => {
+				console.log('DATA:');
+				console.log(data);
+				if (process.env.GOOGLE_NLP_API) {
+					assert.equals(1, 1);
+				}
+				done();
+			}).catch(err => {
+				if (!process.env.GOOGLE_NLP_API) {
+					assert.deepStrictEqual(err, new Error('Please supply Google NLP API key as environment variable googleNlpApi'));
+				}
+				done();
+			});
 		});
 	});
 });

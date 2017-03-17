@@ -17,6 +17,21 @@ A small crawler that downloads html from the web and applying some content extra
 
     });
 
+# Data extraction
+The crawler uses google's NLP API to extract data from text. To use this feature you have to supply the key as environment variable:
+
+**Windows:**
+`setx GOOGLE_NLP_API 1234APIKEY`
+or you can find the tool from System by typing 'environment' into the search box in start menu.
+
+**Unix:**
+`export GOOGLE_NLP_API=1234APIKEY`
+
+**Or**:
+Create .env file with the content:
+`GOOGLE_NLP_API=1234APIKEY`
+
+To accomplish that it uses the [google-nlp-api](https://www.npmjs.com/package/google-nlp-api) package.
 
 # Caching
 You can cache responses from websites using a simple object that has a set and get method and some persistence.
@@ -98,3 +113,6 @@ Test with:
 Content extraction will only work if at least five sites with the same template were crawled.
 The extraction works by looking on the differences between the sites.
 The nodes with a difference more than the mean differences of all nodes are extracted as content.
+
+# License
+AGPL

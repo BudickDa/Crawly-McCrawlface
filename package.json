@@ -1,6 +1,6 @@
 {
   "name": "crawly-mccrawlface",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Crawl data from webpages and apply content extraction.",
   "main": "index.js",
   "scripts": {
@@ -13,25 +13,27 @@
     "url": "https://github.com/BudickDa/Crawly-McCrawlface"
   },
   "author": "Daniel Budick",
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "dependencies": {
-    "babel-cli": "^6.0.0",
-    "babel-core": "^6.17.0",
-    "babel-polyfill": "^6.16.0",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-preset-es2016": "^6.16.0",
-    "babel-preset-es2017": "^6.16.0",
-    "babel-regenerator-runtime": "^6.5.0",
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",
+    "google-nlp-api": "^0.1.14",
     "levenshtein": "^1.0.5",
+    "process": "^0.11.9",
     "request": "^2.75.0",
     "underscore": "^1.8.3",
-    "xxhashjs": "^0.2.1"
+    "xxhashjs": "^0.2.1",
+    "babel-core": "^6.24.0",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.22.0",
+    "babel-polyfill": "^6.23.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-latest": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
     "finalhandler": "^1.0.0",
-    "serve-static": "^1.12.1",
-    "mocha": "^3.1.2"
+    "mocha": "^3.1.2",
+    "serve-static": "^1.12.1"
   }
 }
