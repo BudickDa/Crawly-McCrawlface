@@ -376,7 +376,7 @@ var Site = function () {
 				}
 				node.append(' ');
 			});
-			return tmpDOM.text().replace(/\s+/, '');
+			return tmpDOM.text().replace(/\s+/, ' ');
 		}
 	}]);
 

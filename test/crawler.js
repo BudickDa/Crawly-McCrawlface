@@ -23,6 +23,8 @@ const assert = require('assert');
 const _ = require('underscore');
 const process = require('process');
 const {config} = require('./webpages');
+import util from 'util';
+require('dotenv').load();
 
 const Crawly = require('./../index');
 
@@ -81,41 +83,42 @@ describe('Crawler', function() {
 			 * Get PLAIN_TEXT
 			 */
 			content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 38);
+			assert.equal(content.length, 39);
 
 			content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1289);
+			assert.equal(content.length, 1290);
 
 			content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 782);
+			assert.equal(content.length, 783);
 
 
 			/**
 			 * Get default (PLAIN_TEXT)
 			 */
 			content = crawler.getContent(url + '/index.html');
-			assert.equal(content.length, 38);
+			assert.equal(content.length, 39);
 
 			content = crawler.getContent(url + '/details.html');
-			assert.equal(content.length, 1289);
+			assert.equal(content.length, 1290);
 
 			content = crawler.getContent(url + '/profile.html');
-			assert.equal(content.length, 782);
+			assert.equal(content.length, 783);
 		});
 	});
 
 	describe('#getData()', function() {
+		this.timeout(6000);
 		it('get data of a complex site', function(done) {
 			crawler.getData(url + '/profile.html').then(data => {
-				console.log('DATA:');
-				console.log(data);
+				//console.log(util.inspect(data, {depth: null}));
 				if (process.env.GOOGLE_NLP_API) {
-					assert.equals(1, 1);
+					const person = _.first(_.where(data.entities, {type: 'PERSON'}));
+					assert.equals(person.name, 'Daniel Budick');
 				}
 				done();
 			}).catch(err => {
 				if (!process.env.GOOGLE_NLP_API) {
-					assert.deepStrictEqual(err, new Error('Please supply Google NLP API key as environment variable googleNlpApi'));
+					assert.deepStrictEqual(err, new Error('Please supply Google NLP API key as environment variable GOOGLE_NLP_API'));
 				}
 				done();
 			});

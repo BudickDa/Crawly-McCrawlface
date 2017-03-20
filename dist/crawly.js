@@ -75,7 +75,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var nlp = new _googleNlpApi2.default();
 var chance = new _chance2.default();
 
 var Crawly = function (_EventEmitter) {
@@ -272,26 +271,28 @@ var Crawly = function (_EventEmitter) {
 		key: 'getData',
 		value: function () {
 			var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
-				var text, data;
+				var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
+				var encoding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'UTF8';
+				var nlp, text;
 				return regeneratorRuntime.wrap(function _callee2$(_context2) {
 					while (1) {
 						switch (_context2.prev = _context2.next) {
 							case 0:
-								if (_process2.default.env.GOOGLE_NLP_API) {
-									_context2.next = 2;
-									break;
-								}
+								nlp = new _googleNlpApi2.default();
+								_context2.next = 3;
+								return this.getContent(url, type);
 
-								throw new Error('Please supply Google NLP API key as environment variable googleNlpApi');
+							case 3:
+								text = _context2.sent;
+								_context2.next = 6;
+								return nlp.annotateText(text, type, encoding, {
+									extractSyntax: true,
+									extractEntities: true,
+									extractDocumentSentiment: false
+								});
 
-							case 2:
-								text = this.getContent(url, 'HTML');
-								_context2.next = 5;
-								return nlp.annotateText(text, 'HTML');
-
-							case 5:
-								data = _context2.sent;
-								return _context2.abrupt('return', data);
+							case 6:
+								return _context2.abrupt('return', _context2.sent);
 
 							case 7:
 							case 'end':

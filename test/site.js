@@ -59,7 +59,7 @@ describe('Site', function() {
 		it('should convert html to text, add a linebreak before and after block elements, linebreaks after paragraphs, a tab before list items', function() {
 			const site = new Crawly.Site('', crawler);
 			const html = '<div><p>This is a paragraph</p><h2>Followed by a headline</h2><ul><li>Point A</li><li>Point B</li></ul><ol><li>Point A</li><li>Point B</li></ol><h1>Headline</h1><p>Paragraph</p><div>This is a div.</div></div>';
-			const expected = 'This is a paragraph\n Followed by a headline\n \n\tPoint A\n \tPoint B\n \n \n\tPoint A\n \tPoint B\n \n Headline\n Paragraph\n \nThis is a div.\n \n ';
+			const expected = ' This is a paragraph\n Followed by a headline\n \n\tPoint A\n \tPoint B\n \n \n\tPoint A\n \tPoint B\n \n Headline\n Paragraph\n \nThis is a div.\n \n ';
 			assert.equal(site.html2text(html), expected);
 		});
 	});

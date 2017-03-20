@@ -275,7 +275,7 @@ class Site {
 			}
 			node.append(' ');
 		});
-		return tmpDOM.text().replace(/\s+/,'');
+		return tmpDOM.text().replace(/\s+/,' ');
 	}
 }
 export {Site as default};

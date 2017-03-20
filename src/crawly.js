@@ -28,8 +28,6 @@ import Site from './site';
 import Levenshtein from 'levenshtein';
 import process from 'process';
 import NLP from 'google-nlp-api';
-
-const nlp = new NLP();
 const chance = new Chance();
 
 class Crawly extends EventEmitter {
@@ -152,13 +150,14 @@ class Crawly extends EventEmitter {
 		return cheerio.load(response);
 	}
 
-	async getData(url) {
-		if (!process.env.GOOGLE_NLP_API) {
-			throw new Error('Please supply Google NLP API key as environment variable googleNlpApi');
-		}
-		const text = this.getContent(url, 'HTML');
-		const data = await nlp.annotateText(text, 'HTML');
-		return data;
+	async getData(url, type = 'PLAIN_TEXT', encoding = 'UTF8') {
+		const nlp = new NLP();
+		const text = await this.getContent(url, type);
+		return await nlp.annotateText(text, type, encoding, {
+			extractSyntax: true,
+			extractEntities: true,
+			extractDocumentSentiment: false
+		});
 	}
 
 	fetch(url) {

@@ -1,6 +1,6 @@
 {
   "name": "crawly-mccrawlface",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "description": "Crawl data from webpages and apply content extraction.",
   "main": "index.js",
   "scripts": {
@@ -15,18 +15,19 @@
   "author": "Daniel Budick",
   "license": "AGPL-3.0",
   "dependencies": {
+    "babel-core": "^6.24.0",
+    "babel-plugin-syntax-async-functions": "^6.13.0",
+    "babel-plugin-transform-regenerator": "^6.22.0",
+    "babel-polyfill": "^6.23.0",
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",
+    "dotenv": "^4.0.0",
     "google-nlp-api": "^0.1.14",
     "levenshtein": "^1.0.5",
     "process": "^0.11.9",
     "request": "^2.75.0",
     "underscore": "^1.8.3",
-    "xxhashjs": "^0.2.1",
-    "babel-core": "^6.24.0",
-    "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-regenerator": "^6.22.0",
-    "babel-polyfill": "^6.23.0"
+    "xxhashjs": "^0.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
