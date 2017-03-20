@@ -39,10 +39,6 @@ var _levenshtein = require('levenshtein');
 
 var _levenshtein2 = _interopRequireDefault(_levenshtein);
 
-var _process = require('process');
-
-var _process2 = _interopRequireDefault(_process);
-
 var _googleNlpApi = require('google-nlp-api');
 
 var _googleNlpApi2 = _interopRequireDefault(_googleNlpApi);
@@ -279,22 +275,18 @@ var Crawly = function (_EventEmitter) {
 						switch (_context2.prev = _context2.next) {
 							case 0:
 								nlp = new _googleNlpApi2.default();
-								_context2.next = 3;
-								return this.getContent(url, type);
-
-							case 3:
-								text = _context2.sent;
-								_context2.next = 6;
+								text = this.getContent(url, type);
+								_context2.next = 4;
 								return nlp.annotateText(text, type, encoding, {
 									extractSyntax: true,
 									extractEntities: true,
 									extractDocumentSentiment: false
 								});
 
-							case 6:
+							case 4:
 								return _context2.abrupt('return', _context2.sent);
 
-							case 7:
+							case 5:
 							case 'end':
 								return _context2.stop();
 						}

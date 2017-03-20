@@ -151,7 +151,7 @@ class Crawly extends EventEmitter {
 
 	async getData(url, type = 'PLAIN_TEXT', encoding = 'UTF8') {
 		const nlp = new NLP();
-		const text = await this.getContent(url, type);
+		const text = this.getContent(url, type);
 		return await nlp.annotateText(text, type, encoding, {
 			extractSyntax: true,
 			extractEntities: true,
