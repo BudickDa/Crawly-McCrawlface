@@ -26,7 +26,6 @@ import Chance from 'chance';
 import EventEmitter from 'events';
 import Site from './site';
 import Levenshtein from 'levenshtein';
-import process from 'process';
 import NLP from 'google-nlp-api';
 const chance = new Chance();
 

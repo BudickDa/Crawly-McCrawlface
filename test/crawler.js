@@ -23,7 +23,7 @@ const assert = require('assert');
 const _ = require('underscore');
 const process = require('process');
 const {config} = require('./webpages');
-import util from 'util';
+
 require('dotenv').load();
 
 const Crawly = require('./../index');
