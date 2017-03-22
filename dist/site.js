@@ -181,8 +181,10 @@ var Site = function () {
 
 				$('[data-entropy]').each(function (index, node) {
 					var element = $(node);
-					if (parseFloat(element.data('entropy')) < 0 && element.children().length === 0) {
-						$(node).remove();
+					if (element.children().length === 0) {
+						if (parseFloat(element.data('entropy')) < 0 || element.text().length === 0) {
+							$(node).remove();
+						}
 					}
 				});
 

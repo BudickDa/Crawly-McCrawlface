@@ -97,8 +97,10 @@ class Site {
 
 			$('[data-entropy]').each((index, node) => {
 				const element = $(node);
-				if (parseFloat(element.data('entropy')) < 0 && element.children().length === 0) {
-					$(node).remove();
+				if (element.children().length === 0) {
+					if (parseFloat(element.data('entropy')) < 0 || element.text().length === 0) {
+						$(node).remove();
+					}
 				}
 			});
 
@@ -113,6 +115,7 @@ class Site {
 					});
 				}
 			}
+
 			_.forEach($('body').children(), node => {
 				traverse(node, this.mean, this.deviation);
 			});
