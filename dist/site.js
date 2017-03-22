@@ -136,7 +136,8 @@ var Site = function () {
 				var _traverse = function _traverse(node, mean, deviation) {
 					node = $(node);
 					if (parseFloat(node.data('entropy')) > 0) {
-						extractedDom('body').append(node.html());
+						var tag = node.prop('tagName');
+						extractedDom('body').append('<' + tag + '>' + node.html() + '</' + tag + '>');
 					} else {
 						_underscore2.default.forEach(node.children(), function (node) {
 							return _traverse(node, mean, deviation);
@@ -178,9 +179,17 @@ var Site = function () {
 				var title = $('title').text();
 				var extractedDom = _cheerio2.default.load('<html><head><title>' + title + '</title></head><body></body></html>');
 
+				$('[data-entropy]').each(function (index, node) {
+					var element = $(node);
+					if (parseFloat(element.data('entropy')) < 0 && element.children().length === 0) {
+						$(node).remove();
+					}
+				});
+
 				_underscore2.default.forEach($('body').children(), function (node) {
 					_traverse(node, _this.mean, _this.deviation);
 				});
+
 				var html = extractedDom.html();
 
 				if (type === 'PLAIN_TEXT') {

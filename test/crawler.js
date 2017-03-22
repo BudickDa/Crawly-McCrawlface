@@ -71,37 +71,32 @@ describe('Crawler', function() {
 			 * Get HTML
 			 */
 			let content = crawler.getContent(url + '/index.html', 'HTML');
-			assert.equal(content.length, 280);
+			assert.equal(content.length, 305);
 
 			content = crawler.getContent(url + '/details.html', 'HTML');
-			assert.equal(content.length, 1348);
+			assert.equal(content.length, 1371);
 
 			content = crawler.getContent(url + '/profile.html', 'HTML');
-			assert.equal(content.length, 1830);
+			assert.equal(content.length, 1920);
 
 			/**
 			 * Get PLAIN_TEXT
 			 */
 			content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 56);
+			assert.equal(content.length, 62);
 
 			content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1297);
+			assert.equal(content.length, 1303);
 
 			content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 790);
+			assert.equal(content.length, 827);
 
 			/**
 			 * Get default (PLAIN_TEXT)
 			 */
-			content = crawler.getContent(url + '/index.html');
-			assert.equal(content.length, 56);
-
-			content = crawler.getContent(url + '/details.html');
-			assert.equal(content.length, 1297);
-
-			content = crawler.getContent(url + '/profile.html');
-			assert.equal(content.length, 790);
+			assert.equal(crawler.getContent(url + '/index.html', 'PLAIN_TEXT'), crawler.getContent(url + '/index.html'));
+			assert.equal(crawler.getContent(url + '/details.html', 'PLAIN_TEXT'), crawler.getContent(url + '/details.html'));
+			assert.equal(crawler.getContent(url + '/profile.html', 'PLAIN_TEXT'), crawler.getContent(url + '/profile.html'));
 		});
 	});
 

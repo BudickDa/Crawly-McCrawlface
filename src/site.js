@@ -95,10 +95,18 @@ class Site {
 			const title = $('title').text();
 			const extractedDom = cheerio.load(`<html><head><title>${title}</title></head><body></body></html>`);
 
+			$('[data-entropy]').each((index, node) => {
+				const element = $(node);
+				if (parseFloat(element.data('entropy')) < 0 && element.children().length === 0) {
+					$(node).remove();
+				}
+			});
+
 			function traverse(node, mean, deviation) {
 				node = $(node);
 				if (parseFloat(node.data('entropy')) > 0) {
-					extractedDom('body').append(node.html());
+					const tag = node.prop('tagName');
+					extractedDom('body').append(`<${tag}>${node.html()}</${tag}>`);
 				} else {
 					_.forEach(node.children(), function(node) {
 						return traverse(node, mean, deviation);
@@ -108,6 +116,8 @@ class Site {
 			_.forEach($('body').children(), node => {
 				traverse(node, this.mean, this.deviation);
 			});
+
+
 			const html = extractedDom.html();
 
 			if (type === 'PLAIN_TEXT') {
