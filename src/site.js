@@ -86,9 +86,10 @@ class Site {
 			 * Normalize values
 			 * @type {Array.<*>}
 			 */
+			/*
 			this.entropies.forEach((entropy, index) => {
 				this.entropies[index] = entropy - this.mean / this.deviation;
-			});
+			});*/
 
 			const content = [];
 			const $ = this.$;
@@ -97,7 +98,7 @@ class Site {
 				args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
 			}, {mean: this.mean, deviation: this.deviation, $: this.$});
 
-			function traverse(node, mean, deviation) {
+			(function traverse(node, mean, deviation) {
 				node = $(node);
 				if (parseInt(node.attr('data-entropy')) > 0) {
 					content.push($(node));
@@ -106,11 +107,7 @@ class Site {
 						return traverse(node, mean, deviation);
 					});
 				}
-			}
-
-			_.forEach($('body').children(), node => {
-				return traverse(node, this.mean, this.deviation);
-			});
+			})('body', this.mean, this.deviation);
 
 			let html = '';
 			content.forEach(e => {
