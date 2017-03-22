@@ -98,18 +98,24 @@ class Site {
 			/**
 			 * Delete empty or cluttered elements
 			 */
-			$('*').each((index, node) => {
-				const element = $(node);
-				if(element.text().replace(/\s|\n|\t/gi, '').length === 0){
-					$(node).remove();
-				}
-			});
+			function clean($) {
+				$('*').each((index, node) => {
+					const element = $(node);
+					if (element.text().replace(/\s|\n|\t/gi, '').length === 0) {
+						$(node).remove();
+					}
+				});
+			}
+
+			clean($);
 			$('[data-entropy]').each((index, node) => {
 				const element = $(node);
 				if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0) {
-						$(node).remove();
+					$(node).remove();
 				}
 			});
+			clean($);
+
 
 			function traverse(node, mean, deviation) {
 				node = $(node);
