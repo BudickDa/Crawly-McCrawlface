@@ -133,6 +133,17 @@ var Site = function () {
 			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'HTML';
 
 			if (this.entropies.length > 0) {
+				var _traverse = function _traverse(node, mean, deviation) {
+					node = $(node);
+					if (parseFloat(node.attr('data-entropy')) <= 0 && node.children().length === 0) {
+						$(node).remove();
+					} else {
+						_underscore2.default.forEach(node.children(), function (node) {
+							return _traverse(node, mean, deviation);
+						});
+					}
+				};
+
 				var sumEntropy = this.entropies.reduce(function (a, b) {
 					return a + b;
 				}, 0);
@@ -170,21 +181,11 @@ var Site = function () {
 					args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
 				}, { mean: this.mean, deviation: this.deviation, $: this.$ });
 
-				(function traverse(node, mean, deviation) {
-					node = $(node);
-					if (parseInt(node.attr('data-entropy')) > 0) {
-						content.push($(node));
-					} else {
-						_underscore2.default.forEach(node.children(), function (node) {
-							return traverse(node, mean, deviation);
-						});
-					}
-				})('body', this.mean, this.deviation);
-
-				var html = '';
-				content.forEach(function (e) {
-					html += $(e).html() + '\n';
+				_underscore2.default.forEach($('body').children(), function (node) {
+					_traverse(node, _this.mean, _this.deviation);
 				});
+
+				var html = $.html();
 
 				if (type === 'PLAIN_TEXT') {
 					return this.html2text(html);

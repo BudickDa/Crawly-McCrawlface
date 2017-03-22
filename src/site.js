@@ -98,21 +98,21 @@ class Site {
 				args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
 			}, {mean: this.mean, deviation: this.deviation, $: this.$});
 
-			(function traverse(node, mean, deviation) {
+			function traverse(node, mean, deviation) {
 				node = $(node);
-				if (parseInt(node.attr('data-entropy')) > 0) {
-					content.push($(node));
+				if (parseFloat(node.attr('data-entropy')) <= 0 && node.children().length===0) {
+					$(node).remove();
 				} else {
-					_.forEach(node.children(), node => {
+					_.forEach(node.children(), function (node) {
 						return traverse(node, mean, deviation);
 					});
 				}
-			})('body', this.mean, this.deviation);
-
-			let html = '';
-			content.forEach(e => {
-				html += $(e).html() + '\n';
+			}
+			_.forEach($('body').children(), node => {
+				traverse(node, this.mean, this.deviation);
 			});
+
+			const html = $.html();
 
 			if (type === 'PLAIN_TEXT') {
 				return this.html2text(html);
