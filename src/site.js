@@ -97,10 +97,8 @@ class Site {
 
 			$('[data-entropy]').each((index, node) => {
 				const element = $(node);
-				if (element.children().length === 0) {
-					if (parseFloat(element.data('entropy')) < 0 || element.text().length === 0) {
+				if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0 || element.text().length === 0) {
 						$(node).remove();
-					}
 				}
 			});
 
