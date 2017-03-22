@@ -71,37 +71,37 @@ describe('Crawler', function() {
 			 * Get HTML
 			 */
 			let content = crawler.getContent(url + '/index.html', 'HTML');
-			assert.equal(content.length, 947);
+			assert.equal(content.length, 280);
 
 			content = crawler.getContent(url + '/details.html', 'HTML');
-			assert.equal(content.length, 1883);
+			assert.equal(content.length, 1348);
 
 			content = crawler.getContent(url + '/profile.html', 'HTML');
-			assert.equal(content.length, 2914);
+			assert.equal(content.length, 1830);
 
 			/**
 			 * Get PLAIN_TEXT
 			 */
 			content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 91);
+			assert.equal(content.length, 56);
 
 			content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1332);
+			assert.equal(content.length, 1297);
 
 			content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 875);
+			assert.equal(content.length, 790);
 
 			/**
 			 * Get default (PLAIN_TEXT)
 			 */
 			content = crawler.getContent(url + '/index.html');
-			assert.equal(content.length, 91);
+			assert.equal(content.length, 56);
 
 			content = crawler.getContent(url + '/details.html');
-			assert.equal(content.length, 1332);
+			assert.equal(content.length, 1297);
 
 			content = crawler.getContent(url + '/profile.html');
-			assert.equal(content.length, 875);
+			assert.equal(content.length, 790);
 		});
 	});
 

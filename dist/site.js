@@ -135,8 +135,8 @@ var Site = function () {
 			if (this.entropies.length > 0) {
 				var _traverse = function _traverse(node, mean, deviation) {
 					node = $(node);
-					if (parseFloat(node.attr('data-entropy')) <= 0 && node.children().length === 0) {
-						$(node).remove();
+					if (parseFloat(node.data('entropy')) > 0) {
+						extractedDom('body').append(node.html());
 					} else {
 						_underscore2.default.forEach(node.children(), function (node) {
 							return _traverse(node, mean, deviation);
@@ -165,27 +165,23 @@ var Site = function () {
 				});
 				this.deviation = Math.sqrt(deviation / length);
 
-				/**
-     * Normalize values
-     * @type {Array.<*>}
-     */
-				/*
-    this.entropies.forEach((entropy, index) => {
-    	this.entropies[index] = entropy - this.mean / this.deviation;
-    });*/
-
 				var content = [];
 				var $ = this.$;
 
 				this.traverse($('body'), function (root, args) {
+					/**
+      * Normalize entropy
+      */
 					args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
 				}, { mean: this.mean, deviation: this.deviation, $: this.$ });
+
+				var title = $('title').text();
+				var extractedDom = _cheerio2.default.load('<html><head><title>' + title + '</title></head><body></body></html>');
 
 				_underscore2.default.forEach($('body').children(), function (node) {
 					_traverse(node, _this.mean, _this.deviation);
 				});
-
-				var html = $.html();
+				var html = extractedDom.html();
 
 				if (type === 'PLAIN_TEXT') {
 					return this.html2text(html);

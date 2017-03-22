@@ -61,7 +61,7 @@ class Site {
 		return this.$(selector).html();
 	}
 
-	getContent(type='HTML') {
+	getContent(type = 'HTML') {
 		if (this.entropies.length > 0) {
 			const sumEntropy = this.entropies.reduce((a, b) => a + b, 0);
 			const length = this.entropies.length;
@@ -82,28 +82,25 @@ class Site {
 			});
 			this.deviation = Math.sqrt(deviation / length);
 
-			/**
-			 * Normalize values
-			 * @type {Array.<*>}
-			 */
-			/*
-			this.entropies.forEach((entropy, index) => {
-				this.entropies[index] = entropy - this.mean / this.deviation;
-			});*/
-
 			const content = [];
 			const $ = this.$;
 
 			this.traverse($('body'), function(root, args) {
+				/**
+				 * Normalize entropy
+				 */
 				args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
 			}, {mean: this.mean, deviation: this.deviation, $: this.$});
 
+			const title = $('title').text();
+			const extractedDom = cheerio.load(`<html><head><title>${title}</title></head><body></body></html>`);
+
 			function traverse(node, mean, deviation) {
 				node = $(node);
-				if (parseFloat(node.attr('data-entropy')) <= 0 && node.children().length===0) {
-					$(node).remove();
+				if (parseFloat(node.data('entropy')) > 0) {
+					extractedDom('body').append(node.html());
 				} else {
-					_.forEach(node.children(), function (node) {
+					_.forEach(node.children(), function(node) {
 						return traverse(node, mean, deviation);
 					});
 				}
@@ -111,8 +108,7 @@ class Site {
 			_.forEach($('body').children(), node => {
 				traverse(node, this.mean, this.deviation);
 			});
-
-			const html = $.html();
+			const html = extractedDom.html();
 
 			if (type === 'PLAIN_TEXT') {
 				return this.html2text(html);
@@ -272,7 +268,7 @@ class Site {
 			}
 			node.append(' ');
 		});
-		return tmpDOM.text().replace(/\s+/,' ');
+		return tmpDOM.text().replace(/\s+/, ' ');
 	}
 }
 export {Site as default};
