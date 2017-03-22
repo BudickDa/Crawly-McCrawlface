@@ -95,9 +95,18 @@ class Site {
 			const title = $('title').text();
 			const extractedDom = cheerio.load(`<html><head><title>${title}</title></head><body></body></html>`);
 
+			/**
+			 * Delete empty or cluttered elements
+			 */
+			$('*').each((index, node) => {
+				const element = $(node);
+				if(element.text().replace(/\s|\n|\t/gi, '').length === 0){
+					$(node).remove();
+				}
+			});
 			$('[data-entropy]').each((index, node) => {
 				const element = $(node);
-				if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0 || element.text().length === 0) {
+				if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0) {
 						$(node).remove();
 				}
 			});

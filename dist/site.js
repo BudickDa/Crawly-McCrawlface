@@ -179,12 +179,19 @@ var Site = function () {
 				var title = $('title').text();
 				var extractedDom = _cheerio2.default.load('<html><head><title>' + title + '</title></head><body></body></html>');
 
+				/**
+     * Delete empty or cluttered elements
+     */
+				$('*').each(function (index, node) {
+					var element = $(node);
+					if (element.text().replace(/\s|\n|\t/gi, '').length === 0) {
+						$(node).remove();
+					}
+				});
 				$('[data-entropy]').each(function (index, node) {
 					var element = $(node);
-					if (element.children().length === 0) {
-						if (parseFloat(element.data('entropy')) < 0 || element.text().length === 0) {
-							$(node).remove();
-						}
+					if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0) {
+						$(node).remove();
 					}
 				});
 
