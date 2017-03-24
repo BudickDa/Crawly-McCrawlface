@@ -43,6 +43,14 @@ var _googleNlpApi = require('google-nlp-api');
 
 var _googleNlpApi2 = _interopRequireDefault(_googleNlpApi);
 
+var _translate = require('@google-cloud/translate');
+
+var _translate2 = _interopRequireDefault(_translate);
+
+var _process = require('process');
+
+var _process2 = _interopRequireDefault(_process);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -263,30 +271,66 @@ var Crawly = function (_EventEmitter) {
 
 			return getDOM;
 		}()
+
+		/**
+   * Returns data extracted with the Google NLP API
+   * @param url
+   * @param features
+   * @param type
+   * @param encoding
+   * @returns {Promise.<*>}
+   */
+
 	}, {
 		key: 'getData',
 		value: function () {
 			var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
-				var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
-				var encoding = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'UTF8';
-				var nlp, text;
+				var features = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+					extractSyntax: true,
+					extractEntities: true,
+					extractDocumentSentiment: false
+				};
+				var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'PLAIN_TEXT';
+				var encoding = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'UTF8';
+				var text, language, nlp, translation;
 				return regeneratorRuntime.wrap(function _callee2$(_context2) {
 					while (1) {
 						switch (_context2.prev = _context2.next) {
 							case 0:
-								nlp = new _googleNlpApi2.default();
+
+								console.log('Get Data:');
 								text = this.getContent(url, type);
 								_context2.next = 4;
-								return nlp.annotateText(text, type, encoding, {
-									extractSyntax: true,
-									extractEntities: true,
-									extractDocumentSentiment: false
-								});
+								return this.getLanguage(text).then(language);
 
 							case 4:
+								language = _context2.sent;
+								nlp = new _googleNlpApi2.default();
+
+								if (!(language === 'en')) {
+									_context2.next = 10;
+									break;
+								}
+
+								_context2.next = 9;
+								return nlp.annotateText(text, type, encoding, features);
+
+							case 9:
 								return _context2.abrupt('return', _context2.sent);
 
-							case 5:
+							case 10:
+								_context2.next = 12;
+								return this.getTranslation(text);
+
+							case 12:
+								translation = _context2.sent;
+								_context2.next = 15;
+								return nlp.annotateText(translation, type, encoding, features);
+
+							case 15:
+								return _context2.abrupt('return', _context2.sent);
+
+							case 16:
 							case 'end':
 								return _context2.stop();
 						}
@@ -299,6 +343,85 @@ var Crawly = function (_EventEmitter) {
 			}
 
 			return getData;
+		}()
+	}, {
+		key: 'getTranslation',
+		value: function () {
+			var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(text) {
+				var translate, results;
+				return regeneratorRuntime.wrap(function _callee3$(_context3) {
+					while (1) {
+						switch (_context3.prev = _context3.next) {
+							case 0:
+								if (_process2.default.env.GOOGLE_TRANSLATE_API) {
+									_context3.next = 2;
+									break;
+								}
+
+								throw new Error('Please set key for Google Translate API');
+
+							case 2:
+								translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
+								_context3.next = 5;
+								return translate.translate(text, 'en');
+
+							case 5:
+								results = _context3.sent;
+								return _context3.abrupt('return', results[0]);
+
+							case 7:
+							case 'end':
+								return _context3.stop();
+						}
+					}
+				}, _callee3, this);
+			}));
+
+			function getTranslation(_x8) {
+				return _ref3.apply(this, arguments);
+			}
+
+			return getTranslation;
+		}()
+	}, {
+		key: 'getLanguage',
+		value: function () {
+			var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(text) {
+				var translate, results, detection;
+				return regeneratorRuntime.wrap(function _callee4$(_context4) {
+					while (1) {
+						switch (_context4.prev = _context4.next) {
+							case 0:
+								if (_process2.default.env.GOOGLE_TRANSLATE_API) {
+									_context4.next = 2;
+									break;
+								}
+
+								throw new Error('Please set key for Google Translate API');
+
+							case 2:
+								translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
+								_context4.next = 5;
+								return translate.detect(text);
+
+							case 5:
+								results = _context4.sent;
+								detection = results[0];
+								return _context4.abrupt('return', detection.language);
+
+							case 8:
+							case 'end':
+								return _context4.stop();
+						}
+					}
+				}, _callee4, this);
+			}));
+
+			function getLanguage(_x9) {
+				return _ref4.apply(this, arguments);
+			}
+
+			return getLanguage;
 		}()
 	}, {
 		key: 'fetch',

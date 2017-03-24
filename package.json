@@ -1,6 +1,6 @@
 {
   "name": "crawly-mccrawlface",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "description": "Crawl data from webpages and apply content extraction.",
   "main": "index.js",
   "scripts": {
@@ -15,6 +15,7 @@
   "author": "Daniel Budick",
   "license": "AGPL-3.0",
   "dependencies": {
+    "@google-cloud/translate": "^0.7.0",
     "assert": "^1.4.1",
     "babel-core": "^6.24.0",
     "babel-plugin-syntax-async-functions": "^6.13.0",

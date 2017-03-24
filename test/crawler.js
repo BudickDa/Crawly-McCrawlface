@@ -40,6 +40,7 @@ describe('Crawler', function() {
 				new Crawly.Site(url),
 				new Crawly.Site(url + '/details.html'),
 				new Crawly.Site(url + '/profile.html'),
+				new Crawly.Site(url + '/german.html')
 			];
 			const empty = testCrawler.getByUrl('this should return nothing');
 			assert.strictEqual(empty, undefined);
@@ -71,13 +72,13 @@ describe('Crawler', function() {
 			 * Get HTML
 			 */
 			let content = crawler.getContent(url + '/index.html', 'HTML');
-			assert.equal(content.length, 305);
+			assert.equal(content.length, 306);
 
 			content = crawler.getContent(url + '/details.html', 'HTML');
 			assert.equal(content.length, 1396);
 
 			content = crawler.getContent(url + '/profile.html', 'HTML');
-			assert.equal(content.length, 2137);
+			assert.equal(content.length, 2163);
 
 			/**
 			 * Get PLAIN_TEXT
@@ -89,7 +90,7 @@ describe('Crawler', function() {
 			assert.equal(content.length, 1316);
 
 			content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 838);
+			assert.equal(content.length, 845);
 
 			/**
 			 * Get default (PLAIN_TEXT)
@@ -102,7 +103,22 @@ describe('Crawler', function() {
 
 	describe('#getData()', function() {
 		this.timeout(6000);
-		it('get data of a complex site', function(done) {
+		it('get data of a complex english site', function(done) {
+			crawler.getData(url + '/profile.html').then(data => {
+				//console.log(util.inspect(data, {depth: null}));
+				if (process.env.GOOGLE_NLP_API) {
+					const person = _.first(_.where(data.entities, {type: 'PERSON'}));
+					assert.equals(person.name, 'Daniel Budick');
+				}
+				done();
+			}).catch(err => {
+				if (!process.env.GOOGLE_NLP_API) {
+					assert.deepStrictEqual(err, new Error('Please supply Google NLP API key as environment variable GOOGLE_NLP_API'));
+				}
+				done();
+			});
+		});
+		it('get data of a complex german site', function(done) {
 			crawler.getData(url + '/profile.html').then(data => {
 				//console.log(util.inspect(data, {depth: null}));
 				if (process.env.GOOGLE_NLP_API) {

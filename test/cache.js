@@ -47,7 +47,7 @@ describe('Cache', function() {
 		crawler.on('ready', () => {
 			crawler.stop();
 			const text = cache.get(url);
-			assert.equal(text.length, 483);
+			assert.equal(text.length, 520);
 			done();
 		});
 	});

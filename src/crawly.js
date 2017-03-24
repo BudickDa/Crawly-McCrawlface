@@ -27,6 +27,9 @@ import EventEmitter from 'events';
 import Site from './site';
 import Levenshtein from 'levenshtein';
 import NLP from 'google-nlp-api';
+import Translate from '@google-cloud/translate';
+import process from 'process';
+
 const chance = new Chance();
 
 class Crawly extends EventEmitter {
@@ -149,14 +152,48 @@ class Crawly extends EventEmitter {
 		return cheerio.load(response);
 	}
 
-	async getData(url, type = 'PLAIN_TEXT', encoding = 'UTF8') {
-		const nlp = new NLP();
+	/**
+	 * Returns data extracted with the Google NLP API
+	 * @param url
+	 * @param features
+	 * @param type
+	 * @param encoding
+	 * @returns {Promise.<*>}
+	 */
+	async getData(url, features = {
+									extractSyntax: true,
+									extractEntities: true,
+									extractDocumentSentiment: false
+								}, type = 'PLAIN_TEXT', encoding = 'UTF8') {
+
+		console.log('Get Data:');
 		const text = this.getContent(url, type);
-		return await nlp.annotateText(text, type, encoding, {
-			extractSyntax: true,
-			extractEntities: true,
-			extractDocumentSentiment: false
-		});
+		const language = await this.getLanguage(text).then(language);
+		const nlp = new NLP();
+		if (language === 'en') {
+			return await nlp.annotateText(text, type, encoding, features);
+		}
+		const translation = await this.getTranslation(text);
+		return await nlp.annotateText(translation, type, encoding, features);
+	}
+
+	async getTranslation(text) {
+		if (!process.env.GOOGLE_TRANSLATE_API) {
+			throw new Error('Please set key for Google Translate API');
+		}
+		const translate = Translate({key: process.env.GOOGLE_TRANSLATE_API});
+		const results = await translate.translate(text, 'en');
+		return results[0];
+	}
+
+	async getLanguage(text) {
+		if (!process.env.GOOGLE_TRANSLATE_API) {
+			throw new Error('Please set key for Google Translate API');
+		}
+		const translate = Translate({key: process.env.GOOGLE_TRANSLATE_API});
+		const results = await translate.detect(text);
+		let detection = results[0];
+		return detection.language;
 	}
 
 	fetch(url) {
