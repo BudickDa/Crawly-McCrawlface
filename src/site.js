@@ -24,6 +24,7 @@ import _ from 'underscore';
 import Levenshtein from 'levenshtein';
 import Chance from 'chance';
 import cheerio from 'cheerio';
+import Extractor from './extractor';
 
 const chance = new Chance();
 
@@ -62,88 +63,17 @@ class Site {
 	}
 
 	getContent(type = 'HTML') {
-		if (this.entropies.length > 0) {
-			const sumEntropy = this.entropies.reduce((a, b) => a + b, 0);
-			const length = this.entropies.length;
-
-			/**
-			 * Calculate mean
-			 * @type {number}
-			 */
-			this.mean = Math.round(sumEntropy / length);
-
-			/**
-			 * Calcualte standard deviation
-			 * @type {number}
-			 */
-			let deviation = 0;
-			this.entropies.forEach(v => {
-				deviation += Math.pow(parseFloat(v) - this.mean, 2);
-			});
-			this.deviation = Math.sqrt(deviation / length);
-
-			const content = [];
-			const $ = this.$;
-
-			this.traverse($('body'), function(root, args) {
-				/**
-				 * Normalize entropy
-				 */
-				args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
-			}, {mean: this.mean, deviation: this.deviation, $: this.$});
-
-			const title = $('title').text();
-			const extractedDom = cheerio.load(`<html><head><title>${title}</title></head><body></body></html>`);
-
-			/**
-			 * Delete empty or cluttered elements
-			 */
-			function clean($) {
-				$('*').each((index, node) => {
-					const element = $(node);
-					if (element.text().replace(/\s|\n|\t/gi, '').length === 0) {
-						$(node).remove();
-					}
-				});
-			}
-
-			clean($);
-			$('[data-entropy]').each((index, node) => {
-				const element = $(node);
-				if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0) {
-					$(node).remove();
-				}
-			});
-			clean($);
-
-
-			function traverse(node, mean, deviation) {
-				node = $(node);
-				if (parseFloat(node.data('entropy')) > 0) {
-					const tag = node.prop('tagName');
-					extractedDom('body').append(`<${tag}>${node.html()}</${tag}>`);
-				} else {
-					_.forEach(node.children(), function(node) {
-						return traverse(node, mean, deviation);
-					});
-				}
-			}
-
-			_.forEach($('body').children(), node => {
-				traverse(node, this.mean, this.deviation);
-			});
-
-
-			const html = extractedDom.html();
-
-			if (type === 'PLAIN_TEXT') {
-				return this.html2text(html);
-			}
-			if (type === 'HTML') {
-				return html;
-			}
+		if (this.$('[data-entropy]').length === 0) {
+			throw new Error('Call scoreNode first.');
 		}
-		return '';
+		const html = Extractor.extractContent(this.$);
+		if (type === 'PLAIN_TEXT') {
+			return this.html2text(html);
+		}
+		if (type === 'HTML') {
+			return html;
+		}
+
 	}
 
 	cleanDOM($ = this.$) {
@@ -231,14 +161,6 @@ class Site {
 		return this.scoreNode(dom('body'), other.map(item => {
 			return item('body');
 		}), site, sites);
-	}
-
-	traverse(root, fnc, args) {
-		root = args.$(root);
-		fnc(root, args);
-		_.forEach(root.children(), node => {
-			return this.traverse(node, fnc, args);
-		});
 	}
 
 	getOnlyText(node, site = this) {

@@ -75,10 +75,10 @@ describe('Crawler', function() {
 			assert.equal(content.length, 306);
 
 			content = crawler.getContent(url + '/details.html', 'HTML');
-			assert.equal(content.length, 1396);
+			assert.equal(content.length, 1371);
 
 			content = crawler.getContent(url + '/profile.html', 'HTML');
-			assert.equal(content.length, 2163);
+			assert.equal(content.length, 1866);
 
 			/**
 			 * Get PLAIN_TEXT
@@ -87,10 +87,10 @@ describe('Crawler', function() {
 			assert.equal(content.length, 62);
 
 			content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1316);
+			assert.equal(content.length, 1303);
 
 			content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 845);
+			assert.equal(content.length, 796);
 
 			/**
 			 * Get default (PLAIN_TEXT)

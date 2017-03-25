@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by Daniel Budick on 17 Mär 2017.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by Daniel Budick on 25 Mär 2017.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Copyright 2017 Daniel Budick All rights reserved.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Contact: daniel@budick.eu / http://budick.eu
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
@@ -21,13 +21,17 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * GNU Affero General Public License for more details.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * You should have received a copy of the GNU Affero General Public License
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * You should have received a copy of the GNU General Public License
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
-var _xxhashjs = require('xxhashjs');
+var _cheerio = require('cheerio');
 
-var _xxhashjs2 = _interopRequireDefault(_xxhashjs);
+var _cheerio2 = _interopRequireDefault(_cheerio);
+
+var _request = require('request');
+
+var _request2 = _interopRequireDefault(_request);
 
 var _url = require('url');
 
@@ -37,286 +41,136 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var _levenshtein = require('levenshtein');
-
-var _levenshtein2 = _interopRequireDefault(_levenshtein);
-
 var _chance = require('chance');
 
 var _chance2 = _interopRequireDefault(_chance);
 
-var _cheerio = require('cheerio');
+var _events = require('events');
 
-var _cheerio2 = _interopRequireDefault(_cheerio);
+var _events2 = _interopRequireDefault(_events);
 
-var _extractor = require('./extractor');
+var _levenshtein = require('levenshtein');
 
-var _extractor2 = _interopRequireDefault(_extractor);
+var _levenshtein2 = _interopRequireDefault(_levenshtein);
+
+var _googleNlpApi = require('google-nlp-api');
+
+var _googleNlpApi2 = _interopRequireDefault(_googleNlpApi);
+
+var _translate = require('@google-cloud/translate');
+
+var _translate2 = _interopRequireDefault(_translate);
+
+var _process = require('process');
+
+var _process2 = _interopRequireDefault(_process);
+
+var _helpers = require('./helpers');
+
+var _helpers2 = _interopRequireDefault(_helpers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var chance = new _chance2.default();
-
-var Site = function () {
-	function Site(url, crawler) {
-		_classCallCheck(this, Site);
-
-		if (crawler) {
-			this.crawler = crawler;
-		} else {
-			console.warn('This constructor should not be called manually.');
-		}
-		if (url) {
-			this.url = _url2.default.parse(url);
-			this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
-		}
-		this.scores = [];
-		this.entropies = [];
-		this.content = {};
+var Extractor = function () {
+	function Extractor() {
+		_classCallCheck(this, Extractor);
 	}
 
-	_createClass(Site, [{
-		key: 'load',
-		value: function () {
-			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-				var $, text;
-				return regeneratorRuntime.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								if (!(this.url && this.crawler)) {
-									_context.next = 9;
-									break;
-								}
+	_createClass(Extractor, null, [{
+		key: 'extractContent',
+		value: function extractContent($) {
+			var entropies = $('[data-entropy]').map(function (index, element) {
+				return $(element).data('entropy');
+			}).get();
+			var sumEntropy = entropies.reduce(function (a, b) {
+				return a + b;
+			}, 0);
+			var length = entropies.length;
 
-								_context.next = 3;
-								return this.crawler.getDOM(this.url.href);
-
-							case 3:
-								$ = _context.sent;
-								text = $('body').html();
-
-								if (!text) {
-									text = '';
-								}
-								this.hash = _xxhashjs2.default.h32(text, 0xABCD).toString(16);
-								this.$ = this.cleanDOM($);
-								return _context.abrupt('return', this);
-
-							case 9:
-								return _context.abrupt('return', false);
-
-							case 10:
-							case 'end':
-								return _context.stop();
-						}
-					}
-				}, _callee, this);
-			}));
-
-			function load() {
-				return _ref.apply(this, arguments);
-			}
-
-			return load;
-		}()
-	}, {
-		key: 'html',
-		value: function html(selector) {
-			return this.$(selector).html();
-		}
-	}, {
-		key: 'getContent',
-		value: function getContent() {
-			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'HTML';
-
-			if (this.$('[data-entropy]').length === 0) {
-				throw new Error('Call scoreNode first.');
-			}
-			var html = _extractor2.default.extractContent(this.$);
-			if (type === 'PLAIN_TEXT') {
-				return this.html2text(html);
-			}
-			if (type === 'HTML') {
-				return html;
-			}
-		}
-	}, {
-		key: 'cleanDOM',
-		value: function cleanDOM() {
-			var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
-
-			$('style').remove();
-			$('script').remove();
-			$('link').remove();
-			$('meta').remove();
-			//$('i').remove();
 			/**
-    * Clean every emtpy tag except images
+    * Calculate mean
+    * @type {number}
     */
-			$('*').each(function (index, element) {
-				$(element).attr('class', null);
-				$(element).attr('id', null);
-				if (element.name === 'img') {
-					return;
-				}
-				if (element.name === 'a') {
-					return;
-				}
-				if ($(element).text().length === 0) {
-					$(element).remove();
-				}
+			var mean = Math.round(sumEntropy / length);
+
+			/**
+    * Calcualte standard deviation
+    * @type {number}
+    */
+			var deviation = 0;
+			entropies.forEach(function (v) {
+				deviation += Math.pow(parseFloat(v) - mean, 2);
 			});
-			return $;
+			deviation = Math.sqrt(deviation / length);
+
+			_helpers2.default.traverse($('body'), function (root, args) {
+				/**
+     * Normalize entropy
+     */
+				args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
+			}, { mean: mean, deviation: deviation, $: $ });
+
+			Extractor.cleanScoredDOM($);
+			Extractor.cleanScoredDOM($);
+
+			var title = $('title').text();
+			var extractedDom = _cheerio2.default.load('<html><head><title>' + title + '</title></head><body></body></html>');
+			_underscore2.default.forEach($('body').children(), function (node) {
+				Extractor.addStrongToDOM($, node, mean, deviation, extractedDom);
+			});
+
+			return extractedDom.html();
 		}
+
+		/**
+   * Delete empty or cluttered elements
+   * @param $
+   */
+
 	}, {
-		key: 'returnUrls',
-		value: function returnUrls() {
-			var _this = this;
-
-			var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
-
-			var urls = [];
-			$('a').each(function (index, element) {
-				var href = $(element).attr('href');
-				if (typeof href !== 'string') {
-					return;
-				}
-				if (href.indexOf('mailto:') !== -1) {
-					return;
-				}
-				if (href.indexOf('.pdf') !== -1) {
-					return;
-				}
-				var parsedUrl = _url2.default.parse(href);
-				parsedUrl.hash = null;
-				if (parsedUrl.hostname !== null) {
-					urls.push(parsedUrl);
-				} else {
-					var absoluteUrl = _url2.default.resolve(_this.domain.href, href);
-					urls.push(_url2.default.parse(absoluteUrl));
+		key: 'cleanScoredDOM',
+		value: function cleanScoredDOM($) {
+			$('*').each(function (index, node) {
+				var element = $(node);
+				if (element.text().replace(/\s|\n|\t/gi, '').length === 0) {
+					$(node).remove();
 				}
 			});
-			return _underscore2.default.unique(urls, false, function (url) {
-				return url.href;
+			$('[data-entropy]').each(function (index, node) {
+				var element = $(node);
+				if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0) {
+					$(node).remove();
+				}
 			});
 		}
+
+		/**
+   * Adds strong nodes from DOM ($) to DOM provided as parameter strongDOM
+   * @param $
+   * @param node
+   * @param mean
+   * @param deviation
+   * @param strongDOM
+   */
+
 	}, {
-		key: 'scoreNode',
-		value: function scoreNode(node, otherNodes) {
-			var _this2 = this;
-
-			var site = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
-			var sites = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : this.sites;
-
-			var score = 0;
-			var lengthSites = sites.length;
-			var text = this.getOnlyText(node, site);
-
-			for (var i = 0; i < lengthSites; i++) {
-				var otherText = this.getOnlyText(otherNodes[i], sites[i]);
-				var distance = new _levenshtein2.default(text, otherText).distance;
-				score += distance;
+		key: 'addStrongToDOM',
+		value: function addStrongToDOM($, node, mean, deviation, strongDOM) {
+			node = $(node);
+			if (parseFloat(node.data('entropy')) > 0) {
+				var tag = node.prop('tagName');
+				strongDOM('body').append('<' + tag + '>' + node.html() + '</' + tag + '>');
+			} else {
+				_underscore2.default.forEach(node.children(), function (node) {
+					return Extractor.addStrongToDOM($, node, mean, deviation, strongDOM);
+				});
 			}
-			this.scores.push(score);
-			var entropy = Math.floor(score / (text.length + 1));
-			this.entropies.push(entropy);
-			site.$(node).attr('data-score', score);
-			site.$(node).attr('data-entropy', entropy);
-
-			var id = site.$(node).attr('id');
-			_underscore2.default.forEach(node.children(), function (child, index) {
-				score += _this2.scoreNode(site.$(child), otherNodes.map(function (element, i) {
-					return sites[i].$(element.children()[index]);
-				}), site, sites);
-			});
-			site.$(node).attr('data-full-score', score);
-			return score;
-		}
-	}, {
-		key: 'scoreDOM',
-		value: function scoreDOM() {
-			var site = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
-			var sites = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler.sites;
-
-			sites = sites.filter(function (item) {
-				return site.hash !== item.hash;
-			});
-			var dom = site.$;
-			var other = sites.map(function (site) {
-				return site.$;
-			});
-			return this.scoreNode(dom('body'), other.map(function (item) {
-				return item('body');
-			}), site, sites);
-		}
-	}, {
-		key: 'getOnlyText',
-		value: function getOnlyText(node) {
-			var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-
-			var clone = site.$(node).clone();
-			clone.children().remove();
-			return clone.text();
-		}
-	}, {
-		key: 'html2text',
-		value: function html2text(html) {
-			var tmpDOM = _cheerio2.default.load(html);
-			tmpDOM('*').each(function (index, element) {
-				var node = tmpDOM(element);
-				switch (element.name) {
-					case 'div':
-						node.prepend('\n');
-						node.append('\n');
-						break;
-					case 'ul':
-						node.prepend('\n');
-						node.append('\n');
-						break;
-					case 'ol':
-						node.prepend('\n');
-						node.append('\n');
-						break;
-					case 'li':
-						node.prepend('\t');
-						node.append('\n');
-						break;
-					case 'p':
-						node.append('\n');
-						break;
-					case 'h1':
-						node.append('\n');
-						break;
-					case 'h2':
-						node.append('\n');
-						break;
-					case 'h3':
-						node.append('\n');
-						break;
-					case 'h4':
-						node.append('\n');
-						break;
-					case 'h5':
-						node.append('\n');
-						break;
-					case 'h6':
-						node.append('\n');
-						break;
-					default:
-						break;
-				}
-				node.append(' ');
-			});
-			return tmpDOM.text().replace(/\s+/, ' ');
 		}
 	}]);
 
-	return Site;
+	return Extractor;
 }();
 
-exports.default = Site;
+exports.default = Extractor;
