@@ -68,7 +68,7 @@ var Site = function () {
 		if (crawler) {
 			this.crawler = crawler;
 		} else {
-			console.warn('This constructor should not be called manually.');
+			console.info('This constructor should not be called manually.');
 		}
 		if (url) {
 			this.url = _url2.default.parse(url);

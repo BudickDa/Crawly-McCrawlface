@@ -18,7 +18,6 @@
  * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Cheerio = require('cheerio');
 const assert = require('assert');
 const _ = require('underscore');
 const process = require('process');
@@ -52,10 +51,11 @@ describe('Crawler', function() {
 
 	describe('#workQueue()', function() {
 		it('should store fetched html when queue is started', function(done) {
-			this.timeout(20000);
+			this.timeout(3000);
 			crawler.workQueue();
 			crawler.on('ready', () => {
 				crawler.stop();
+				console.log(crawler.sites);
 				const siteOne = crawler.getByUrl(url + '/details.html');
 				assert.equal(siteOne.url.href, url + '/details.html');
 				const siteTwo = crawler.getByUrl(url + '/profile.html');
@@ -71,13 +71,13 @@ describe('Crawler', function() {
 			 * Get HTML
 			 */
 			let content = crawler.getContent(url + '/index.html', 'HTML');
-			assert.equal(content.length, 306);
+			assert.equal(content.length, 304);
 
 			content = crawler.getContent(url + '/details.html', 'HTML');
 			assert.equal(content.length, 1371);
 
 			content = crawler.getContent(url + '/profile.html', 'HTML');
-			assert.equal(content.length, 1866);
+			assert.equal(content.length, 1864);
 
 			/**
 			 * Get PLAIN_TEXT

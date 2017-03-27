@@ -19,7 +19,6 @@
  */
 
 const assert = require('assert');
-const _ = require('underscore');
 const {config} = require('./webpages');
 
 const Crawly = require('./../index');
@@ -34,14 +33,13 @@ const cache = {
 };
 
 describe('Cache', function() {
-	this.timeout(5000);
+	this.timeout(20000);
 	const port = config.port;
 	const url = `http://localhost:${port}/index.html`;
 
 	const crawler = new Crawly(url);
 	crawler.setCache(cache);
 	crawler.workQueue();
-	crawler.options.readyIn = 3;
 
 	it('test', function(done) {
 		crawler.on('ready', () => {
