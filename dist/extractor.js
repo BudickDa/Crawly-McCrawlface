@@ -140,7 +140,8 @@ var Extractor = function () {
             var removed = 0;
             $('[data-entropy]').each(function (index, node) {
                 var element = $(node);
-                if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0) {
+                console.log(parseFloat(element.data('entropy')), element.data('entropy'));
+                if (element.children().length === 0 && parseFloat(element.data('entropy')) <= 0) {
                     $(node).remove();
                     removed++;
                 }

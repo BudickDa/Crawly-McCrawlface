@@ -73,7 +73,7 @@ describe('Crawler', function() {
 			assert.equal(content.length, 304);
 
 			content = crawler.getContent(url + '/details.html', 'HTML');
-			assert.equal(content.length, 1371);
+			assert.equal(content.length, 1642);
 
 			content = crawler.getContent(url + '/profile.html', 'HTML');
 			assert.equal(content.length, 1864);

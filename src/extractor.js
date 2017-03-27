@@ -86,7 +86,10 @@ class Extractor {
         let removed = 0;
         $('[data-entropy]').each((index, node) => {
             const element = $(node);
-            if (element.children().length === 0 && parseFloat(element.data('entropy')) < 0) {
+            /*
+                Little workaround to get rid of , set by i18n in some browsers
+             */
+            if (element.children().length === 0 && parseFloat(element.data('entropy').replace(/\./g,'').replace(',','.')) <= 0) {
                 $(node).remove();
                 removed++;
             }
