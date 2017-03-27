@@ -87,9 +87,17 @@ class Extractor {
         $('[data-entropy]').each((index, node) => {
             const element = $(node);
             /*
-                Little workaround to get rid of , set by i18n in some browsers
+             Little workaround to get rid of , set by i18n in some browsers
              */
-            if (element.children().length === 0 && parseFloat(element.data('entropy').replace(/\./g,'').replace(',','.')) <= 0) {
+            const valueAsString = element.data('entropy');
+            let entropy = 0;
+            if(typeof valueAsString === 'number'){
+                entropy = valueAsString;
+            }
+            if (typeof valueAsString === 'string') {
+                entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
+            }
+            if (element.children().length === 0 && entropy <= 1) {
                 $(node).remove();
                 removed++;
             }

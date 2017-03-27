@@ -140,8 +140,18 @@ var Extractor = function () {
             var removed = 0;
             $('[data-entropy]').each(function (index, node) {
                 var element = $(node);
-                console.log(parseFloat(element.data('entropy')), element.data('entropy'));
-                if (element.children().length === 0 && parseFloat(element.data('entropy')) <= 0) {
+                /*
+                 Little workaround to get rid of , set by i18n in some browsers
+                 */
+                var valueAsString = element.data('entropy');
+                var entropy = 0;
+                if (typeof valueAsString === 'number') {
+                    entropy = valueAsString;
+                }
+                if (typeof valueAsString === 'string') {
+                    entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
+                }
+                if (element.children().length === 0 && entropy <= 1) {
                     $(node).remove();
                     removed++;
                 }
