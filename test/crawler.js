@@ -55,7 +55,6 @@ describe('Crawler', function() {
 			crawler.workQueue();
 			crawler.on('ready', () => {
 				crawler.stop();
-				console.log(crawler.sites);
 				const siteOne = crawler.getByUrl(url + '/details.html');
 				assert.equal(siteOne.url.href, url + '/details.html');
 				const siteTwo = crawler.getByUrl(url + '/profile.html');

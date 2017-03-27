@@ -79,8 +79,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
-var chance = new _chance2.default();
-
 var Crawly = function (_EventEmitter) {
     _inherits(Crawly, _EventEmitter);
 
@@ -205,7 +203,7 @@ var Crawly = function (_EventEmitter) {
 
         /**
          * Call when site is worked to remove it from this.state.working array
-         * @param url
+         * @param site
          */
 
     }, {
@@ -400,7 +398,7 @@ var Crawly = function (_EventEmitter) {
                                 console.log('Get Data:');
                                 text = this.getContent(url, type);
                                 _context3.next = 4;
-                                return this.getLanguage(text).then(language);
+                                return Crawly.getLanguage(text).then(language);
 
                             case 4:
                                 language = _context3.sent;
@@ -419,7 +417,7 @@ var Crawly = function (_EventEmitter) {
 
                             case 10:
                                 _context3.next = 12;
-                                return this.getTranslation(text);
+                                return Crawly.getTranslation(text);
 
                             case 12:
                                 translation = _context3.sent;
@@ -444,6 +442,31 @@ var Crawly = function (_EventEmitter) {
             return getData;
         }()
     }, {
+        key: 'fetch',
+        value: function fetch(url) {
+            return new Promise(function (resolve, reject) {
+                _request2.default.get(url, function (err, response, body) {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(body);
+                });
+            });
+        }
+    }, {
+        key: 'stop',
+        value: function stop() {
+            this.state.stopped = true;
+        }
+    }, {
+        key: 'setCache',
+        value: function setCache(cache) {
+            if (typeof cache.get !== 'function' || typeof cache.set !== 'function') {
+                throw new TypeError('This is not a valid cache. It needs a set and a get function.');
+            }
+            this.cache = cache;
+        }
+    }], [{
         key: 'getTranslation',
         value: function () {
             var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(text) {
@@ -522,31 +545,6 @@ var Crawly = function (_EventEmitter) {
 
             return getLanguage;
         }()
-    }, {
-        key: 'fetch',
-        value: function fetch(url) {
-            return new Promise(function (resolve, reject) {
-                _request2.default.get(url, function (err, response, body) {
-                    if (err) {
-                        reject(err);
-                    }
-                    resolve(body);
-                });
-            });
-        }
-    }, {
-        key: 'stop',
-        value: function stop() {
-            this.state.stopped = true;
-        }
-    }, {
-        key: 'setCache',
-        value: function setCache(cache) {
-            if (typeof cache.get !== 'function' || typeof cache.set !== 'function') {
-                throw new TypeError('This is not a valid cache. It needs a set and a get function.');
-            }
-            this.cache = cache;
-        }
     }]);
 
     return Crawly;

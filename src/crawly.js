@@ -225,12 +225,12 @@ class Crawly extends EventEmitter {
 
         console.log('Get Data:');
         const text = this.getContent(url, type);
-        const language = await this.getLanguage(text).then(language);
+        const language = await Crawly.getLanguage(text).then(language);
         const nlp = new NLP();
         if (language === 'en') {
             return await nlp.annotateText(text, type, encoding, features);
         }
-        const translation = await this.getTranslation(text);
+        const translation = await Crawly.getTranslation(text);
         return await nlp.annotateText(translation, type, encoding, features);
     }
 
