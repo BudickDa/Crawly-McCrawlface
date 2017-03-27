@@ -52,7 +52,7 @@ class Crawly extends EventEmitter {
 			this.options = options;
 		} else {
 			this.options = {
-				readyIn: 15,
+				readyIn: 50,
 				goHaywire: false
 			}
 		}
@@ -108,7 +108,7 @@ class Crawly extends EventEmitter {
 		crawler.sites.push(site);
 		this.emit('siteAdded', site);
 		this.emit('sitesChanged', crawler.sites.length);
-		if (crawler.sites.length >= this.options.readyIn) {
+		if (crawler.sites.length >= this.options.readyIn || crawler.queue.length === 0) {
 			this.emit('ready');
 		}
 		if (crawler.queue.length === 0 || this.stopped) {

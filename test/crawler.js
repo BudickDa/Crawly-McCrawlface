@@ -53,7 +53,6 @@ describe('Crawler', function() {
 	describe('#workQueue()', function() {
 		it('should store fetched html when queue is started', function(done) {
 			this.timeout(20000);
-			crawler.options.readyIn = 4;
 			crawler.workQueue();
 			crawler.on('ready', () => {
 				crawler.stop();

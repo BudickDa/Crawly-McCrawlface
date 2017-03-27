@@ -106,7 +106,7 @@ var Crawly = function (_EventEmitter) {
 			_this.options = options;
 		} else {
 			_this.options = {
-				readyIn: 15,
+				readyIn: 50,
 				goHaywire: false
 			};
 		}
@@ -174,7 +174,7 @@ var Crawly = function (_EventEmitter) {
 			crawler.sites.push(site);
 			this.emit('siteAdded', site);
 			this.emit('sitesChanged', crawler.sites.length);
-			if (crawler.sites.length >= this.options.readyIn) {
+			if (crawler.sites.length >= this.options.readyIn || crawler.queue.length === 0) {
 				this.emit('ready');
 			}
 			if (crawler.queue.length === 0 || this.stopped) {
