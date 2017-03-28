@@ -68,38 +68,37 @@ describe('Crawler', function() {
 	describe('#getContent()', function() {
 		it('get HTML of index.html', function() {
 			const $ = Cheerio.load(crawler.getContent(url + '/index.html', 'HTML'));
-			console.log($.html());
 			$('body *').each((index, element) => {
-				assert($(element).data('entropy') > 0);
+				assert($(element).attr('entropy') > 0);
 			});
 		});
 		it('get HTML of details.html', function() {
 			const $ = Cheerio.load(crawler.getContent(url + '/details.html', 'HTML'));
 			$('body *').each((index, element) => {
-				assert($(element).data('entropy') > 0);
+				assert($(element).attr('entropy') > 0);
 			});
 		});
 
 		it('get HTML of profile.html', function() {
 			const $ = Cheerio.load(crawler.getContent(url + '/profile.html', 'HTML'));
 			$('body *').each((index, element) => {
-				assert($(element).data('entropy') > 0);
+				assert($(element).attr('entropy') > 0);
 			});
 		});
 
 		it('get PLAIN_TEXT of index.html', function() {
 			const content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 62);
+			assert.equal(content.length, 64);
 		});
 
 		it('get PLAIN_TEXT of details.html', function() {
 			const content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1317);
+			assert.equal(content.length, 1330);
 		});
 
 		it('get PLAIN_TEXT of profile.html', function() {
 			const content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 836);
+			assert.equal(content.length, 823);
 		});
 
 		it('PLAIN_TEXT is same as no variable', function() {
