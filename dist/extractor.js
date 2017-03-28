@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 exports.default = undefined;
 
@@ -29,41 +29,9 @@ var _cheerio = require('cheerio');
 
 var _cheerio2 = _interopRequireDefault(_cheerio);
 
-var _request = require('request');
-
-var _request2 = _interopRequireDefault(_request);
-
-var _url = require('url');
-
-var _url2 = _interopRequireDefault(_url);
-
 var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
-
-var _chance = require('chance');
-
-var _chance2 = _interopRequireDefault(_chance);
-
-var _events = require('events');
-
-var _events2 = _interopRequireDefault(_events);
-
-var _levenshtein = require('levenshtein');
-
-var _levenshtein2 = _interopRequireDefault(_levenshtein);
-
-var _googleNlpApi = require('google-nlp-api');
-
-var _googleNlpApi2 = _interopRequireDefault(_googleNlpApi);
-
-var _translate = require('@google-cloud/translate');
-
-var _translate2 = _interopRequireDefault(_translate);
-
-var _process = require('process');
-
-var _process2 = _interopRequireDefault(_process);
 
 var _helpers = require('./helpers');
 
@@ -74,118 +42,120 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Extractor = function () {
-    function Extractor() {
-        _classCallCheck(this, Extractor);
-    }
+	function Extractor() {
+		_classCallCheck(this, Extractor);
+	}
 
-    _createClass(Extractor, null, [{
-        key: 'extractContent',
-        value: function extractContent($) {
-            var entropies = $('[data-entropy]').map(function (index, element) {
-                return $(element).data('entropy');
-            }).get();
-            var sumEntropy = entropies.reduce(function (a, b) {
-                return a + b;
-            }, 0);
-            var length = entropies.length;
+	_createClass(Extractor, null, [{
+		key: 'extractContent',
+		value: function extractContent($) {
+			var entropies = $('[entropy]').map(function (index, element) {
+				return parseFloat($(element).attr('entropy'));
+			}).get();
+			var sumEntropy = entropies.reduce(function (a, b) {
+				return a + b;
+			}, 0);
+			var length = entropies.length;
 
-            /**
-             * Calculate mean
-             * @type {number}
-             */
-            var mean = Math.round(sumEntropy / length);
+			console.log($.html());
+			/**
+    * Calculate mean
+    * @type {number}
+    */
+			var mean = Math.round(sumEntropy / length);
 
-            /**
-             * Calcualte standard deviation
-             * @type {number}
-             */
-            var deviation = 0;
-            entropies.forEach(function (v) {
-                deviation += Math.pow(parseFloat(v) - mean, 2);
-            });
-            deviation = Math.sqrt(deviation / length);
+			/**
+    * Calcualte standard deviation
+    * @type {number}
+    */
+			var deviation = 0;
+			entropies.forEach(function (v) {
+				deviation += Math.pow(parseFloat(v) - mean, 2);
+			});
+			deviation = Math.sqrt(deviation / length);
 
-            _helpers2.default.traverse($('body'), function (root, args) {
-                /**
-                 * Normalize entropy
-                 */
-                args.$(root).attr('data-entropy', parseFloat(args.$(root).attr('data-entropy')) - args.mean / args.deviation);
-            }, { mean: mean, deviation: deviation, $: $ });
+			_helpers2.default.traverse($('body'), function (root, args) {
+				/**
+     * Normalize entropy
+     */
+				args.$(root).attr('entropy', parseFloat(args.$(root).attr('entropy')) - args.mean / args.deviation);
+			}, { mean: mean, deviation: deviation, $: $ });
 
-            Extractor.cleanScoredDOM($);
+			Extractor.cleanScoredDOM($);
 
-            var title = $('title').text();
-            var extractedDom = _cheerio2.default.load('<html><head><title>' + title + '</title></head><body></body></html>');
-            _underscore2.default.forEach($('body').children(), function (node) {
-                Extractor.addStrongToDOM($, node, mean, deviation, extractedDom);
-            });
+			var title = $('title').text();
+			var extractedDom = _cheerio2.default.load('<html><head><title>' + title + '</title></head><body scored=true></body></html>');
+			_underscore2.default.forEach($('body').children(), function (node) {
+				Extractor.addStrongToDOM($, node, mean, deviation, extractedDom);
+			});
 
-            return extractedDom.html();
-        }
+			return extractedDom.html();
+		}
 
-        /**
-         * Delete empty or cluttered elements
-         * @param $
-         */
+		/**
+   * Delete empty or cluttered elements
+   * @param $
+   */
 
-    }, {
-        key: 'cleanScoredDOM',
-        value: function cleanScoredDOM($) {
-            $('*').each(function (index, node) {
-                var element = $(node);
-                if (element.text().replace(/\s|\n|\t/gi, '').length === 0) {
-                    $(node).remove();
-                }
-            });
-            var removed = 0;
-            $('[data-entropy]').each(function (index, node) {
-                var element = $(node);
-                /*
-                 Little workaround to get rid of , set by i18n in some browsers
-                 */
-                var valueAsString = element.data('entropy');
-                var entropy = 0;
-                if (typeof valueAsString === 'number') {
-                    entropy = valueAsString;
-                }
-                if (typeof valueAsString === 'string') {
-                    entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
-                }
-                if (element.children().length === 0 && entropy <= 1) {
-                    $(node).remove();
-                    removed++;
-                }
-            });
-            if (removed !== 0) {
-                Extractor.cleanScoredDOM($);
-            }
-        }
+	}, {
+		key: 'cleanScoredDOM',
+		value: function cleanScoredDOM($) {
+			var removed = 0;
+			$('[entropy]').each(function (index, node) {
+				var element = $(node);
 
-        /**
-         * Adds strong nodes from DOM ($) to DOM provided as parameter strongDOM
-         * @param $
-         * @param node
-         * @param mean
-         * @param deviation
-         * @param strongDOM
-         */
+				var valueAsString = element.attr('entropy');
+				var entropy = 0;
+				if (typeof valueAsString === 'number') {
+					entropy = valueAsString;
+				}
+				if (typeof valueAsString === 'string') {
+					/*
+      Little workaround to get rid of , set by i18n in some browsers
+      */
+					entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
+				}
 
-    }, {
-        key: 'addStrongToDOM',
-        value: function addStrongToDOM($, node, mean, deviation, strongDOM) {
-            node = $(node);
-            if (parseFloat(node.data('entropy')) > 0) {
-                var tag = node.prop('tagName');
-                strongDOM('body').append('<' + tag + '>' + node.html() + '</' + tag + '>');
-            } else {
-                _underscore2.default.forEach(node.children(), function (node) {
-                    return Extractor.addStrongToDOM($, node, mean, deviation, strongDOM);
-                });
-            }
-        }
-    }]);
+				if (!element.attr('entropy')) {
+					console.log('No entropy');
+					console.log(element);
+				}
 
-    return Extractor;
+				if (element.children().length === 0 && (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0)) {
+					$(node).remove();
+					removed++;
+				}
+			});
+			if (removed !== 0) {
+				Extractor.cleanScoredDOM($);
+			}
+		}
+
+		/**
+   * Adds strong nodes from DOM ($) to DOM provided as parameter strongDOM
+   * @param $
+   * @param node
+   * @param mean
+   * @param deviation
+   * @param strongDOM
+   */
+
+	}, {
+		key: 'addStrongToDOM',
+		value: function addStrongToDOM($, node, mean, deviation, strongDOM) {
+			node = $(node);
+			if (parseFloat(node.attr('entropy')) > 0) {
+				var tag = node.prop('tagName');
+				strongDOM('body').append('<' + tag + '>' + node.html() + '</' + tag + '>');
+			} else {
+				_underscore2.default.forEach(node.children(), function (node) {
+					return Extractor.addStrongToDOM($, node, mean, deviation, strongDOM);
+				});
+			}
+		}
+	}]);
+
+	return Extractor;
 }();
 
 exports.default = Extractor;

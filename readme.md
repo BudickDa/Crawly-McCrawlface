@@ -5,7 +5,7 @@ A small crawler that downloads html from the web and applying some content extra
 `npm install crawly-mccrawlface`
 
     //Create crawler and supply seed as string or array of strings
-    const crawler = new Crawly('https://budick.eu');
+    const crawler = new Crawler('https://budick.eu');
 
     //start crawling
     crawler.start();
@@ -76,7 +76,7 @@ Some examples:
         goHaywire: false,
         readyIn: 15
     };
-    const crawler = new Crawly([...some urls...], options);
+    const crawler = new Crawler([...some urls...], options);
 
 readyIn (Number):
 Number of sites, that have to be loaded that ready-event is fired.
