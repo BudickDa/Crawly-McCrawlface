@@ -29,5 +29,33 @@ class Helpers {
 			return Helpers.traverse(node, fnc, args);
 		});
 	}
+
+	/**
+	 * Calculate mean out of array
+	 * @param array
+	 * @returns {number}
+	 */
+	static mean(array) {
+		if (!Array.isArray(array)) {
+			throw new TypeError('Parameter of mean must be an array.');
+		}
+		const sum = array.reduce((a, b) => a + b, 0);
+		const length = array.length || 1;
+		return sum / length;
+	}
+
+	/**
+	 * Calcualte standard deviation
+	 * @param array
+	 * @returns {number}
+	 */
+	static deviation(array) {
+		const mean = Helpers.mean(array);
+		let deviation = 0;
+		array.forEach(v => {
+			deviation += Math.pow(parseFloat(v) - mean, 2);
+		});
+		return Math.sqrt(deviation / array.length);
+	}
 }
 export {Helpers as default};

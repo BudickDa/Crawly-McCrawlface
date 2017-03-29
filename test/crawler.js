@@ -78,7 +78,6 @@ describe('Crawler', function() {
 				assert($(element).attr('entropy') > 0);
 			});
 		});
-
 		it('get HTML of profile.html', function() {
 			const $ = Cheerio.load(crawler.getContent(url + '/profile.html', 'HTML'));
 			$('body *').each((index, element) => {
@@ -88,17 +87,17 @@ describe('Crawler', function() {
 
 		it('get PLAIN_TEXT of index.html', function() {
 			const content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 64);
+			assert.equal(content.length, 86);
 		});
 
 		it('get PLAIN_TEXT of details.html', function() {
 			const content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1330);
+			assert.equal(content.length, 1361);
 		});
 
 		it('get PLAIN_TEXT of profile.html', function() {
 			const content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 823);
+			assert.equal(content.length, 854);
 		});
 
 		it('PLAIN_TEXT is same as no variable', function() {
@@ -115,8 +114,8 @@ describe('Crawler', function() {
 			wikiCrawler.on('ready', c => {
 				c.stop();
 				const $ = Cheerio.load(wikiCrawler.getContent(url, 'HTML'));
-				$('*').each((index, element) => {
-					assert($(element).data('entropy') > 0);
+				$('body *').each((index, element) => {
+					assert(($(element).attr('entropy') > 0) || ($(element).children().length > 0));
 				});
 				done();
 			});

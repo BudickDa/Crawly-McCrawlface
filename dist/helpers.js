@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 exports.default = undefined;
 
@@ -34,22 +34,58 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Helpers = function () {
-  function Helpers() {
-    _classCallCheck(this, Helpers);
-  }
+	function Helpers() {
+		_classCallCheck(this, Helpers);
+	}
 
-  _createClass(Helpers, null, [{
-    key: 'traverse',
-    value: function traverse(root, fnc, args) {
-      root = args.$(root);
-      fnc(root, args);
-      _underscore2.default.forEach(root.children(), function (node) {
-        return Helpers.traverse(node, fnc, args);
-      });
-    }
-  }]);
+	_createClass(Helpers, null, [{
+		key: 'traverse',
+		value: function traverse(root, fnc, args) {
+			root = args.$(root);
+			fnc(root, args);
+			_underscore2.default.forEach(root.children(), function (node) {
+				return Helpers.traverse(node, fnc, args);
+			});
+		}
 
-  return Helpers;
+		/**
+   * Calculate mean out of array
+   * @param array
+   * @returns {number}
+   */
+
+	}, {
+		key: 'mean',
+		value: function mean(array) {
+			if (!Array.isArray(array)) {
+				throw new TypeError('Parameter of mean must be an array.');
+			}
+			var sum = array.reduce(function (a, b) {
+				return a + b;
+			}, 0);
+			var length = array.length || 1;
+			return sum / length;
+		}
+
+		/**
+   * Calcualte standard deviation
+   * @param array
+   * @returns {number}
+   */
+
+	}, {
+		key: 'deviation',
+		value: function deviation(array) {
+			var mean = Helpers.mean(array);
+			var deviation = 0;
+			array.forEach(function (v) {
+				deviation += Math.pow(parseFloat(v) - mean, 2);
+			});
+			return Math.sqrt(deviation / array.length);
+		}
+	}]);
+
+	return Helpers;
 }();
 
 exports.default = Helpers;

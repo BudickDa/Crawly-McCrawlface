@@ -88,7 +88,7 @@ describe('Site', function() {
 				site,
 				sites
 			);
-			assert.equal(parseFloat(testThree('.content span').attr('entropy')), 3);
+			assert.equal(parseFloat(testThree('.content span').attr('entropy')), 1);
 		});
 	});
 
@@ -109,16 +109,16 @@ describe('Site', function() {
 				return s;
 			});
 			site.scoreDOM(site, sites);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 36);
+			assert.equal(parseInt(site.$('.content').attr('entropy')), 1074);
 
 			const newSite = new Crawler.Site();
 			newSite.$ = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>');
 			newSite.hash = chance.hash();
 			sites.push(newSite)
 			site.scoreDOM(site, sites);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 58);
+			assert.equal(parseInt(site.$('.content').attr('entropy')), 1074);
 			site.scoreDOM(site, sites, true);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 58);
+			assert.equal(parseInt(site.$('.content').attr('entropy')), 1307);
 		});
 	});
 
