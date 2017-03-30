@@ -92,12 +92,12 @@ describe('Crawler', function() {
 
 		it('get PLAIN_TEXT of details.html', function() {
 			const content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1361);
+			assert.equal(content.length, 1317);
 		});
 
 		it('get PLAIN_TEXT of profile.html', function() {
 			const content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 854);
+			assert.equal(content.length, 866);
 		});
 
 		it('PLAIN_TEXT is same as no variable', function() {

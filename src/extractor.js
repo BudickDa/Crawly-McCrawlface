@@ -34,26 +34,44 @@ class Extractor {
 		return extractedDom.html();
 	}
 
-	static normalizeDOM($){
+	static normalizeDOM($) {
+		//console.log($.html());
+		if($('body').attr('normalized')){
+			return;
+		}
 
-		const entropies = $('[entropy]').map((index, element) => {
-			return parseFloat($(element).attr('entropy'));
-		}).get();
-		const mean = Math.round(Helpers.mean(entropies));
+		const entropies = {
+			'a': [],
+			'default': []
+		};
 
-		const deviation = Helpers.deviation(entropies);
+		$('[entropy]').each((index, element) => {
+			const entropy = parseFloat($(element).attr('entropy'));
+			const name = $(element).prop('name').toLowerCase();
+			if(Array.isArray(entropies[name])){
+				entropies[name].push(entropy);
+			}else{
+				entropies['default'].push(entropy);
+			}
+		});
+		const mean = {};
+		const deviation = {};
+		for (let index in entropies){
+			mean[index] = Helpers.mean(entropies[index]);
+			deviation[index] = Helpers.deviation(entropies[index]);
+		}
 
+		$('body').attr('normalized', true);
 		Helpers.traverse($('body'), function(root, args) {
+			const name = args.$(root).prop('name');
+			let key = 'default';
+			if(args.mean[name]){
+				key = name;
+			}
 			/**
 			 * Normalize entropy
 			 */
-			const entropy = args.$(root).attr('entropy') - args.mean / args.deviation || 1;
-			if(isNaN(entropy)) {
-				console.log(entropy);
-			}
-			if (isNaN(entropy)) {
-				console.log(args.$(root).attr('entropy'));
-			}
+			const entropy = args.$(root).attr('entropy') - args.mean[key] / (args.deviation[key] || 1);
 			args.$(root).attr('entropy', entropy);
 		}, {mean: mean, deviation: deviation, $: $});
 	}
@@ -79,13 +97,12 @@ class Extractor {
 				entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
 			}
 
-			if (!element.attr('entropy')) {
-				console.log('No entropy');
-				console.log(element);
-			}
-
 			if (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0) {
 				if (element.children().length === 0) {
+					element.remove();
+					removed++;
+				}
+				if (element.prop('tagName') === 'A') {
 					element.remove();
 					removed++;
 				}

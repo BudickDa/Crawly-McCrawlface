@@ -55,7 +55,7 @@ class Helpers {
 		array.forEach(v => {
 			deviation += Math.pow(parseFloat(v) - mean, 2);
 		});
-		return Math.sqrt(deviation / array.length);
+		return Math.sqrt(deviation / (array.length || 1));
 	}
 }
 export {Helpers as default};

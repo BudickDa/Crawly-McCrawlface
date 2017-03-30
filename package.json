@@ -1,6 +1,6 @@
 {
   "name": "crawly-mccrawlface",
-  "version": "0.3.2",
+  "version": "0.3.4",
   "description": "Crawl data from webpages and apply content extraction.",
   "main": "index.js",
   "scripts": {

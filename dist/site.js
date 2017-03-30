@@ -164,8 +164,6 @@ var Site = function () {
     */
 			var removed = 0;
 			$('*').each(function (index, element) {
-				$(element).attr('class', null);
-				$(element).attr('id', null);
 				if (element.name === 'a') {
 					return;
 				}
@@ -228,29 +226,55 @@ var Site = function () {
 			var sites = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : this.crawler.originals;
 
 			var entropy = 0;
-			if (node.prop('tagName') === 'A') {
-				entropy = this.scoreHyperlink(node);
-				site.$(node).attr('entropy', entropy);
-			} else {
-				var scores = [];
-				var lengthSites = sites.length;
-				var text = this.getOnlyText(node, site);
+			switch (node.prop('tagName').toLowerCase()) {
+				case 'a':
+					entropy = this.scoreHyperlink(node);
+					break;
+				default:
+					if (site.$(node).attr('id') && this.hasEquals(site.$(node))) {
+						entropy = 0;
+					} else {
+						var scores = [];
+						var lengthSites = sites.length;
+						var text = this.getOnlyText(node, site);
 
-				for (var i = 0; i < lengthSites; i++) {
-					var otherText = this.getOnlyText(otherNodes[i], sites[i]);
-					scores.push(Site.getDistance(text, otherText));
-				}
-				var score = _helpers2.default.mean(scores);
-				entropy = Site.getTextDensity(site.$(node)) * score;
-				site.$(node).attr('entropy', entropy);
-
-				_underscore2.default.forEach(node.children(), function (child, index) {
-					entropy += _this2.scoreNode(site.$(child), otherNodes.map(function (element, i) {
-						return sites[i].$(element.children()[index]);
-					}), site, sites);
-				});
+						for (var i = 0; i < lengthSites; i++) {
+							var otherText = this.getOnlyText(otherNodes[i], sites[i]);
+							if (site.$(otherNodes[i]).length === 0) {
+								scores.push(site.$(node).text().length);
+							} else {
+								scores.push(Site.getDistance(text, otherText));
+							}
+						}
+						var score = _helpers2.default.mean(scores);
+						entropy = Site.getTextDensity(site.$(node)) * score;
+					}
+					break;
 			}
+			site.$(node).attr('entropy', entropy);
+			_underscore2.default.forEach(node.children(), function (child, index) {
+				entropy += _this2.scoreNode(site.$(child), otherNodes.map(function (element, i) {
+					return sites[i].$(element.children()[index]);
+				}), site, sites);
+			});
 			return entropy;
+		}
+	}, {
+		key: 'hasEquals',
+		value: function hasEquals(element) {
+			var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+			var sites = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.crawler.originals;
+
+			var id = '#' + element.attr('id');
+			var text = element.text().replace(/\s|\n|\t/gi, '');
+			var hasEquals = false;
+			sites.forEach(function (s) {
+				if (site.hash !== s.hash) {
+					var otherText = s.$(id).text().replace(/\s|\n|\t/gi, '');
+					hasEquals = text === otherText;
+				}
+			});
+			return hasEquals;
 		}
 	}, {
 		key: 'scoreDOM',
@@ -306,6 +330,11 @@ var Site = function () {
 	}, {
 		key: 'scoreHyperlink',
 		value: function scoreHyperlink(element) {
+			var _this3 = this;
+
+			var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+			var sites = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.crawler.originals;
+
 			var $ = this.$;
 			var parent = element.parent();
 			var context = parent.text();
@@ -316,6 +345,26 @@ var Site = function () {
 			if (linkTextLength === 0) {
 				return 0;
 			}
+
+			/**
+    * Check if this linktext and url combination exists on other sites
+    */
+			var count = 0;
+			sites.forEach(function (site) {
+				if (site.hash !== _this3.hash) {
+					site.$('a').each(function (i, el) {
+						var otherElement = site.$(el);
+						if (element.text() === otherElement.text() && element.attr('href') === otherElement.attr('href')) {
+							count++;
+						}
+					});
+				}
+			});
+			var score = count / (sites.length + 1) * 100;
+			if (score > 50) {
+				return 0;
+			}
+
 			return Site.getTextDensity(parent) + linkTextLength;
 		}
 	}, {

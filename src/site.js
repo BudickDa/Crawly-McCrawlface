@@ -91,8 +91,6 @@ class Site {
 		 */
 		let removed = 0;
 		$('*').each((index, element) => {
-			$(element).attr('class', null);
-			$(element).attr('id', null);
 			if (element.name === 'a') {
 				return;
 			}
@@ -133,35 +131,57 @@ class Site {
 		return _.unique(urls, false, url => url.href);
 	}
 
-	normalizeDOM($ = this.$){
+	normalizeDOM($ = this.$) {
 		Extractor.normalizeDOM($);
 	}
 
 	scoreNode(node, otherNodes, site = this, sites = this.crawler.originals) {
 		let entropy = 0;
-		if (node.prop('tagName') === 'A') {
-			entropy = this.scoreHyperlink(node);
-			site.$(node).attr('entropy', entropy);
-		} else {
-			const scores = [];
-			const lengthSites = sites.length;
-			const text = this.getOnlyText(node, site);
+		switch (node.prop('tagName').toLowerCase()) {
+			case 'a':
+				entropy = this.scoreHyperlink(node);
+				break;
+			default:
+				if (site.$(node).attr('id') && this.hasEquals(site.$(node))) {
+					entropy = 0;
+				} else {
+					const scores = [];
+					const lengthSites = sites.length;
+					const text = this.getOnlyText(node, site);
 
-			for (let i = 0; i < lengthSites; i++){
-				let otherText = this.getOnlyText(otherNodes[i], sites[i]);
-				scores.push(Site.getDistance(text, otherText));
-			}
-			const score = Helpers.mean(scores);
-			entropy = Site.getTextDensity(site.$(node)) * score;
-			site.$(node).attr('entropy', entropy);
-
-			_.forEach(node.children(), (child, index) => {
-				entropy += this.scoreNode(site.$(child), otherNodes.map((element, i) => {
-					return sites[i].$(element.children()[index]);
-				}), site, sites);
-			});
+					for (let i = 0; i < lengthSites; i++){
+						let otherText = this.getOnlyText(otherNodes[i], sites[i]);
+						if (site.$(otherNodes[i]).length === 0) {
+							scores.push(site.$(node).text().length);
+						} else {
+							scores.push(Site.getDistance(text, otherText));
+						}
+					}
+					const score = Helpers.mean(scores);
+					entropy = Site.getTextDensity(site.$(node)) * score;
+				}
+				break;
 		}
+		site.$(node).attr('entropy', entropy);
+		_.forEach(node.children(), (child, index) => {
+			entropy += this.scoreNode(site.$(child), otherNodes.map((element, i) => {
+				return sites[i].$(element.children()[index]);
+			}), site, sites);
+		});
 		return entropy;
+	}
+
+	hasEquals(element, site = this, sites = this.crawler.originals) {
+		const id = `#${element.attr('id')}`;
+		const text = element.text().replace(/\s|\n|\t/gi, '');
+		let hasEquals = false;
+		sites.forEach(s => {
+			if (site.hash !== s.hash) {
+				let otherText = s.$(id).text().replace(/\s|\n|\t/gi, '');
+				hasEquals = text === otherText;
+			}
+		});
+		return hasEquals;
 	}
 
 	static getDistance(text, otherText) {
@@ -217,7 +237,7 @@ class Site {
 	 * the length of the context - the length of all link text in parent.
 	 * @param element
 	 */
-	scoreHyperlink(element) {
+	scoreHyperlink(element, site = this, sites = this.crawler.originals) {
 		const $ = this.$;
 		const parent = element.parent();
 		const context = parent.text();
@@ -225,9 +245,30 @@ class Site {
 		$(parent).find('a').each((index, element) => {
 			linkTextLength -= $(element).text().length;
 		});
-		if(linkTextLength===0){
+		if (linkTextLength === 0) {
 			return 0;
 		}
+
+		/**
+		 * Check if this linktext and url combination exists on other sites
+		 */
+		let count = 0;
+		sites.forEach(site => {
+			if (site.hash !== this.hash) {
+				site.$('a').each((i, el) => {
+					const otherElement = site.$(el);
+					if (element.text() === otherElement.text() && element.attr('href') === otherElement.attr('href')) {
+						count++;
+					}
+				});
+			}
+		});
+		const score = count / (sites.length + 1) * 100;
+		if (score > 50) {
+			return 0;
+		}
+
+
 		return Site.getTextDensity(parent) + linkTextLength;
 	}
 

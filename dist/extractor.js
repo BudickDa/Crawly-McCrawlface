@@ -61,25 +61,43 @@ var Extractor = function () {
 	}, {
 		key: 'normalizeDOM',
 		value: function normalizeDOM($) {
+			//console.log($.html());
+			if ($('body').attr('normalized')) {
+				return;
+			}
 
-			var entropies = $('[entropy]').map(function (index, element) {
-				return parseFloat($(element).attr('entropy'));
-			}).get();
-			var mean = Math.round(_helpers2.default.mean(entropies));
+			var entropies = {
+				'a': [],
+				'default': []
+			};
 
-			var deviation = _helpers2.default.deviation(entropies);
+			$('[entropy]').each(function (index, element) {
+				var entropy = parseFloat($(element).attr('entropy'));
+				var name = $(element).prop('name').toLowerCase();
+				if (Array.isArray(entropies[name])) {
+					entropies[name].push(entropy);
+				} else {
+					entropies['default'].push(entropy);
+				}
+			});
+			var mean = {};
+			var deviation = {};
+			for (var index in entropies) {
+				mean[index] = _helpers2.default.mean(entropies[index]);
+				deviation[index] = _helpers2.default.deviation(entropies[index]);
+			}
 
+			$('body').attr('normalized', true);
 			_helpers2.default.traverse($('body'), function (root, args) {
+				var name = args.$(root).prop('name');
+				var key = 'default';
+				if (args.mean[name]) {
+					key = name;
+				}
 				/**
      * Normalize entropy
      */
-				var entropy = args.$(root).attr('entropy') - args.mean / args.deviation || 1;
-				if (isNaN(entropy)) {
-					console.log(entropy);
-				}
-				if (isNaN(entropy)) {
-					console.log(args.$(root).attr('entropy'));
-				}
+				var entropy = args.$(root).attr('entropy') - args.mean[key] / (args.deviation[key] || 1);
 				args.$(root).attr('entropy', entropy);
 			}, { mean: mean, deviation: deviation, $: $ });
 		}
@@ -108,13 +126,12 @@ var Extractor = function () {
 					entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
 				}
 
-				if (!element.attr('entropy')) {
-					console.log('No entropy');
-					console.log(element);
-				}
-
 				if (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0) {
 					if (element.children().length === 0) {
+						element.remove();
+						removed++;
+					}
+					if (element.prop('tagName') === 'A') {
 						element.remove();
 						removed++;
 					}

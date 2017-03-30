@@ -81,7 +81,7 @@ var Helpers = function () {
 			array.forEach(function (v) {
 				deviation += Math.pow(parseFloat(v) - mean, 2);
 			});
-			return Math.sqrt(deviation / array.length);
+			return Math.sqrt(deviation / (array.length || 1));
 		}
 	}]);
 
