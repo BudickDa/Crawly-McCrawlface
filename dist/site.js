@@ -158,7 +158,6 @@ var Site = function () {
 			$('script').remove();
 			$('link').remove();
 			$('meta').remove();
-			//$('i').remove();
 			/**
     * Remove every emtpy tag except hyperlinks without children recursively
     */
@@ -225,13 +224,23 @@ var Site = function () {
 			var site = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this;
 			var sites = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : this.crawler.originals;
 
+			var element = site.$(node);
+			/**
+    * Text density of node
+    */
+			var textDensity = Site.getTextDensity(site.$(node));
+			element.attr('text-density', textDensity);
+
+			/**
+    * Score it by distance to other sites aka. entropy
+    */
 			var entropy = 0;
-			switch (node.prop('tagName').toLowerCase()) {
+			switch (element.prop('tagName').toLowerCase()) {
 				case 'a':
 					entropy = this.scoreHyperlink(node);
 					break;
 				default:
-					if (site.$(node).attr('id') && this.hasEquals(site.$(node))) {
+					if (element.attr('id') && this.hasEquals(site.$(node))) {
 						entropy = 0;
 					} else {
 						var scores = [];
@@ -246,15 +255,14 @@ var Site = function () {
 								scores.push(Site.getDistance(text, otherText));
 							}
 						}
-						var score = _helpers2.default.mean(scores);
-						entropy = Site.getTextDensity(site.$(node)) * score;
+						entropy = _helpers2.default.mean(scores);
 					}
 					break;
 			}
-			site.$(node).attr('entropy', entropy);
-			_underscore2.default.forEach(node.children(), function (child, index) {
-				entropy += _this2.scoreNode(site.$(child), otherNodes.map(function (element, i) {
-					return sites[i].$(element.children()[index]);
+			element.attr('entropy', entropy);
+			_underscore2.default.forEach(element.children(), function (child, index) {
+				entropy += _this2.scoreNode(site.$(child), otherNodes.map(function (e, i) {
+					return sites[i].$(e.children()[index]);
 				}), site, sites);
 			});
 			return entropy;

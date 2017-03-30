@@ -201,8 +201,7 @@ class Crawler extends EventEmitter {
 			}
 		}
 		try{
-			response = await
-				this.fetch(url);
+			response = this.clean(await this.fetch(url));
 		}catch (e){
 			console.error(e);
 			throw e;
@@ -211,6 +210,10 @@ class Crawler extends EventEmitter {
 			this.cache.set(url, response);
 		}
 		return cheerio.load(response);
+	}
+
+	clean(string) {
+		return string.replace(/\t/gi, ' ').replace(/\s+/, ' ').replace(/<!--(.*?)-->/gi, '');
 	}
 
 	/**

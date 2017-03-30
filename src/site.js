@@ -84,8 +84,7 @@ class Site {
 		$('style').remove();
 		$('script').remove();
 		$('link').remove();
-		$('meta').remove();
-		//$('i').remove();
+		$('meta').remove()
 		/**
 		 * Remove every emtpy tag except hyperlinks without children recursively
 		 */
@@ -136,13 +135,23 @@ class Site {
 	}
 
 	scoreNode(node, otherNodes, site = this, sites = this.crawler.originals) {
+		const element = site.$(node);
+		/**
+		 * Text density of node
+		 */
+		const textDensity = Site.getTextDensity(site.$(node));
+		element.attr('text-density', textDensity);
+
+		/**
+		 * Score it by distance to other sites aka. entropy
+		 */
 		let entropy = 0;
-		switch (node.prop('tagName').toLowerCase()) {
+		switch (element.prop('tagName').toLowerCase()) {
 			case 'a':
 				entropy = this.scoreHyperlink(node);
 				break;
 			default:
-				if (site.$(node).attr('id') && this.hasEquals(site.$(node))) {
+				if (element.attr('id') && this.hasEquals(site.$(node))) {
 					entropy = 0;
 				} else {
 					const scores = [];
@@ -157,15 +166,15 @@ class Site {
 							scores.push(Site.getDistance(text, otherText));
 						}
 					}
-					const score = Helpers.mean(scores);
-					entropy = Site.getTextDensity(site.$(node)) * score;
+					entropy = Helpers.mean(scores);
+
 				}
 				break;
 		}
-		site.$(node).attr('entropy', entropy);
-		_.forEach(node.children(), (child, index) => {
-			entropy += this.scoreNode(site.$(child), otherNodes.map((element, i) => {
-				return sites[i].$(element.children()[index]);
+		element.attr('entropy', entropy);
+		_.forEach(element.children(), (child, index) => {
+			entropy += this.scoreNode(site.$(child), otherNodes.map((e, i) => {
+				return sites[i].$(e.children()[index]);
 			}), site, sites);
 		});
 		return entropy;

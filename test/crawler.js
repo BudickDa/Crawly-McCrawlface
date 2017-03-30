@@ -92,7 +92,7 @@ describe('Crawler', function() {
 
 		it('get PLAIN_TEXT of details.html', function() {
 			const content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1317);
+			assert.equal(content.length, 1303);
 		});
 
 		it('get PLAIN_TEXT of profile.html', function() {
@@ -114,6 +114,7 @@ describe('Crawler', function() {
 			wikiCrawler.on('ready', c => {
 				c.stop();
 				const $ = Cheerio.load(wikiCrawler.getContent(url, 'HTML'));
+				//console.log($.html());
 				$('body *').each((index, element) => {
 					assert(($(element).attr('entropy') > 0) || ($(element).children().length > 0));
 				});

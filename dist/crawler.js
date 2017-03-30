@@ -339,33 +339,35 @@ var Crawler = function (_EventEmitter) {
 
 							case 14:
 								_context2.prev = 14;
-								_context2.next = 17;
+								_context2.t1 = this;
+								_context2.next = 18;
 								return this.fetch(url);
 
-							case 17:
-								response = _context2.sent;
-								_context2.next = 24;
+							case 18:
+								_context2.t2 = _context2.sent;
+								response = _context2.t1.clean.call(_context2.t1, _context2.t2);
+								_context2.next = 26;
 								break;
 
-							case 20:
-								_context2.prev = 20;
-								_context2.t1 = _context2['catch'](14);
+							case 22:
+								_context2.prev = 22;
+								_context2.t3 = _context2['catch'](14);
 
-								console.error(_context2.t1);
-								throw _context2.t1;
+								console.error(_context2.t3);
+								throw _context2.t3;
 
-							case 24:
+							case 26:
 								if (this.cache) {
 									this.cache.set(url, response);
 								}
 								return _context2.abrupt('return', _cheerio2.default.load(response));
 
-							case 26:
+							case 28:
 							case 'end':
 								return _context2.stop();
 						}
 					}
-				}, _callee2, this, [[2, 10], [14, 20]]);
+				}, _callee2, this, [[2, 10], [14, 22]]);
 			}));
 
 			function getDOM(_x6) {
@@ -374,6 +376,11 @@ var Crawler = function (_EventEmitter) {
 
 			return getDOM;
 		}()
+	}, {
+		key: 'clean',
+		value: function clean(string) {
+			return string.replace(/\t/gi, ' ').replace(/\s+/, ' ').replace(/<!--(.*?)-->/gi, '');
+		}
 
 		/**
    * Returns data extracted with the Google NLP API

@@ -68,11 +68,14 @@ var Extractor = function () {
 
 			var entropies = {
 				'a': [],
-				'default': []
+				'default': [],
+				'textDensity': []
 			};
 
 			$('[entropy]').each(function (index, element) {
-				var entropy = parseFloat($(element).attr('entropy'));
+				var e = $(element);
+				var entropy = parseFloat(e.attr('entropy'));
+				entropies['textDensity'].push(parseFloat(e.attr('text-density')));
 				var name = $(element).prop('name').toLowerCase();
 				if (Array.isArray(entropies[name])) {
 					entropies[name].push(entropy);
@@ -99,6 +102,8 @@ var Extractor = function () {
      */
 				var entropy = args.$(root).attr('entropy') - args.mean[key] / (args.deviation[key] || 1);
 				args.$(root).attr('entropy', entropy);
+				var textDensity = args.$(root).attr('text-density') - args.mean['textDensity'] / (args.deviation['textDensity'] || 1);
+				args.$(root).attr('text-density', textDensity);
 			}, { mean: mean, deviation: deviation, $: $ });
 		}
 
@@ -114,19 +119,21 @@ var Extractor = function () {
 			$('body *').each(function (index, node) {
 				var element = $(node);
 
-				var valueAsString = element.attr('entropy');
-				var entropy = 0;
-				if (typeof valueAsString === 'number') {
-					entropy = valueAsString;
-				}
-				if (typeof valueAsString === 'string') {
-					/*
-      Little workaround to get rid of , set by i18n in some browsers
-      */
-					entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
-				}
+				var entropy = element.attr('entropy');
+				/*let entropy = 0;
+    if (typeof valueAsString === 'number') {
+    	entropy = valueAsString;
+    }
+    if (typeof valueAsString === 'string') {
+    	/*
+    	 Little workaround to get rid of , set by i18n in some browsers
+    	 */
+				/*	entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
+    }*/
 
-				if (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0) {
+				var textDensity = element.attr('text-density');
+
+				if (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0 || textDensity <= 0) {
 					if (element.children().length === 0) {
 						element.remove();
 						removed++;
