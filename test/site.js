@@ -118,7 +118,7 @@ describe('Site', function() {
 			site.scoreDOM(site, sites);
 			assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
 			site.scoreDOM(site, sites, true);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 1307);
+			assert.equal(parseInt(site.$('.content').attr('entropy')), 145);
 		});
 	});
 

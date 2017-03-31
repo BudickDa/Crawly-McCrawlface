@@ -255,7 +255,7 @@ var Site = function () {
 								scores.push(Site.getDistance(text, otherText));
 							}
 						}
-						entropy = _helpers2.default.mean(scores);
+						entropy = _helpers2.default.mean(scores) + textDensity;
 					}
 					break;
 			}
@@ -368,12 +368,13 @@ var Site = function () {
 					});
 				}
 			});
-			var score = count / (sites.length + 1) * 100;
-			if (score > 50) {
+			var score = count / (sites.length + 1);
+			console.log(element.text(), score);
+			if (score > 0.8) {
 				return 0;
 			}
 
-			return Site.getTextDensity(parent) + linkTextLength;
+			return Site.getTextDensity(parent) + score;
 		}
 	}, {
 		key: 'getOnlyText',
@@ -448,7 +449,8 @@ var Site = function () {
 		value: function getTextDensity(element) {
 			var context = element.text();
 			var nodeCount = element.children().length || 1;
-			return context.length / nodeCount;
+			var wordCount = (context.match(/[\w\u00C0-\u00ff]+/gi) || []).length;
+			return wordCount / nodeCount;
 		}
 	}]);
 

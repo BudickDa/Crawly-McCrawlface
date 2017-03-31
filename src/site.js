@@ -159,15 +159,14 @@ class Site {
 					const text = this.getOnlyText(node, site);
 
 					for (let i = 0; i < lengthSites; i++){
-						let otherText = this.getOnlyText(otherNodes[i], sites[i]);
+						const otherText = this.getOnlyText(otherNodes[i], sites[i]);
 						if (site.$(otherNodes[i]).length === 0) {
 							scores.push(site.$(node).text().length);
 						} else {
 							scores.push(Site.getDistance(text, otherText));
 						}
 					}
-					entropy = Helpers.mean(scores);
-
+					entropy = Helpers.mean(scores) + textDensity;
 				}
 				break;
 		}
@@ -203,7 +202,8 @@ class Site {
 	static getTextDensity(element) {
 		const context = element.text();
 		const nodeCount = element.children().length || 1;
-		return context.length / nodeCount;
+		const wordCount = (context.match(/[\w\u00C0-\u00ff]+/gi) || []).length;
+		return wordCount / nodeCount;
 	}
 
 	/**
@@ -272,13 +272,13 @@ class Site {
 				});
 			}
 		});
-		const score = count / (sites.length + 1) * 100;
-		if (score > 50) {
+		const score = count / (sites.length + 1);
+		if (score > 0.8) {
 			return 0;
 		}
 
 
-		return Site.getTextDensity(parent) + linkTextLength;
+		return Site.getTextDensity(parent) + score;
 	}
 
 	getOnlyText(node, site = this) {

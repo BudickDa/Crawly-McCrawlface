@@ -133,12 +133,13 @@ var Extractor = function () {
 
 				var textDensity = element.attr('text-density');
 
-				if (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0 || textDensity <= 0) {
+				if (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0) {
 					if (element.children().length === 0) {
 						element.remove();
 						removed++;
 					}
-					if (element.prop('tagName') === 'A') {
+					if (element.prop('tagName').toLowerCase() === 'a') {
+						console.log(element.html(), entropy);
 						element.remove();
 						removed++;
 					}
