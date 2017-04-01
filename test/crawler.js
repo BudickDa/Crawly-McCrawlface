@@ -87,17 +87,17 @@ describe('Crawler', function() {
 
 		it('get PLAIN_TEXT of index.html', function() {
 			const content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 86);
+			assert.equal(content.length, 47);
 		});
 
 		it('get PLAIN_TEXT of details.html', function() {
 			const content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 1303);
+			assert.equal(content.length, 1320);
 		});
 
 		it('get PLAIN_TEXT of profile.html', function() {
 			const content = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
-			assert.equal(content.length, 866);
+			assert.equal(content.length, 874);
 		});
 
 		it('PLAIN_TEXT is same as no variable', function() {
