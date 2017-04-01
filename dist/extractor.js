@@ -61,7 +61,6 @@ var Extractor = function () {
 	}, {
 		key: 'normalizeDOM',
 		value: function normalizeDOM($) {
-			//console.log($.html());
 			if ($('body').attr('normalized')) {
 				return;
 			}
@@ -139,7 +138,6 @@ var Extractor = function () {
 						removed++;
 					}
 					if (element.prop('tagName').toLowerCase() === 'a') {
-						console.log(element.html(), entropy);
 						element.remove();
 						removed++;
 					}

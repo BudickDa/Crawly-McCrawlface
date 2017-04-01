@@ -293,8 +293,24 @@ var Crawler = function (_EventEmitter) {
 			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
 
 			var site = this.getByUrl(url);
+			if (!site) {
+				throw new Error(404, 'Site not found');
+			}
 			site.scoreDOM();
 			return site.getContent(type);
+		}
+	}, {
+		key: 'getJSON',
+		value: function getJSON(url) {
+			var site = this.getByUrl(url);
+			if (!site) {
+				throw new Error(404, 'Site not found');
+			}
+			site.scoreDOM();
+			return {
+				html: site.getContent('HTML'),
+				text: site.getContent('PLAIN_TEXT')
+			};
 		}
 	}, {
 		key: 'getDOM',

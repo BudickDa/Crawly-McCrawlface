@@ -369,7 +369,6 @@ var Site = function () {
 				}
 			});
 			var score = count / (sites.length + 1);
-			console.log(element.text(), score);
 			if (score > 0.8) {
 				return 0;
 			}

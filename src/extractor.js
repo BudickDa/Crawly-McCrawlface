@@ -35,7 +35,6 @@ class Extractor {
 	}
 
 	static normalizeDOM($) {
-		//console.log($.html());
 		if($('body').attr('normalized')){
 			return;
 		}
@@ -110,7 +109,6 @@ class Extractor {
 					removed++;
 				}
 				if (element.prop('tagName').toLowerCase() === 'a') {
-					console.log(element.html(), entropy);
 					element.remove();
 					removed++;
 				}
