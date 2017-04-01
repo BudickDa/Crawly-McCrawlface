@@ -186,6 +186,15 @@ class Crawler extends EventEmitter {
 		return site.getContent(type);
 	}
 
+	getJSON(url) {
+		const site = this.getByUrl(url);
+		site.scoreDOM();
+		return {
+			html: site.getContent('HTML'),
+			text: site.getContent('PLAIN_TEXT')
+		};
+	}
+
 	async getDOM(url) {
 		let response;
 		if (this.cache) {
