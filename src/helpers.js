@@ -53,7 +53,7 @@ class Helpers {
 		const mean = Helpers.mean(array);
 		let deviation = 0;
 		array.forEach(v => {
-			deviation += Math.pow(parseFloat(v) - mean, 2);
+			deviation += Math.pow(parseInt(v) - mean, 2);
 		});
 		return Math.sqrt(deviation / (array.length || 1));
 	}

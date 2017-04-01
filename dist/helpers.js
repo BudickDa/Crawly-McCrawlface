@@ -79,7 +79,7 @@ var Helpers = function () {
 			var mean = Helpers.mean(array);
 			var deviation = 0;
 			array.forEach(function (v) {
-				deviation += Math.pow(parseFloat(v) - mean, 2);
+				deviation += Math.pow(parseInt(v) - mean, 2);
 			});
 			return Math.sqrt(deviation / (array.length || 1));
 		}

@@ -74,8 +74,8 @@ var Extractor = function () {
 
 			$('[entropy]').each(function (index, element) {
 				var e = $(element);
-				var entropy = parseFloat(e.attr('entropy'));
-				entropies['textDensity'].push(parseFloat(e.attr('text-density')));
+				var entropy = parseInt(e.attr('entropy'));
+				entropies['textDensity'].push(parseInt(e.attr('text-density')));
 				var name = $(element).prop('name').toLowerCase();
 				if (Array.isArray(entropies[name])) {
 					entropies[name].push(entropy);
@@ -128,7 +128,7 @@ var Extractor = function () {
     	/*
     	 Little workaround to get rid of , set by i18n in some browsers
     	 */
-				/*	entropy = parseFloat(valueAsString.replace(/\./g, '').replace(',', '.'));
+				/*	entropy = parseInt(valueAsString.replace(/\./g, '').replace(',', '.'));
     }*/
 
 				var textDensity = element.attr('text-density');
@@ -151,10 +151,8 @@ var Extractor = function () {
 
 		/**
    * Adds strong nodes from DOM ($) to DOM provided as parameter strongDOM
+      * @param node
    * @param $
-   * @param node
-   * @param mean
-   * @param deviation
    * @param strongDOM
    */
 

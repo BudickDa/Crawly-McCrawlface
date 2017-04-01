@@ -97,9 +97,9 @@ describe('Site', function() {
 			const site = new Crawler.Site('', crawler);
 			const testFour = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 1</div></body>');
 			const pages = [
-				Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida vulputate lectus luctus iaculis. Donec suscipit dui sed justo sodales consectetur.</div></body>'),
-				Cheerio.load('<body><div><nav>Template</nav></div><div class="content"> Proin porta ultrices quam, sit amet lacinia odio finibus nec. Fusce lectus ex, tempus non aliquet non, vehicula ac magna.</div></body>'),
-				Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Fusce pellentesque, est nec auctor semper, leo arcu pellentesque diam, ut porta nibh eros ac turpis.</div></body>')
+				Cheerio.load('<body><div><nav id="navbar">Template</nav></div><div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida vulputate lectus luctus iaculis. Donec suscipit dui sed justo sodales consectetur.</div></body>'),
+				Cheerio.load('<body><div><nav id="navbar">Template</nav></div><div class="content"> Proin porta ultrices quam, sit amet lacinia odio finibus nec. Fusce lectus ex, tempus non aliquet non, vehicula ac magna.</div></body>'),
+				Cheerio.load('<body><div><nav id="navbar">Template</nav></div><div class="content">Fusce pellentesque, est nec auctor semper, leo arcu pellentesque diam, ut porta nibh eros ac turpis.</div></body>')
 			];
 			site.$ = testFour;
 			const sites = pages.map(dom => {
@@ -111,6 +111,8 @@ describe('Site', function() {
 			site.scoreDOM(site, sites);
 			assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
 
+			assert.equal(parseInt(site.$('#navbar').attr('entropy')), 0)
+
 			const newSite = new Crawler.Site();
 			newSite.$ = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>');
 			newSite.hash = chance.hash();
@@ -118,7 +120,7 @@ describe('Site', function() {
 			site.scoreDOM(site, sites);
 			assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
 			site.scoreDOM(site, sites, true);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 1307);
+			assert.equal(parseInt(site.$('.content').attr('entropy')), 145);
 		});
 	});
 
