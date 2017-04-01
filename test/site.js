@@ -95,7 +95,7 @@ describe('Site', function() {
 	describe('#scoreDOM()', function() {
 		it('should score every node if it is part of the template and write that score in DOM as data-attribute', function() {
 			const site = new Crawler.Site('', crawler);
-			const testFour = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 1</div></body>');
+			const testFour = Cheerio.load('<body><div><nav id="navbar">Template</nav></div><div class="content">Content 1</div></body>');
 			const pages = [
 				Cheerio.load('<body><div><nav id="navbar">Template</nav></div><div class="content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum gravida vulputate lectus luctus iaculis. Donec suscipit dui sed justo sodales consectetur.</div></body>'),
 				Cheerio.load('<body><div><nav id="navbar">Template</nav></div><div class="content"> Proin porta ultrices quam, sit amet lacinia odio finibus nec. Fusce lectus ex, tempus non aliquet non, vehicula ac magna.</div></body>'),
@@ -110,8 +110,7 @@ describe('Site', function() {
 			});
 			site.scoreDOM(site, sites);
 			assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
-
-			assert.equal(parseInt(site.$('#navbar').attr('entropy')), 0)
+			assert.equal(parseInt(site.$('#navbar').attr('entropy')), 0);
 
 			const newSite = new Crawler.Site();
 			newSite.$ = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>');

@@ -110,7 +110,6 @@ class Crawler extends EventEmitter {
 			promise.then(() => {
 				crawler.workQueue(crawler, true);
 			}).catch(e => {
-				console.error(e);
 				throw e;
 			})
 		}

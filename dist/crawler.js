@@ -173,7 +173,6 @@ var Crawler = function (_EventEmitter) {
 				promise.then(function () {
 					crawler.workQueue(crawler, true);
 				}).catch(function (e) {
-					console.error(e);
 					throw e;
 				});
 			}
