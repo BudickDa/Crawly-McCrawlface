@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _cheerio = require('cheerio');
@@ -191,6 +193,20 @@ var Crawler = function (_EventEmitter) {
 		key: 'each',
 		value: function each(cb) {
 			_underscore2.default.forEach(this.sites, cb);
+		}
+	}, {
+		key: 'eachHTML',
+		value: function eachHTML(cb) {
+			_underscore2.default.forEach(this.sites, function (site) {
+				cb(site.getContent('HTML'));
+			});
+		}
+	}, {
+		key: 'eachText',
+		value: function eachText(cb) {
+			_underscore2.default.forEach(this.sites, function (site) {
+				cb(site.getContent('PLAIN_TEXT'));
+			});
 		}
 	}, {
 		key: 'start',
@@ -489,11 +505,20 @@ var Crawler = function (_EventEmitter) {
 				text: site.getContent('PLAIN_TEXT')
 			};
 		}
+
+		/**
+   * Gets the html from an url and creates a DOM with the help of cheerio.
+   * It checks first if there is a cache, if yes it tries the cache for the domain first.
+   * If there is nothing in the cache, it uses the fetch method to load the html from the internet
+   * @param url
+   * @returns {Promise.<*>}
+   */
+
 	}, {
 		key: 'getDOM',
 		value: function () {
 			var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(url) {
-				var response, data, expire;
+				var response, data, d, expire;
 				return regeneratorRuntime.wrap(function _callee5$(_context5) {
 					while (1) {
 						switch (_context5.prev = _context5.next) {
@@ -501,55 +526,82 @@ var Crawler = function (_EventEmitter) {
 								response = void 0;
 
 								if (!this.cache) {
-									_context5.next = 14;
+									_context5.next = 24;
 									break;
 								}
 
 								_context5.prev = 2;
-								_context5.next = 5;
-								return this.cache.get(url);
+								data = this.cache.get(url);
 
-							case 5:
-								data = _context5.sent;
+								if (!(data && data instanceof Promise)) {
+									_context5.next = 12;
+									break;
+								}
 
-								if (!data) {
-									_context5.next = 8;
+								_context5.next = 7;
+								return data;
+
+							case 7:
+								d = _context5.sent;
+
+								if (!d) {
+									_context5.next = 10;
+									break;
+								}
+
+								return _context5.abrupt('return', _cheerio2.default.load(d));
+
+							case 10:
+								_context5.next = 18;
+								break;
+
+							case 12:
+								if (!(data && typeof data === 'string')) {
+									_context5.next = 16;
 									break;
 								}
 
 								return _context5.abrupt('return', _cheerio2.default.load(data));
 
-							case 8:
-								_context5.next = 14;
+							case 16:
+								if (!data) {
+									_context5.next = 18;
+									break;
+								}
+
+								throw new TypeError('get method of cache returns ' + (typeof data === 'undefined' ? 'undefined' : _typeof(data)) + '. But it should be a Promise or a string.');
+
+							case 18:
+								_context5.next = 24;
 								break;
 
-							case 10:
-								_context5.prev = 10;
+							case 20:
+								_context5.prev = 20;
 								_context5.t0 = _context5['catch'](2);
 
 								console.error(_context5.t0);
 								throw _context5.t0;
 
-							case 14:
-								_context5.prev = 14;
+							case 24:
+								_context5.prev = 24;
 								_context5.t1 = this;
-								_context5.next = 18;
+								_context5.next = 28;
 								return this.fetch(url);
 
-							case 18:
+							case 28:
 								_context5.t2 = _context5.sent;
 								response = _context5.t1.clean.call(_context5.t1, _context5.t2);
-								_context5.next = 26;
+								_context5.next = 36;
 								break;
 
-							case 22:
-								_context5.prev = 22;
-								_context5.t3 = _context5['catch'](14);
+							case 32:
+								_context5.prev = 32;
+								_context5.t3 = _context5['catch'](24);
 
 								console.error(_context5.t3);
 								throw _context5.t3;
 
-							case 26:
+							case 36:
 								if (this.cache) {
 									expire = this.options.expireDefault;
 
@@ -560,12 +612,12 @@ var Crawler = function (_EventEmitter) {
 								}
 								return _context5.abrupt('return', _cheerio2.default.load(response));
 
-							case 28:
+							case 38:
 							case 'end':
 								return _context5.stop();
 						}
 					}
-				}, _callee5, this, [[2, 10], [14, 22]]);
+				}, _callee5, this, [[2, 20], [24, 32]]);
 			}));
 
 			function getDOM(_x10) {

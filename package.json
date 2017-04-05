@@ -1,6 +1,6 @@
 {
   "name": "crawly-mccrawlface",
-  "version": "0.3.1d3",
+  "version": "0.3.24",
   "description": "Crawl data from webpages and apply content extraction.",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "babel-core": "^6.24.0",
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "babel-plugin-transform-regenerator": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "chance": "^1.0.4",
     "cheerio": "^0.22.0",

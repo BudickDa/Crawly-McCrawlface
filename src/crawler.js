@@ -92,6 +92,18 @@ class Crawler extends EventEmitter {
 		_.forEach(this.sites, cb);
 	}
 
+	eachHTML(cb) {
+		_.forEach(this.sites, site => {
+			cb(site.getContent('HTML'))
+		});
+	}
+
+	eachText(cb) {
+		_.forEach(this.sites, site => {
+			cb(site.getContent('PLAIN_TEXT'))
+		});
+	}
+
 	start() {
 		this.workQueue(this, false);
 	}
@@ -267,14 +279,31 @@ class Crawler extends EventEmitter {
 		};
 	}
 
+
+	/**
+	 * Gets the html from an url and creates a DOM with the help of cheerio.
+	 * It checks first if there is a cache, if yes it tries the cache for the domain first.
+	 * If there is nothing in the cache, it uses the fetch method to load the html from the internet
+	 * @param url
+	 * @returns {Promise.<*>}
+	 */
 	async getDOM(url) {
 		let response;
 		if (this.cache) {
 			try{
-				const data = await
-					this.cache.get(url);
-				if (data) {
+				const data = this.cache.get(url);
+				if (data && data instanceof Promise) {
+					/**
+					 * We have to wait for the promise to fullfill, before we can check, if there data is undefined.
+					 */
+					const d = await data;
+					if(d) {
+						return cheerio.load(d);
+					}
+				}else if(data && typeof data === 'string'){
 					return cheerio.load(data);
+				}else if(data){
+					throw new TypeError(`get method of cache returns ${typeof data}. But it should be a Promise or a string.`);
 				}
 			}catch (e){
 				console.error(e);

@@ -121,4 +121,4 @@ The extraction works by looking on the differences between the sites.
 The nodes with a difference more than the mean differences of all nodes are extracted as content.
 
 # License
-AGPL
+AGPL-3.0

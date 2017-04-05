@@ -23,10 +23,23 @@ const {config} = require('./webpages');
 
 const Crawly = require('./../index');
 
-const cache = {
+const cacheString = {
 	persistence: {},
 	get: function(key) {
 		return this.persistence[key];
+	},
+	set: function(key, value) {
+		this.persistence[key] = value;
+	}
+};
+
+const cachePromise = {
+	persistence: {},
+	get: function(key) {
+		const db = this.persistence;
+		return new Promise(resolve => {
+			resolve(db[key])
+		});
 	},
 	set: function(key, value) {
 		this.persistence[key] = value;
@@ -38,16 +51,28 @@ describe('Cache', function() {
 	const port = config.port;
 	const url = `http://localhost:${port}/index.html`;
 
-	const crawler = new Crawly(url);
-	crawler.setCache(cache);
-	crawler.workQueue();
-
-	it('test', function(done) {
+	it('test with cache that returns string', function(done) {
+		const crawler = new Crawly(url);
+		crawler.setCache(cacheString);
+		crawler.workQueue();
 		crawler.on('ready', () => {
 			crawler.stop();
-			const text = cache.get(url);
+			const text = cacheString.get(url);
 			assert.equal(text.length, 520);
 			done();
+		});
+	});
+
+	it('test with cache that returns Promise', function(done) {
+		const crawler = new Crawly(url);
+		crawler.setCache(cachePromise);
+		crawler.workQueue();
+		crawler.on('ready', () => {
+			crawler.stop();
+			cachePromise.get(url).then(text => {
+				assert.equal(text.length, 520);
+				done();
+			});
 		});
 	});
 });

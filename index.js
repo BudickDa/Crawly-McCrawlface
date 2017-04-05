@@ -20,6 +20,18 @@
 
 require("babel-core/register");
 require("babel-polyfill");
+/**
+ * This is necessary for Meteor > 1.4
+ */
+const regeneratorRuntime = require('babel-runtime/regenerator');
+if (global.window !== undefined) {
+	if (!Object.keys(global.window).includes('regeneratorRuntime')) {
+		global.window.regeneratorRuntime = regeneratorRuntime
+	}
+}
+if (!Object.keys(global).includes('regeneratorRuntime')) {
+	global.regeneratorRuntime = regeneratorRuntime
+}
 
 const Crawly = require('./dist/crawler').default;
 Crawly.Site = require('./dist/site').default;
