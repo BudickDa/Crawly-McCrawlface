@@ -52,6 +52,7 @@ class Site {
             }
             this.hash = XXH.h32(text, 0xABCD).toString(16);
             this.$ = this.cleanDOM($);
+            this.original = cheerio.load(this.$).html();
             this.crawler.originals.push({
                 $: this.$,
                 hash: this.hash

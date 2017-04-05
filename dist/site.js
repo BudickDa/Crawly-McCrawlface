@@ -88,7 +88,7 @@ var Site = function () {
                         switch (_context.prev = _context.next) {
                             case 0:
                                 if (!(this.url && this.crawler)) {
-                                    _context.next = 11;
+                                    _context.next = 12;
                                     break;
                                 }
 
@@ -104,6 +104,7 @@ var Site = function () {
                                 }
                                 this.hash = _xxhashjs2.default.h32(text, 0xABCD).toString(16);
                                 this.$ = this.cleanDOM($);
+                                this.original = _cheerio2.default.load(this.$).html();
                                 this.crawler.originals.push({
                                     $: this.$,
                                     hash: this.hash
@@ -111,10 +112,10 @@ var Site = function () {
                                 this.ready = true;
                                 return _context.abrupt('return', this);
 
-                            case 11:
+                            case 12:
                                 return _context.abrupt('return', false);
 
-                            case 12:
+                            case 13:
                             case 'end':
                                 return _context.stop();
                         }

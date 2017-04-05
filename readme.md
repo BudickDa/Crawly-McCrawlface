@@ -38,37 +38,28 @@ You can cache responses from websites using a simple object that has a set and g
 
 Some examples:
 
-## Redis:
+## Redis (with [ioredis](https://www.npmjs.com/package/ioredis):
 
-    const cache = {
-        client: redis.createClient(),
-        get: function(key){
-            return this.client.get(key);
+    const Redis = require('ioredis');
+    const redis = new Redis({
+        port: 6379,          // Redis port
+        host: 'localhost',   // Redis host
+        family: 4,
+        password: 'superSecurePassword',
+        db: 0
+    });
+    crawler.setCache({
+        get: function (key) {
+            return redis.get(key);
         },
-        set: function(key, value){
-            this.client.setex(key, 21600, value);
+        set: function (key, value, expire) {
+            redis.set(key, value, 'EX', expire);
         }
-    }
+    });
     crawler.addCache(cache);
 
-## MongoDB in Meteor
-
-    const cache = {
-        client: new Mongo.Collection('cache'),
-        //get can return a promise
-        get: await function(key){
-            const doc = this.client.findOne({key: key});
-            if(doc && new Date().getTime() - doc.timestamp < 21600){
-                return doc.value;
-            }else{
-                return;
-            }
-        },
-        set: function(key, value){
-            this.client.upsert({key: key}, {value: value, timestamp: new Date().getTime()});
-        }
-    }
-    crawler.addCache(cache);
+## Usages in [Meteor](https://www.meteor.com/)
+[=> here](https://github.com/BudickDa/police-report-2.0/blob/master/server/crawler.js)
 
 # Options
 
