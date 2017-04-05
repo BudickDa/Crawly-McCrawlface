@@ -22,6 +22,7 @@ const assert = require('assert');
 const {config} = require('./webpages');
 
 const Crawly = require('./../index');
+
 const cache = {
 	persistence: {},
 	get: function(key) {

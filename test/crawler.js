@@ -125,6 +125,18 @@ describe('Crawler', function() {
 		});
 	});
 
+	describe('#each()', function() {
+		this.timeout(6000);
+		it('iterate through all the sites', function() {
+			let i = 0;
+			crawler.each(site => {
+				assert(site instanceof Crawler.Site);
+				i++;
+			});
+			assert.equal(i, crawler.sites.length);
+		});
+	});
+
 	describe('#getData()', function() {
 		this.timeout(6000);
 		it('get data of a complex english site', function(done) {

@@ -72,9 +72,11 @@ Some examples:
 
 # Options
 
-    const optinons = {
-        goHaywire: false,
-        readyIn: 15
+    const options = {
+				readyIn: 50,
+				goHaywire: false,
+				userAgent: 'CrawlyMcCrawlface',
+				expireDefault: 7 * 24 * 60 * 60 * 1000
     };
     const crawler = new Crawler([...some urls...], options);
 
@@ -85,6 +87,10 @@ goHaywire (Boolean):
 On defautl the crawler will only get content from the domains that where in the seed.
 On haywire mode the crawler will never stop and go crazy on the web. You should not use this mode for now.
 Or use it at your own risk, I'm not you boss.
+
+userAgent (String): User Agent
+
+expireDefault (Number): Expire key that is set in cache.
 
 # Events:
 
