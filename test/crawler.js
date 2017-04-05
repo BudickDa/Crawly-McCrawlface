@@ -65,6 +65,42 @@ describe('Crawler', function() {
 		});
 	});
 
+	describe('#each()', function() {
+		this.timeout(6000);
+		it('iterate through all the sites', function() {
+			let i = 0;
+			crawler.each(site => {
+				assert(site instanceof Crawler.Site);
+				i++;
+			});
+			assert.equal(i, crawler.sites.length);
+		});
+	});
+
+	describe('#eachHTML()', function() {
+		this.timeout(6000);
+		it('iterate through all the sites', function() {
+			let i = 0;
+			crawler.eachHTML(html => {
+				assert.equal(typeof html, 'string');
+				i++;
+			});
+			assert.equal(i, crawler.sites.length);
+		});
+	});
+
+	describe('#eachText()', function() {
+		this.timeout(6000);
+		it('iterate through all the sites', function() {
+			let i = 0;
+			crawler.eachText(text => {
+				assert.equal(typeof text, 'string');
+				i++;
+			});
+			assert.equal(i, crawler.sites.length);
+		});
+	});
+
 	describe('#getContent()', function() {
 		it('get HTML of index.html', function() {
 			const $ = Cheerio.load(crawler.getContent(url + '/index.html', 'HTML'));
@@ -94,7 +130,7 @@ describe('Crawler', function() {
 		it('get PLAIN_TEXT of details.html', function() {
 			const content = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
 			assert(content.length > 1250);
-			assert(content.length < 1350);
+			assert(content.length < 1450);
 		});
 
 		it('get PLAIN_TEXT of profile.html', function() {
@@ -125,17 +161,6 @@ describe('Crawler', function() {
 		});
 	});
 
-	describe('#each()', function() {
-		this.timeout(6000);
-		it('iterate through all the sites', function() {
-			let i = 0;
-			crawler.each(site => {
-				assert(site instanceof Crawler.Site);
-				i++;
-			});
-			assert.equal(i, crawler.sites.length);
-		});
-	});
 
 	describe('#getData()', function() {
 		this.timeout(6000);

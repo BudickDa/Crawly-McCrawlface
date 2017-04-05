@@ -139,7 +139,7 @@ var Site = function () {
             var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'HTML';
 
             if (!Boolean(this.$('body').attr('scored'))) {
-                throw new Error('Call scoreNode first.');
+                this.scoreDOM();
             }
             var html = _extractor2.default.extractContent(this.$);
             if (type === 'PLAIN_TEXT') {

@@ -532,8 +532,13 @@ var Crawler = function (_EventEmitter) {
 
 								_context5.prev = 2;
 								data = this.cache.get(url);
+								/**
+         * Check if data is a promise.
+         * There are a lot of polyfills for promise out there, so we should not only check for instance of promise
+         * but also simlpy if it has a then method.
+         */
 
-								if (!(data && data instanceof Promise)) {
+								if (!(data && (data instanceof Promise || typeof data.then === 'function'))) {
 									_context5.next = 12;
 									break;
 								}
@@ -569,7 +574,7 @@ var Crawler = function (_EventEmitter) {
 									break;
 								}
 
-								throw new TypeError('get method of cache returns ' + (typeof data === 'undefined' ? 'undefined' : _typeof(data)) + '. But it should be a Promise or a string.');
+								throw new TypeError('get method of cache returns ' + (typeof data === 'undefined' ? 'undefined' : _typeof(data)) + '. But it should be a Promise or a string. Content of data: ' + data);
 
 							case 18:
 								_context5.next = 24;

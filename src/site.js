@@ -68,7 +68,7 @@ class Site {
 
     getContent(type = 'HTML') {
         if (!Boolean(this.$('body').attr('scored'))) {
-            throw new Error('Call scoreNode first.');
+            this.scoreDOM();
         }
         const html = Extractor.extractContent(this.$);
         if (type === 'PLAIN_TEXT') {

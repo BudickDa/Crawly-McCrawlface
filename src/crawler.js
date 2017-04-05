@@ -292,7 +292,12 @@ class Crawler extends EventEmitter {
 		if (this.cache) {
 			try{
 				const data = this.cache.get(url);
-				if (data && data instanceof Promise) {
+				/**
+				 * Check if data is a promise.
+				 * There are a lot of polyfills for promise out there, so we should not only check for instance of promise
+				 * but also simlpy if it has a then method.
+				 */
+				if (data && (data instanceof Promise || typeof data.then === 'function')) {
 					/**
 					 * We have to wait for the promise to fullfill, before we can check, if there data is undefined.
 					 */
@@ -303,7 +308,7 @@ class Crawler extends EventEmitter {
 				}else if(data && typeof data === 'string'){
 					return cheerio.load(data);
 				}else if(data){
-					throw new TypeError(`get method of cache returns ${typeof data}. But it should be a Promise or a string.`);
+					throw new TypeError(`get method of cache returns ${typeof data}. But it should be a Promise or a string. Content of data: ${data}`);
 				}
 			}catch (e){
 				console.error(e);
