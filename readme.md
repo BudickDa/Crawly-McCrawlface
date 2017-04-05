@@ -56,7 +56,7 @@ Some examples:
     const cache = {
         client: new Mongo.Collection('cache'),
         //get can return a promise
-        get: function(key){
+        get: await function(key){
             const doc = this.client.findOne({key: key});
             if(doc && new Date().getTime() - doc.timestamp < 21600){
                 return doc.value;

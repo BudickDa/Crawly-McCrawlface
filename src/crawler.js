@@ -22,104 +22,57 @@ import cheerio from 'cheerio';
 import request from 'request';
 import URL from 'url';
 import _ from 'underscore';
+import Chance from 'chance';
 import EventEmitter from 'events';
 import Site from './site';
 import Levenshtein from 'levenshtein';
 import NLP from 'google-nlp-api';
 import Translate from '@google-cloud/translate';
 import process from 'process';
-import Sitemapper from 'sitemapper';
-import RobotsParser from 'robots-parser';
 
 class Crawler extends EventEmitter {
-    constructor(seed, options) {
-        super();
-        this.reset();
-        EventEmitter.call(this);
-        this.queue = [];
+	constructor(seed, options) {
+		super();
+		this.reset();
+		EventEmitter.call(this);
+		this.queue = [];
+		if (Array.isArray(seed)) {
+			this.queue = seed.map(url => {
+				return URL.parse(url);
+			});
+		} else if (typeof seed === 'string') {
+			this.queue.push(URL.parse(seed));
+		}
+		this.domains = _.unique(this.queue.map(url => {
+			return URL.parse(URL.resolve(url.href, '/')).hostname;
+		}));
 
-        if (options) {
-            this.options = options;
-        } else {
-            this.options = {
-                readyIn: 50,
-                goHaywire: false,
-                userAgent: 'CrawlyMcCrawlface',
-                expireDefault: 7 * 24 * 60 * 60 * 1000
-            }
-        }
+		if (options) {
+			this.options = options;
+		} else {
+			this.options = {
+				readyIn: 50,
+				goHaywire: false
+			}
+		}
 
-        this.originals = [];
-        this.sites = [];
-        this.crawled = [];
-        this.expiries = {};
+		this.originals = [];
+		this.sites = [];
+		this.crawled = [];
+	}
 
-        this.ready = this.init(seed);
-    }
+	start(){
+		this.workQueue(this, false);
+	}
 
-    async init(seed) {
-        if (Array.isArray(seed)) {
-            this.queue = seed.map(url => {
-                return URL.parse(url);
-            });
-        } else if (typeof seed === 'string') {
-            this.queue.push(URL.parse(seed));
-        }
-        const urls = _.unique(this.queue.map(url => {
-            return URL.parse(URL.resolve(url.href, '/'));
-        }));
-        this.domains = []
-        for (let i in urls) {
-            const url = urls[i];
-            const domain = {
-                hostname: url.hostname,
-                robot: await this.getRobot(url)
-            };
-            this.domains.push(domain);
-        }
-        /**
-         * This must be in an extra loop because getSitemap calls addToQueue which uses this.domains
-         */
-        for (let i in urls) {
-            const url = urls[i];
-            this.getSitemap(url);
-
-        }
-        return true;
-    }
-
-    async getSitemap(url) {
-        const sitemap = new Sitemapper();
-        try {
-            const result = await sitemap.fetch(url.resolve('/sitemap.xml'));
-            _.forEach(result.sites, site => {
-                this.addToQueue(site);
-            });
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
-
-    async getRobot(url) {
-        try {
-            const response = await this.fetch(url.resolve('/robots.txt'));
-            return RobotsParser(url.resolve('/robots.txt'), response);
-        } catch (e) {
-            return RobotsParser(url.resolve('/robots.txt'), '');
-        }
-
-
-    }
-
-    reset() {
-        this.state = {
-            finished: false,
-            ready: false,
-            stopped: false,
-            working: []
-        };
-    }
+	reset() {
+		this.state = {
+			finished: false,
+			ready: false,
+			stopped: false,
+			working: []
+		};
+	}
 
     getByUrl(url) {
         if (this.sites.length === 0) {
