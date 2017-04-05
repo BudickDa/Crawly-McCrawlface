@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+    value: true
 });
 exports.default = undefined;
 
@@ -15,17 +15,13 @@ var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
 
-var _url = require('url');
+var _url2 = require('url');
 
-var _url2 = _interopRequireDefault(_url);
+var _url3 = _interopRequireDefault(_url2);
 
 var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
-
-var _chance = require('chance');
-
-var _chance2 = _interopRequireDefault(_chance);
 
 var _events = require('events');
 
@@ -50,6 +46,14 @@ var _translate2 = _interopRequireDefault(_translate);
 var _process = require('process');
 
 var _process2 = _interopRequireDefault(_process);
+
+var _sitemapper = require('sitemapper');
+
+var _sitemapper2 = _interopRequireDefault(_sitemapper);
+
+var _robotsParser = require('robots-parser');
+
+var _robotsParser2 = _interopRequireDefault(_robotsParser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -80,500 +84,669 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var Crawler = function (_EventEmitter) {
-	_inherits(Crawler, _EventEmitter);
-
-	function Crawler(seed, options) {
-		_classCallCheck(this, Crawler);
-
-		var _this = _possibleConstructorReturn(this, (Crawler.__proto__ || Object.getPrototypeOf(Crawler)).call(this));
-
-		_this.reset();
-		_events2.default.call(_this);
-		_this.queue = [];
-		if (Array.isArray(seed)) {
-			_this.queue = seed.map(function (url) {
-				return _url2.default.parse(url);
-			});
-		} else if (typeof seed === 'string') {
-			_this.queue.push(_url2.default.parse(seed));
-		}
-		_this.domains = _underscore2.default.unique(_this.queue.map(function (url) {
-			return _url2.default.parse(_url2.default.resolve(url.href, '/')).hostname;
-		}));
-
-		if (options) {
-			_this.options = options;
-		} else {
-			_this.options = {
-				readyIn: 50,
-				goHaywire: false
-			};
-		}
-
-		_this.originals = [];
-		_this.sites = [];
-		_this.crawled = [];
-		return _this;
-	}
-
-	_createClass(Crawler, [{
-		key: 'reset',
-		value: function reset() {
-			this.state = {
-				finished: false,
-				ready: false,
-				stopped: false,
-				working: []
-			};
-		}
-	}, {
-		key: 'getByUrl',
-		value: function getByUrl(url) {
-			if (this.sites.length === 0) {
-				return;
-			}
-			var index = -1;
-			var distance = url.length / 2;
-			this.sites.forEach(function (site, i) {
-				var tmp = new _levenshtein2.default(site.url.href, url).distance;
-				if (tmp < distance) {
-					distance = tmp;
-					index = i;
-				}
-			});
-			if (index === -1) {
-				return;
-			}
-			return this.sites[index];
-		}
-	}, {
-		key: 'addCache',
-		value: function addCache(cache) {
-			this.cache = cache;
-		}
-	}, {
-		key: 'workQueue',
-		value: function workQueue() {
-			var crawler = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
-			var recursive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
-			if (!recursive) {
-				crawler.reset();
-			}
-
-			if (crawler.queue.length > 0 && !crawler.state.stopped) {
-				var url = _underscore2.default.first(crawler.queue);
-				crawler.crawled.push(url.href);
-				crawler.queue.shift();
-				var site = new _site2.default(url.href, crawler);
-				var promise = crawler.workSite(site, crawler);
-				if (recursive) {
-					return crawler.workQueue(crawler, true);
-				}
-				promise.then(function () {
-					crawler.workQueue(crawler, true);
-				}).catch(function (e) {
-					throw e;
-				});
-			}
-		}
-
-		/**
-   * If a site is worked it is registered in this.state.working.
-   * If this array has length of 0, no site is currently worked.
-   * @returns {boolean}
-   */
-
-	}, {
-		key: 'isWorking',
-		value: function isWorking() {
-			return this.state.working.length !== 0;
-		}
-
-		/**
-   * Registers the site the function currently works on in state.
-   * @param site
-   */
-
-	}, {
-		key: 'working',
-		value: function working(site) {
-			var url = site.url.href;
-			this.state.working.push(url);
-		}
-
-		/**
-   * Call when site is worked to remove it from this.state.working array
-   * @param site
-   */
-
-	}, {
-		key: 'worked',
-		value: function worked(site) {
-			var url = site.url.href;
-			var index = this.state.working.indexOf(url);
-			if (index > -1) {
-				this.state.working.splice(index, 1);
-			}
-		}
-	}, {
-		key: 'workSite',
-		value: function () {
-			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(site, crawler) {
-				var urls, queueEmpty, minimalSitesCrawled;
-				return regeneratorRuntime.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								crawler.working(site);
-								_context.prev = 1;
-								_context.next = 4;
-								return site.load();
-
-							case 4:
-								_context.next = 10;
-								break;
-
-							case 6:
-								_context.prev = 6;
-								_context.t0 = _context['catch'](1);
-
-								console.log(_context.t0);
-								this.emit('error', _context.t0);
-
-							case 10:
-								_context.prev = 10;
-
-								crawler.worked(site);
-								return _context.finish(10);
-
-							case 13:
-								urls = site.returnUrls();
-
-								urls.forEach(function (url) {
-									if (crawler.crawled.indexOf(url.href) === -1 && crawler.domains.indexOf(url.hostname) !== -1) {
-										crawler.queue.push(url);
-									}
-								});
-								crawler.sites.push(site);
-								this.emit('siteAdded', site);
-								this.emit('sitesChanged', crawler.sites.length);
-
-								queueEmpty = crawler.queue.length === 0 && !crawler.isWorking();
-								minimalSitesCrawled = crawler.sites.length >= crawler.options.readyIn;
-
-								if ((queueEmpty || minimalSitesCrawled) && !crawler.state.ready) {
-									crawler.state.ready = true;
-									this.emit('ready', this);
-								}
-								if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.finished && !crawler.isWorking()) {
-									crawler.state.finished = true;
-									this.emit('finished', this);
-									crawler.stop();
-								}
-
-							case 22:
-							case 'end':
-								return _context.stop();
-						}
-					}
-				}, _callee, this, [[1, 6, 10, 13]]);
-			}));
-
-			function workSite(_x3, _x4) {
-				return _ref.apply(this, arguments);
-			}
-
-			return workSite;
-		}()
-	}, {
-		key: 'getContent',
-		value: function getContent(url) {
-			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
-
-			var site = this.getByUrl(url);
-			if (!site) {
-				throw new Error(404, 'Site not found');
-			}
-			site.scoreDOM();
-			return site.getContent(type);
-		}
-	}, {
-		key: 'getJSON',
-		value: function getJSON(url) {
-			var site = this.getByUrl(url);
-			if (!site) {
-				throw new Error(404, 'Site not found');
-			}
-			site.scoreDOM();
-			return {
-				html: site.getContent('HTML'),
-				text: site.getContent('PLAIN_TEXT')
-			};
-		}
-	}, {
-		key: 'getDOM',
-		value: function () {
-			var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
-				var response, data;
-				return regeneratorRuntime.wrap(function _callee2$(_context2) {
-					while (1) {
-						switch (_context2.prev = _context2.next) {
-							case 0:
-								response = void 0;
-
-								if (!this.cache) {
-									_context2.next = 14;
-									break;
-								}
-
-								_context2.prev = 2;
-								_context2.next = 5;
-								return this.cache.get(url);
-
-							case 5:
-								data = _context2.sent;
-
-								if (!data) {
-									_context2.next = 8;
-									break;
-								}
-
-								return _context2.abrupt('return', _cheerio2.default.load(data));
-
-							case 8:
-								_context2.next = 14;
-								break;
-
-							case 10:
-								_context2.prev = 10;
-								_context2.t0 = _context2['catch'](2);
-
-								console.error(_context2.t0);
-								throw _context2.t0;
-
-							case 14:
-								_context2.prev = 14;
-								_context2.t1 = this;
-								_context2.next = 18;
-								return this.fetch(url);
-
-							case 18:
-								_context2.t2 = _context2.sent;
-								response = _context2.t1.clean.call(_context2.t1, _context2.t2);
-								_context2.next = 26;
-								break;
-
-							case 22:
-								_context2.prev = 22;
-								_context2.t3 = _context2['catch'](14);
-
-								console.error(_context2.t3);
-								throw _context2.t3;
-
-							case 26:
-								if (this.cache) {
-									this.cache.set(url, response);
-								}
-								return _context2.abrupt('return', _cheerio2.default.load(response));
-
-							case 28:
-							case 'end':
-								return _context2.stop();
-						}
-					}
-				}, _callee2, this, [[2, 10], [14, 22]]);
-			}));
-
-			function getDOM(_x6) {
-				return _ref2.apply(this, arguments);
-			}
-
-			return getDOM;
-		}()
-	}, {
-		key: 'clean',
-		value: function clean(string) {
-			return string.replace(/\t/gi, ' ').replace(/\s+/, ' ').replace(/<!--(.*?)-->/gi, '');
-		}
-
-		/**
-   * Returns data extracted with the Google NLP API
-   * @param url
-   * @param features
-   * @param type
-   * @param encoding
-   * @returns {Promise.<*>}
-   */
-
-	}, {
-		key: 'getData',
-		value: function () {
-			var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(url) {
-				var features = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-					extractSyntax: true,
-					extractEntities: true,
-					extractDocumentSentiment: false
-				};
-				var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'PLAIN_TEXT';
-				var encoding = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'UTF8';
-				var text, language, nlp, translation;
-				return regeneratorRuntime.wrap(function _callee3$(_context3) {
-					while (1) {
-						switch (_context3.prev = _context3.next) {
-							case 0:
-								text = this.getContent(url, type);
-								_context3.next = 3;
-								return Crawler.getLanguage(text).then(language);
-
-							case 3:
-								language = _context3.sent;
-								nlp = new _googleNlpApi2.default();
-
-								if (!(language === 'en')) {
-									_context3.next = 9;
-									break;
-								}
-
-								_context3.next = 8;
-								return nlp.annotateText(text, type, encoding, features);
-
-							case 8:
-								return _context3.abrupt('return', _context3.sent);
-
-							case 9:
-								_context3.next = 11;
-								return Crawler.getTranslation(text);
-
-							case 11:
-								translation = _context3.sent;
-								_context3.next = 14;
-								return nlp.annotateText(translation, type, encoding, features);
-
-							case 14:
-								return _context3.abrupt('return', _context3.sent);
-
-							case 15:
-							case 'end':
-								return _context3.stop();
-						}
-					}
-				}, _callee3, this);
-			}));
-
-			function getData(_x7) {
-				return _ref3.apply(this, arguments);
-			}
-
-			return getData;
-		}()
-	}, {
-		key: 'fetch',
-		value: function fetch(url) {
-			return new Promise(function (resolve, reject) {
-				_request2.default.get(url, function (err, response, body) {
-					if (err) {
-						reject(err);
-					}
-					resolve(body);
-				});
-			});
-		}
-	}, {
-		key: 'stop',
-		value: function stop() {
-			this.state.stopped = true;
-		}
-	}, {
-		key: 'setCache',
-		value: function setCache(cache) {
-			if (typeof cache.get !== 'function' || typeof cache.set !== 'function') {
-				throw new TypeError('This is not a valid cache. It needs a set and a get function.');
-			}
-			this.cache = cache;
-		}
-	}], [{
-		key: 'getTranslation',
-		value: function () {
-			var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(text) {
-				var translate, results;
-				return regeneratorRuntime.wrap(function _callee4$(_context4) {
-					while (1) {
-						switch (_context4.prev = _context4.next) {
-							case 0:
-								if (_process2.default.env.GOOGLE_TRANSLATE_API) {
-									_context4.next = 2;
-									break;
-								}
-
-								throw new Error('Please set key for Google Translate API');
-
-							case 2:
-								translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
-								_context4.next = 5;
-								return translate.translate(text, 'en');
-
-							case 5:
-								results = _context4.sent;
-								return _context4.abrupt('return', results[0]);
-
-							case 7:
-							case 'end':
-								return _context4.stop();
-						}
-					}
-				}, _callee4, this);
-			}));
-
-			function getTranslation(_x11) {
-				return _ref4.apply(this, arguments);
-			}
-
-			return getTranslation;
-		}()
-	}, {
-		key: 'getLanguage',
-		value: function () {
-			var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(text) {
-				var translate, results, detection;
-				return regeneratorRuntime.wrap(function _callee5$(_context5) {
-					while (1) {
-						switch (_context5.prev = _context5.next) {
-							case 0:
-								if (_process2.default.env.GOOGLE_TRANSLATE_API) {
-									_context5.next = 2;
-									break;
-								}
-
-								throw new Error('Please set key for Google Translate API');
-
-							case 2:
-								translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
-								_context5.next = 5;
-								return translate.detect(text);
-
-							case 5:
-								results = _context5.sent;
-								detection = results[0];
-								return _context5.abrupt('return', detection.language);
-
-							case 8:
-							case 'end':
-								return _context5.stop();
-						}
-					}
-				}, _callee5, this);
-			}));
-
-			function getLanguage(_x12) {
-				return _ref5.apply(this, arguments);
-			}
-
-			return getLanguage;
-		}()
-	}]);
-
-	return Crawler;
+    _inherits(Crawler, _EventEmitter);
+
+    function Crawler(seed, options) {
+        _classCallCheck(this, Crawler);
+
+        var _this = _possibleConstructorReturn(this, (Crawler.__proto__ || Object.getPrototypeOf(Crawler)).call(this));
+
+        _this.reset();
+        _events2.default.call(_this);
+        _this.queue = [];
+
+        if (options) {
+            _this.options = options;
+        } else {
+            _this.options = {
+                readyIn: 50,
+                goHaywire: false,
+                userAgent: 'CrawlyMcCrawlface',
+                expireDefault: 7 * 24 * 60 * 60 * 1000
+            };
+        }
+
+        _this.originals = [];
+        _this.sites = [];
+        _this.crawled = [];
+        _this.expiries = {};
+
+        _this.ready = _this.init(seed);
+        return _this;
+    }
+
+    _createClass(Crawler, [{
+        key: 'init',
+        value: function () {
+            var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(seed) {
+                var urls, i, url, domain, _i, _url;
+
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (Array.isArray(seed)) {
+                                    this.queue = seed.map(function (url) {
+                                        return _url3.default.parse(url);
+                                    });
+                                } else if (typeof seed === 'string') {
+                                    this.queue.push(_url3.default.parse(seed));
+                                }
+                                urls = _underscore2.default.unique(this.queue.map(function (url) {
+                                    return _url3.default.parse(_url3.default.resolve(url.href, '/'));
+                                }));
+
+                                this.domains = [];
+                                _context.t0 = regeneratorRuntime.keys(urls);
+
+                            case 4:
+                                if ((_context.t1 = _context.t0()).done) {
+                                    _context.next = 15;
+                                    break;
+                                }
+
+                                i = _context.t1.value;
+                                url = urls[i];
+                                _context.t2 = url.hostname;
+                                _context.next = 10;
+                                return this.getRobot(url);
+
+                            case 10:
+                                _context.t3 = _context.sent;
+                                domain = {
+                                    hostname: _context.t2,
+                                    robot: _context.t3
+                                };
+
+                                this.domains.push(domain);
+                                _context.next = 4;
+                                break;
+
+                            case 15:
+                                /**
+                                 * This must be in an extra loop because getSitemap calls addToQueue which uses this.domains
+                                 */
+                                for (_i in urls) {
+                                    _url = urls[_i];
+
+                                    this.getSitemap(_url);
+                                }
+                                return _context.abrupt('return', true);
+
+                            case 17:
+                            case 'end':
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+
+            function init(_x) {
+                return _ref.apply(this, arguments);
+            }
+
+            return init;
+        }()
+    }, {
+        key: 'getSitemap',
+        value: function () {
+            var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
+                var _this2 = this;
+
+                var sitemap, result;
+                return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                    while (1) {
+                        switch (_context2.prev = _context2.next) {
+                            case 0:
+                                sitemap = new _sitemapper2.default();
+                                _context2.prev = 1;
+                                _context2.next = 4;
+                                return sitemap.fetch(url.resolve('/sitemap.xml'));
+
+                            case 4:
+                                result = _context2.sent;
+
+                                _underscore2.default.forEach(result.sites, function (site) {
+                                    _this2.addToQueue(site);
+                                });
+                                _context2.next = 11;
+                                break;
+
+                            case 8:
+                                _context2.prev = 8;
+                                _context2.t0 = _context2['catch'](1);
+
+                                console.log(_context2.t0);
+
+                            case 11:
+                            case 'end':
+                                return _context2.stop();
+                        }
+                    }
+                }, _callee2, this, [[1, 8]]);
+            }));
+
+            function getSitemap(_x2) {
+                return _ref2.apply(this, arguments);
+            }
+
+            return getSitemap;
+        }()
+    }, {
+        key: 'getRobot',
+        value: function () {
+            var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(url) {
+                var response;
+                return regeneratorRuntime.wrap(function _callee3$(_context3) {
+                    while (1) {
+                        switch (_context3.prev = _context3.next) {
+                            case 0:
+                                _context3.prev = 0;
+                                _context3.next = 3;
+                                return this.fetch(url.resolve('/robots.txt'));
+
+                            case 3:
+                                response = _context3.sent;
+                                return _context3.abrupt('return', (0, _robotsParser2.default)(url.resolve('/robots.txt'), response));
+
+                            case 7:
+                                _context3.prev = 7;
+                                _context3.t0 = _context3['catch'](0);
+                                return _context3.abrupt('return', (0, _robotsParser2.default)(url.resolve('/robots.txt'), ''));
+
+                            case 10:
+                            case 'end':
+                                return _context3.stop();
+                        }
+                    }
+                }, _callee3, this, [[0, 7]]);
+            }));
+
+            function getRobot(_x3) {
+                return _ref3.apply(this, arguments);
+            }
+
+            return getRobot;
+        }()
+    }, {
+        key: 'reset',
+        value: function reset() {
+            this.state = {
+                finished: false,
+                ready: false,
+                stopped: false,
+                working: []
+            };
+        }
+    }, {
+        key: 'getByUrl',
+        value: function getByUrl(url) {
+            if (this.sites.length === 0) {
+                return;
+            }
+            var index = -1;
+            var distance = url.length / 2;
+            this.sites.forEach(function (site, i) {
+                var tmp = new _levenshtein2.default(site.url.href, url).distance;
+                if (tmp < distance) {
+                    distance = tmp;
+                    index = i;
+                }
+            });
+            if (index === -1) {
+                return;
+            }
+            return this.sites[index];
+        }
+    }, {
+        key: 'addCache',
+        value: function addCache(cache) {
+            this.cache = cache;
+        }
+    }, {
+        key: 'workQueue',
+        value: function workQueue() {
+            var crawler = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
+            var recursive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+            if (!recursive) {
+                crawler.reset();
+            }
+
+            if (crawler.queue.length > 0 && !crawler.state.stopped) {
+                var url = _underscore2.default.first(crawler.queue);
+                crawler.crawled.push(url.href);
+                crawler.queue.shift();
+                var site = new _site2.default(url.href, crawler);
+                var promise = crawler.workSite(site, crawler);
+                if (recursive) {
+                    return crawler.workQueue(crawler, true);
+                }
+                promise.then(function () {
+                    crawler.workQueue(crawler, true);
+                }).catch(function (e) {
+                    throw e;
+                });
+            }
+        }
+
+        /**
+         * If a site is worked it is registered in this.state.working.
+         * If this array has length of 0, no site is currently worked.
+         * @returns {boolean}
+         */
+
+    }, {
+        key: 'isWorking',
+        value: function isWorking() {
+            return this.state.working.length !== 0;
+        }
+
+        /**
+         * Registers the site the function currently works on in state.
+         * @param site
+         */
+
+    }, {
+        key: 'working',
+        value: function working(site) {
+            var url = site.url.href;
+            this.state.working.push(url);
+        }
+
+        /**
+         * Call when site is worked to remove it from this.state.working array
+         * @param site
+         */
+
+    }, {
+        key: 'worked',
+        value: function worked(site) {
+            var url = site.url.href;
+            var index = this.state.working.indexOf(url);
+            if (index > -1) {
+                this.state.working.splice(index, 1);
+            }
+        }
+    }, {
+        key: 'workSite',
+        value: function () {
+            var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(site, crawler) {
+                var _this3 = this;
+
+                var urls, queueEmpty, minimalSitesCrawled;
+                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+                    while (1) {
+                        switch (_context4.prev = _context4.next) {
+                            case 0:
+                                _context4.next = 2;
+                                return this.ready;
+
+                            case 2:
+                                crawler.working(site);
+                                _context4.prev = 3;
+                                _context4.next = 6;
+                                return site.load();
+
+                            case 6:
+                                _context4.next = 12;
+                                break;
+
+                            case 8:
+                                _context4.prev = 8;
+                                _context4.t0 = _context4['catch'](3);
+
+                                console.log(_context4.t0);
+                                this.emit('error', _context4.t0);
+
+                            case 12:
+                                _context4.prev = 12;
+
+                                crawler.worked(site);
+                                return _context4.finish(12);
+
+                            case 15:
+                                urls = site.returnUrls();
+
+                                urls.forEach(function (url) {
+                                    _this3.addToQueue(url);
+                                });
+                                crawler.sites.push(site);
+                                this.emit('siteAdded', site);
+                                this.emit('sitesChanged', crawler.sites.length);
+
+                                queueEmpty = crawler.queue.length === 0 && !crawler.isWorking();
+                                minimalSitesCrawled = crawler.sites.length >= crawler.options.readyIn;
+
+                                if ((queueEmpty || minimalSitesCrawled) && !crawler.state.ready) {
+                                    crawler.state.ready = true;
+                                    this.emit('ready', this);
+                                }
+                                if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.finished && !crawler.isWorking()) {
+                                    crawler.state.finished = true;
+                                    this.emit('finished', this);
+                                    crawler.stop();
+                                }
+
+                            case 24:
+                            case 'end':
+                                return _context4.stop();
+                        }
+                    }
+                }, _callee4, this, [[3, 8, 12, 15]]);
+            }));
+
+            function workSite(_x6, _x7) {
+                return _ref4.apply(this, arguments);
+            }
+
+            return workSite;
+        }()
+    }, {
+        key: 'addToQueue',
+        value: function addToQueue(url) {
+            var crawler = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
+
+            var domain = _underscore2.default.find(crawler.domains, function (domain) {
+                return domain.hostname === url.hostname;
+            });
+            if (domain && domain.robot.isAllowed(url.href, crawler.options.userAgent) && crawler.crawled.indexOf(url.href) === -1) {
+                crawler.queue.push(url);
+            }
+        }
+    }, {
+        key: 'getContent',
+        value: function getContent(url) {
+            var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
+
+            var site = this.getByUrl(url);
+            if (!site) {
+                throw new Error(404, 'Site not found');
+            }
+            site.scoreDOM();
+            return site.getContent(type);
+        }
+    }, {
+        key: 'getJSON',
+        value: function getJSON(url) {
+            var site = this.getByUrl(url);
+            if (!site) {
+                throw new Error(404, 'Site not found');
+            }
+            site.scoreDOM();
+            return {
+                html: site.getContent('HTML'),
+                text: site.getContent('PLAIN_TEXT')
+            };
+        }
+    }, {
+        key: 'getDOM',
+        value: function () {
+            var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(url) {
+                var response, data, expire;
+                return regeneratorRuntime.wrap(function _callee5$(_context5) {
+                    while (1) {
+                        switch (_context5.prev = _context5.next) {
+                            case 0:
+                                response = void 0;
+
+                                if (!this.cache) {
+                                    _context5.next = 14;
+                                    break;
+                                }
+
+                                _context5.prev = 2;
+                                _context5.next = 5;
+                                return this.cache.get(url);
+
+                            case 5:
+                                data = _context5.sent;
+
+                                if (!data) {
+                                    _context5.next = 8;
+                                    break;
+                                }
+
+                                return _context5.abrupt('return', _cheerio2.default.load(data));
+
+                            case 8:
+                                _context5.next = 14;
+                                break;
+
+                            case 10:
+                                _context5.prev = 10;
+                                _context5.t0 = _context5['catch'](2);
+
+                                console.error(_context5.t0);
+                                throw _context5.t0;
+
+                            case 14:
+                                _context5.prev = 14;
+                                _context5.t1 = this;
+                                _context5.next = 18;
+                                return this.fetch(url);
+
+                            case 18:
+                                _context5.t2 = _context5.sent;
+                                response = _context5.t1.clean.call(_context5.t1, _context5.t2);
+                                _context5.next = 26;
+                                break;
+
+                            case 22:
+                                _context5.prev = 22;
+                                _context5.t3 = _context5['catch'](14);
+
+                                console.error(_context5.t3);
+                                throw _context5.t3;
+
+                            case 26:
+                                if (this.cache) {
+                                    expire = this.options.expireDefault;
+
+                                    if (this.expiries[url]) {
+                                        expire = this.expiries[url];
+                                    }
+                                    this.cache.set(url, response, expire);
+                                }
+                                return _context5.abrupt('return', _cheerio2.default.load(response));
+
+                            case 28:
+                            case 'end':
+                                return _context5.stop();
+                        }
+                    }
+                }, _callee5, this, [[2, 10], [14, 22]]);
+            }));
+
+            function getDOM(_x10) {
+                return _ref5.apply(this, arguments);
+            }
+
+            return getDOM;
+        }()
+    }, {
+        key: 'clean',
+        value: function clean(string) {
+            return string.replace(/\t/gi, ' ').replace(/\s+/, ' ').replace(/<!--(.*?)-->/gi, '');
+        }
+
+        /**
+         * Returns data extracted with the Google NLP API
+         * @param url
+         * @param features
+         * @param type
+         * @param encoding
+         * @returns {Promise.<*>}
+         */
+
+    }, {
+        key: 'getData',
+        value: function () {
+            var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(url) {
+                var features = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+                    extractSyntax: true,
+                    extractEntities: true,
+                    extractDocumentSentiment: false
+                };
+                var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'PLAIN_TEXT';
+                var encoding = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'UTF8';
+                var text, language, nlp, translation;
+                return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                    while (1) {
+                        switch (_context6.prev = _context6.next) {
+                            case 0:
+                                text = this.getContent(url, type);
+                                _context6.next = 3;
+                                return Crawler.getLanguage(text).then(language);
+
+                            case 3:
+                                language = _context6.sent;
+                                nlp = new _googleNlpApi2.default();
+
+                                if (!(language === 'en')) {
+                                    _context6.next = 9;
+                                    break;
+                                }
+
+                                _context6.next = 8;
+                                return nlp.annotateText(text, type, encoding, features);
+
+                            case 8:
+                                return _context6.abrupt('return', _context6.sent);
+
+                            case 9:
+                                _context6.next = 11;
+                                return Crawler.getTranslation(text);
+
+                            case 11:
+                                translation = _context6.sent;
+                                _context6.next = 14;
+                                return nlp.annotateText(translation, type, encoding, features);
+
+                            case 14:
+                                return _context6.abrupt('return', _context6.sent);
+
+                            case 15:
+                            case 'end':
+                                return _context6.stop();
+                        }
+                    }
+                }, _callee6, this);
+            }));
+
+            function getData(_x11) {
+                return _ref6.apply(this, arguments);
+            }
+
+            return getData;
+        }()
+    }, {
+        key: 'fetch',
+        value: function fetch(url) {
+            return new Promise(function (resolve, reject) {
+                _request2.default.get(url, function (err, response, body) {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(body);
+                });
+            });
+        }
+    }, {
+        key: 'stop',
+        value: function stop() {
+            this.state.stopped = true;
+        }
+    }, {
+        key: 'setCache',
+        value: function setCache(cache) {
+            if (typeof cache.get !== 'function' || typeof cache.set !== 'function') {
+                throw new TypeError('This is not a valid cache. It needs a set and a get function.');
+            }
+            this.cache = cache;
+        }
+    }], [{
+        key: 'getTranslation',
+        value: function () {
+            var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(text) {
+                var translate, results;
+                return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                    while (1) {
+                        switch (_context7.prev = _context7.next) {
+                            case 0:
+                                if (_process2.default.env.GOOGLE_TRANSLATE_API) {
+                                    _context7.next = 2;
+                                    break;
+                                }
+
+                                throw new Error('Please set key for Google Translate API');
+
+                            case 2:
+                                translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
+                                _context7.next = 5;
+                                return translate.translate(text, 'en');
+
+                            case 5:
+                                results = _context7.sent;
+                                return _context7.abrupt('return', results[0]);
+
+                            case 7:
+                            case 'end':
+                                return _context7.stop();
+                        }
+                    }
+                }, _callee7, this);
+            }));
+
+            function getTranslation(_x15) {
+                return _ref7.apply(this, arguments);
+            }
+
+            return getTranslation;
+        }()
+    }, {
+        key: 'getLanguage',
+        value: function () {
+            var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(text) {
+                var translate, results, detection;
+                return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                    while (1) {
+                        switch (_context8.prev = _context8.next) {
+                            case 0:
+                                if (_process2.default.env.GOOGLE_TRANSLATE_API) {
+                                    _context8.next = 2;
+                                    break;
+                                }
+
+                                throw new Error('Please set key for Google Translate API');
+
+                            case 2:
+                                translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
+                                _context8.next = 5;
+                                return translate.detect(text);
+
+                            case 5:
+                                results = _context8.sent;
+                                detection = results[0];
+                                return _context8.abrupt('return', detection.language);
+
+                            case 8:
+                            case 'end':
+                                return _context8.stop();
+                        }
+                    }
+                }, _callee8, this);
+            }));
+
+            function getLanguage(_x16) {
+                return _ref8.apply(this, arguments);
+            }
+
+            return getLanguage;
+        }()
+    }]);
+
+    return Crawler;
 }(_events2.default);
 
 exports.default = Crawler;
