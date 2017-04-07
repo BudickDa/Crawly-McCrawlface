@@ -59,7 +59,7 @@ Some examples:
     crawler.addCache(cache);
 
 ## Usages in [Meteor](https://www.meteor.com/)
-[=> here](https://github.com/BudickDa/police-report-2.0/blob/master/server/crawler.js)
+[=> here](https://gist.github.com/BudickDa/bb7adaf7aa5e4773ce88a2feb8b7fa61)
 
 # Options
 
