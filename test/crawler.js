@@ -50,6 +50,59 @@ describe('Crawler', function() {
 		});
 	});
 
+	describe('#addFilter()', function() {
+		it('should only allow regex or string', function() {
+			const fail = new Crawler(url);
+			assert.throws(() => {
+				fail.addFilter(1);
+			}, TypeError);
+			assert.throws(() => {
+				fail.addFilter();
+			}, TypeError);
+			assert.throws(() => {
+				fail.addFilter({});
+			}, TypeError);
+			assert.throws(() => {
+				fail.addFilter([]);
+			}, TypeError);
+
+			const noFail = new Crawler(url);
+			const filters = [];
+			const regex = new RegExp(/profile\.html/, 'i');
+			noFail.addFilter(regex);
+			filters.push(regex);
+			assert.deepEqual(noFail.filters, filters);
+
+			const string = 'details.html';
+			noFail.addFilter(string);
+			filters.push(string);
+			assert.deepEqual(noFail.filters, filters);
+		});
+
+		it('should only crawl site profile.html and the seed index.html', function(done) {
+			const onlyProfile = new Crawler(url);
+			onlyProfile.addFilter(new RegExp(/profile\.html/, 'i'));
+
+			onlyProfile.start();
+			onlyProfile.on('finished', c => {
+				assert.equal(onlyProfile.sites.length, 2);
+				done();
+			});
+		});
+
+		it('should only crawl site profile.html and details.html and the seed index.html', function(done) {
+			const onlyProfileAndDetails = new Crawler(url);
+			onlyProfileAndDetails.addFilter(new RegExp(/profile\.html/, 'i'));
+			onlyProfileAndDetails.addFilter('details.html');
+			onlyProfileAndDetails.start();
+			onlyProfileAndDetails.on('finished', c => {
+				console.log(onlyProfileAndDetails)
+				assert.equal(onlyProfileAndDetails.sites.length, 3);
+				done();
+			});
+		});
+	});
+
 	describe('#workQueue()', function() {
 		it('should store fetched html when queue is started', function(done) {
 			this.timeout(5000);
@@ -123,7 +176,8 @@ describe('Crawler', function() {
 
 		it('get PLAIN_TEXT of index.html', function() {
 			const content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			assert(content.length > 75);
+			console.log(content);
+			assert(content.length > 30);
 			assert(content.length < 100);
 		});
 

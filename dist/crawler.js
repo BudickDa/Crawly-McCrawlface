@@ -112,6 +112,7 @@ var Crawler = function (_EventEmitter) {
 		_this.sites = [];
 		_this.crawled = [];
 		_this.expiries = {};
+		_this.filters = [];
 
 		_this.ready = _this.init(seed);
 		return _this;
@@ -294,6 +295,30 @@ var Crawler = function (_EventEmitter) {
 
 			return getRobot;
 		}()
+
+		/**
+   * Adds a filter.
+   * If filters are set only sites that have a url that pass a match with at least one of the filters are added to the queue.
+   * Other sites, except those in the seed, are ignored.
+   * @param filter (string|RegExp)
+   */
+
+	}, {
+		key: 'addFilter',
+		value: function addFilter(filter) {
+			/**
+    * Only regex or string allowed.
+    */
+			if (!(filter instanceof RegExp || typeof filter === 'string')) {
+				throw new TypeError('addFilter expects Regex or string as parameter');
+			}
+			/**
+    * Prevents filters from beeing doubled.
+    */
+			if (!_underscore2.default.contains(this.filters, filter)) {
+				this.filters.push(filter);
+			}
+		}
 	}, {
 		key: 'reset',
 		value: function reset() {
@@ -434,6 +459,7 @@ var Crawler = function (_EventEmitter) {
 							case 15:
 								urls = site.returnUrls();
 
+
 								urls.forEach(function (url) {
 									_this3.addToQueue(url);
 								});
@@ -473,12 +499,55 @@ var Crawler = function (_EventEmitter) {
 		value: function addToQueue(url) {
 			var crawler = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
 
+			if (!url) {
+				return;
+			}
+			if (typeof url === 'string') {
+				url = _url3.default.parse(url);
+			}
+			/**
+    * Filter the returned urls with this.filters
+    */
+			var href = url.href;
+			/**
+    * If not filters are added, nothing is filtered, every sites passes
+    */
+			var match = this.filters.length === 0;
+
+			/**
+    * Test every filter and concat them with OR.
+    * todo: let user decide between OR and AND
+    * todo: maybe let user decide between whitelist and blacklist
+    */
+			crawler.filters.forEach(function (filter) {
+				match = match || Boolean(href.match(filter));
+			});
+
 			var domain = _underscore2.default.find(crawler.domains, function (domain) {
 				return domain.hostname === url.hostname;
 			});
-			if (domain && domain.robot.isAllowed(url.href, crawler.options.userAgent) && crawler.crawled.indexOf(url.href) === -1) {
-				crawler.queue.push(url);
+
+			if (!match) {
+				return;
 			}
+
+			if (!(domain && domain.robot.isAllowed(url.href, crawler.options.userAgent))) {
+				return;
+			}
+
+			if (!crawler.alreadyCrawled(url.href)) {
+				return;
+			}
+
+			crawler.queue.push(url);
+		}
+	}, {
+		key: 'alreadyCrawled',
+		value: function alreadyCrawled(href) {
+			var inSite = _underscore2.default.contains(this.sites, function (site) {
+				return site.url.href === href;
+			});
+			return this.crawled.indexOf(href) === -1 && this.queue.indexOf(href) === -1 && !inSite;
 		}
 	}, {
 		key: 'getContent',

@@ -53,6 +53,7 @@ class Crawler extends EventEmitter {
 		this.sites = [];
 		this.crawled = [];
 		this.expiries = {};
+		this.filters = [];
 
 		this.ready = this.init(seed);
 	}
@@ -128,8 +129,28 @@ class Crawler extends EventEmitter {
 		}catch (e){
 			return RobotsParser(url.resolve('/robots.txt'), '');
 		}
+	}
 
 
+	/**
+	 * Adds a filter.
+	 * If filters are set only sites that have a url that pass a match with at least one of the filters are added to the queue.
+	 * Other sites, except those in the seed, are ignored.
+	 * @param filter (string|RegExp)
+	 */
+	addFilter(filter) {
+		/**
+		 * Only regex or string allowed.
+		 */
+		if (!(filter instanceof RegExp || typeof filter === 'string')) {
+			throw new TypeError('addFilter expects Regex or string as parameter');
+		}
+		/**
+		 * Prevents filters from beeing doubled.
+		 */
+		if (!_.contains(this.filters, filter)) {
+			this.filters.push(filter);
+		}
 	}
 
 	reset() {
@@ -227,7 +248,9 @@ class Crawler extends EventEmitter {
 		}finally{
 			crawler.worked(site);
 		}
+
 		const urls = site.returnUrls();
+
 		urls.forEach(url => {
 			this.addToQueue(url);
 		});
@@ -250,12 +273,54 @@ class Crawler extends EventEmitter {
 	}
 
 	addToQueue(url, crawler = this) {
+		if(!url){
+			return;
+		}
+		if(typeof url === 'string'){
+			url = URL.parse(url);
+		}
+		/**
+		 * Filter the returned urls with this.filters
+		 */
+		const href = url.href;
+		/**
+		 * If not filters are added, nothing is filtered, every sites passes
+		 */
+		let match = this.filters.length === 0;
+
+		/**
+		 * Test every filter and concat them with OR.
+		 * todo: let user decide between OR and AND
+		 * todo: maybe let user decide between whitelist and blacklist
+		 */
+		crawler.filters.forEach(filter => {
+			match = match || Boolean(href.match(filter));
+		});
+
 		const domain = _.find(crawler.domains, domain => {
 			return domain.hostname === url.hostname;
 		});
-		if (domain && domain.robot.isAllowed(url.href, crawler.options.userAgent) && crawler.crawled.indexOf(url.href) === -1) {
-			crawler.queue.push(url);
+
+		if(!match){
+			return;
 		}
+
+		if(!(domain && domain.robot.isAllowed(url.href, crawler.options.userAgent))){
+			return;
+		}
+
+		if (!crawler.alreadyCrawled(url.href)) {
+			return;
+		}
+
+		crawler.queue.push(url);
+	}
+
+	alreadyCrawled(href){
+		const inSite = _.contains(this.sites, site => {
+			return site.url.href === href;
+		});
+		return this.crawled.indexOf(href) === -1 && this.queue.indexOf(href) === -1 && !inSite;
 	}
 
 	getContent(url, type = 'PLAIN_TEXT') {
@@ -287,7 +352,7 @@ class Crawler extends EventEmitter {
 	 * @param url
 	 * @returns {Promise.<*>}
 	 */
-	async getDOM(url) {
+	async  getDOM(url) {
 		let response;
 		if (this.cache) {
 			try{
@@ -302,12 +367,12 @@ class Crawler extends EventEmitter {
 					 * We have to wait for the promise to fullfill, before we can check, if there data is undefined.
 					 */
 					const d = await data;
-					if(d) {
+					if (d) {
 						return cheerio.load(d);
 					}
-				}else if(data && typeof data === 'string'){
+				} else if (data && typeof data === 'string') {
 					return cheerio.load(data);
-				}else if(data){
+				} else if (data) {
 					throw new TypeError(`get method of cache returns ${typeof data}. But it should be a Promise or a string. Content of data: ${data}`);
 				}
 			}catch (e){
@@ -316,7 +381,10 @@ class Crawler extends EventEmitter {
 			}
 		}
 		try{
-			response = this.clean(await this.fetch(url));
+			response = this.clean(await
+				this.fetch(url)
+			)
+			;
 		}catch (e){
 			console.error(e);
 			throw e;
@@ -343,20 +411,23 @@ class Crawler extends EventEmitter {
 	 * @param encoding
 	 * @returns {Promise.<*>}
 	 */
-	async getData(url, features = {
-									extractSyntax: true,
-									extractEntities: true,
-									extractDocumentSentiment: false
-								}, type = 'PLAIN_TEXT', encoding = 'UTF8') {
+	async  getData(url, features = {
+									 extractSyntax: true,
+									 extractEntities: true,
+									 extractDocumentSentiment: false
+								 }, type = 'PLAIN_TEXT', encoding = 'UTF8') {
 
 		const text = this.getContent(url, type);
 		const language = await Crawler.getLanguage(text).then(language);
 		const nlp = new NLP();
 		if (language === 'en') {
-			return await nlp.annotateText(text, type, encoding, features);
+			return await
+				nlp.annotateText(text, type, encoding, features);
 		}
-		const translation = await Crawler.getTranslation(text);
-		return await nlp.annotateText(translation, type, encoding, features);
+		const translation = await
+			Crawler.getTranslation(text);
+		return await
+			nlp.annotateText(translation, type, encoding, features);
 	}
 
 	static async getTranslation(text) {

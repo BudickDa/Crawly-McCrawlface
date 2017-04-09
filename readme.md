@@ -83,6 +83,18 @@ userAgent (String): User Agent
 
 expireDefault (Number): Expire key that is set in cache.
 
+# Filters
+You can decide which sites are crawled by adding filters as string or regex.
+Filters are concatted with OR.
+
+    crawler.addFilter('details.html');
+    // if(url.match('details.html')){//url is crawled}
+
+    crawler.addFilter(new RegExp('[0-9]{5}'), i);
+    //if(url.match('details.html') || url.match(/[0-9]{5}/)){//url is crawled}
+
+
+
 # Events:
 
 ## Crawler
@@ -110,6 +122,10 @@ Test with:
 Content extraction will only work if at least five sites with the same template were crawled.
 The extraction works by looking on the differences between the sites.
 The nodes with a difference more than the mean differences of all nodes are extracted as content.
+
+
+# For questions or problems
+Feel free to open an issue or send an email: daniel@budick.eu
 
 # License
 AGPL-3.0
