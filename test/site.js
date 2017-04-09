@@ -67,10 +67,10 @@ describe('Site', function() {
 	describe('#scoreNode()', function() {
 		it('should score one node if it is part of the template and write that score in DOM as data-attribute', function() {
 			const site = new Crawler.Site('', crawler);
-			const testThree = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 1<span>a</span></div></body>');
+			const testThree = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 1<span>a</span></div><a href="same">Same</a></body>');
 			const compareDomsOne = [
-				Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 2<span>b</span></div></body>'),
-				Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 3<span>c</span></div></body>'),
+				Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 2<span>b</span></div><a href="same">Same</a></body>'),
+				Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 3<span>c</span></div><a href="same">Same</a></body>'),
 				Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 4<span>d</span></div></body>')
 			];
 			site.$ = testThree;
@@ -89,6 +89,16 @@ describe('Site', function() {
 				sites
 			);
 			assert.equal(parseFloat(testThree('.content span').attr('entropy')), 1);
+
+			site.scoreNode(
+				testThree('a'),
+				compareDomsOne.map(element => {
+					return element('a');
+				}),
+				site,
+				sites
+			);
+			assert(parseFloat(testThree('a').attr('entropy')) <= 0);
 		});
 	});
 

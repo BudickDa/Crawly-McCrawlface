@@ -114,6 +114,11 @@ var Crawler = function (_EventEmitter) {
 		_this.expiries = {};
 		_this.filters = [];
 
+		/**
+   * Ids of timeouts that are started are stored in here. All timeouts are cancelled when the crawler is stopped.
+   */
+		_this.timeouts = [];
+
 		_this.ready = _this.init(seed);
 		return _this;
 	}
@@ -359,6 +364,7 @@ var Crawler = function (_EventEmitter) {
 		value: function workQueue() {
 			var crawler = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
 			var recursive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+			var idle = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1000;
 
 			if (!recursive) {
 				crawler.reset();
@@ -378,6 +384,21 @@ var Crawler = function (_EventEmitter) {
 				}).catch(function (e) {
 					throw e;
 				});
+			} else if (crawler.state.stopped) {
+				//stop execution
+				return;
+			} else if (crawler.queue.length === 0) {
+				//This happens when the queue is empty,
+				//wait until stack is empty and try again
+				var timeout = 2000;
+				if (idle > timeout) {
+					console.log('Crawler timed out.');
+					crawler.stop();
+					return;
+				}
+				crawler.timeouts.push(setTimeout(function () {
+					crawler.workQueue(crawler, false, idle * 2);
+				}, idle));
 			}
 		}
 
@@ -391,6 +412,27 @@ var Crawler = function (_EventEmitter) {
 		key: 'isWorking',
 		value: function isWorking() {
 			return this.state.working.length !== 0;
+		}
+
+		/**
+   * Checks if on this is currently worked on.
+   * @param site (Site | String | URL)
+   */
+
+	}, {
+		key: 'isWorkedOn',
+		value: function isWorkedOn(site) {
+			var url = '';
+			if (site instanceof _site2.default) {
+				url = site.url.href;
+			} else if (site && typeof site.href === 'string') {
+				url = site.href;
+			} else if (typeof site === 'string') {
+				url = site;
+			} else {
+				throw new TypeError('isWorkedOn needs Site or url as String or as URL as parameter.');
+			}
+			return _underscore2.default.contains(this.state.working, url);
 		}
 
 		/**
@@ -472,11 +514,11 @@ var Crawler = function (_EventEmitter) {
 
 								if ((queueEmpty || minimalSitesCrawled) && !crawler.state.ready) {
 									crawler.state.ready = true;
-									this.emit('ready', this);
+									this.emit('ready', crawler);
 								}
 								if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.finished && !crawler.isWorking()) {
 									crawler.state.finished = true;
-									this.emit('finished', this);
+									this.emit('finished', crawler);
 									crawler.stop();
 								}
 
@@ -488,7 +530,7 @@ var Crawler = function (_EventEmitter) {
 				}, _callee4, this, [[3, 8, 12, 15]]);
 			}));
 
-			function workSite(_x6, _x7) {
+			function workSite(_x7, _x8) {
 				return _ref4.apply(this, arguments);
 			}
 
@@ -535,7 +577,7 @@ var Crawler = function (_EventEmitter) {
 				return;
 			}
 
-			if (!crawler.alreadyCrawled(url.href)) {
+			if (crawler.alreadyCrawled(url.href)) {
 				return;
 			}
 
@@ -544,10 +586,9 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'alreadyCrawled',
 		value: function alreadyCrawled(href) {
-			var inSite = _underscore2.default.contains(this.sites, function (site) {
-				return site.url.href === href;
-			});
-			return this.crawled.indexOf(href) === -1 && this.queue.indexOf(href) === -1 && !inSite;
+			return _underscore2.default.contains(this.crawled, href) || _underscore2.default.contains(this.queue.map(function (u) {
+				return u.href;
+			}), href);
 		}
 	}, {
 		key: 'getContent',
@@ -694,7 +735,7 @@ var Crawler = function (_EventEmitter) {
 				}, _callee5, this, [[2, 20], [24, 32]]);
 			}));
 
-			function getDOM(_x10) {
+			function getDOM(_x11) {
 				return _ref5.apply(this, arguments);
 			}
 
@@ -770,7 +811,7 @@ var Crawler = function (_EventEmitter) {
 				}, _callee6, this);
 			}));
 
-			function getData(_x11) {
+			function getData(_x12) {
 				return _ref6.apply(this, arguments);
 			}
 
@@ -792,6 +833,9 @@ var Crawler = function (_EventEmitter) {
 		key: 'stop',
 		value: function stop() {
 			this.state.stopped = true;
+			this.timeouts.forEach(function (t) {
+				clearTimeout(t);
+			});
 		}
 	}, {
 		key: 'setCache',
@@ -834,7 +878,7 @@ var Crawler = function (_EventEmitter) {
 				}, _callee7, this);
 			}));
 
-			function getTranslation(_x15) {
+			function getTranslation(_x16) {
 				return _ref7.apply(this, arguments);
 			}
 
@@ -874,7 +918,7 @@ var Crawler = function (_EventEmitter) {
 				}, _callee8, this);
 			}));
 
-			function getLanguage(_x16) {
+			function getLanguage(_x17) {
 				return _ref8.apply(this, arguments);
 			}
 

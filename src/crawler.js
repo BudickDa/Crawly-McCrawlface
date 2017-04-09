@@ -55,6 +55,11 @@ class Crawler extends EventEmitter {
 		this.expiries = {};
 		this.filters = [];
 
+		/**
+		 * Ids of timeouts that are started are stored in here. All timeouts are cancelled when the crawler is stopped.
+		 */
+		this.timeouts = [];
+
 		this.ready = this.init(seed);
 	}
 
@@ -95,13 +100,13 @@ class Crawler extends EventEmitter {
 
 	eachHTML(cb) {
 		_.forEach(this.sites, site => {
-			cb(site.getContent('HTML'))
+			cb(site.getContent('HTML'));
 		});
 	}
 
 	eachText(cb) {
 		_.forEach(this.sites, site => {
-			cb(site.getContent('PLAIN_TEXT'))
+			cb(site.getContent('PLAIN_TEXT'));
 		});
 	}
 
@@ -185,7 +190,7 @@ class Crawler extends EventEmitter {
 		this.cache = cache;
 	}
 
-	workQueue(crawler = this, recursive = false) {
+	workQueue(crawler = this, recursive = false, idle = 1000) {
 		if (!recursive) {
 			crawler.reset();
 		}
@@ -204,6 +209,21 @@ class Crawler extends EventEmitter {
 			}).catch(e => {
 				throw e;
 			})
+		} else if (crawler.state.stopped) {
+			//stop execution
+			return;
+		} else if (crawler.queue.length === 0) {
+			//This happens when the queue is empty,
+			//wait until stack is empty and try again
+			const timeout = 2000;
+			if (idle > timeout) {
+				console.log('Crawler timed out.');
+				crawler.stop();
+				return;
+			}
+			crawler.timeouts.push(setTimeout(function() {
+				crawler.workQueue(crawler, false, idle * 2);
+			}, idle));
 		}
 	}
 
@@ -214,6 +234,25 @@ class Crawler extends EventEmitter {
 	 */
 	isWorking() {
 		return this.state.working.length !== 0
+	}
+
+
+	/**
+	 * Checks if on this is currently worked on.
+	 * @param site (Site | String | URL)
+	 */
+	isWorkedOn(site) {
+		let url = '';
+		if (site instanceof Site) {
+			url = site.url.href;
+		} else if (site && typeof site.href === 'string') {
+			url = site.href;
+		} else if (typeof site === 'string') {
+			url = site;
+		} else {
+			throw new TypeError('isWorkedOn needs Site or url as String or as URL as parameter.')
+		}
+		return _.contains(this.state.working, url);
 	}
 
 	/**
@@ -262,21 +301,21 @@ class Crawler extends EventEmitter {
 		const minimalSitesCrawled = crawler.sites.length >= crawler.options.readyIn;
 		if ((queueEmpty || minimalSitesCrawled) && !crawler.state.ready) {
 			crawler.state.ready = true;
-			this.emit('ready', this);
+			this.emit('ready', crawler);
 		}
 		if ((crawler.queue.length === 0 || crawler.state.stopped)
 			&& !crawler.finished && !crawler.isWorking()) {
 			crawler.state.finished = true;
-			this.emit('finished', this);
+			this.emit('finished', crawler);
 			crawler.stop();
 		}
 	}
 
 	addToQueue(url, crawler = this) {
-		if(!url){
+		if (!url) {
 			return;
 		}
-		if(typeof url === 'string'){
+		if (typeof url === 'string') {
 			url = URL.parse(url);
 		}
 		/**
@@ -301,26 +340,23 @@ class Crawler extends EventEmitter {
 			return domain.hostname === url.hostname;
 		});
 
-		if(!match){
+		if (!match) {
 			return;
 		}
 
-		if(!(domain && domain.robot.isAllowed(url.href, crawler.options.userAgent))){
+		if (!(domain && domain.robot.isAllowed(url.href, crawler.options.userAgent))) {
 			return;
 		}
 
-		if (!crawler.alreadyCrawled(url.href)) {
+		if (crawler.alreadyCrawled(url.href)) {
 			return;
 		}
 
 		crawler.queue.push(url);
 	}
 
-	alreadyCrawled(href){
-		const inSite = _.contains(this.sites, site => {
-			return site.url.href === href;
-		});
-		return this.crawled.indexOf(href) === -1 && this.queue.indexOf(href) === -1 && !inSite;
+	alreadyCrawled(href) {
+		return _.contains(this.crawled, href) || _.contains(this.queue.map(u => u.href), href);
 	}
 
 	getContent(url, type = 'PLAIN_TEXT') {
@@ -462,6 +498,9 @@ class Crawler extends EventEmitter {
 
 	stop() {
 		this.state.stopped = true;
+		this.timeouts.forEach(t => {
+			clearTimeout(t);
+		});
 	}
 
 	setCache(cache) {

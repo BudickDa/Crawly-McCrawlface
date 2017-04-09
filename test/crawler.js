@@ -82,9 +82,9 @@ describe('Crawler', function() {
 		it('should only crawl site profile.html and the seed index.html', function(done) {
 			const onlyProfile = new Crawler(url);
 			onlyProfile.addFilter(new RegExp(/profile\.html/, 'i'));
-
 			onlyProfile.start();
 			onlyProfile.on('finished', c => {
+				onlyProfile.stop();
 				assert.equal(onlyProfile.sites.length, 2);
 				done();
 			});
@@ -96,7 +96,7 @@ describe('Crawler', function() {
 			onlyProfileAndDetails.addFilter('details.html');
 			onlyProfileAndDetails.start();
 			onlyProfileAndDetails.on('finished', c => {
-				console.log(onlyProfileAndDetails)
+				c.stop();
 				assert.equal(onlyProfileAndDetails.sites.length, 3);
 				done();
 			});
@@ -107,11 +107,11 @@ describe('Crawler', function() {
 		it('should store fetched html when queue is started', function(done) {
 			this.timeout(5000);
 			crawler.workQueue();
-			crawler.on('ready', () => {
-				crawler.stop();
-				const siteOne = crawler.getByUrl(url + '/details.html');
+			crawler.on('ready', c => {
+				c.stop();
+				const siteOne = c.getByUrl(url + '/details.html');
 				assert.equal(siteOne.url.href, url + '/details.html');
-				const siteTwo = crawler.getByUrl(url + '/profile.html');
+				const siteTwo = c.getByUrl(url + '/profile.html');
 				assert.equal(siteTwo.url.href, url + '/profile.html');
 				done();
 			});
@@ -124,30 +124,6 @@ describe('Crawler', function() {
 			let i = 0;
 			crawler.each(site => {
 				assert(site instanceof Crawler.Site);
-				i++;
-			});
-			assert.equal(i, crawler.sites.length);
-		});
-	});
-
-	describe('#eachHTML()', function() {
-		this.timeout(6000);
-		it('iterate through all the sites', function() {
-			let i = 0;
-			crawler.eachHTML(html => {
-				assert.equal(typeof html, 'string');
-				i++;
-			});
-			assert.equal(i, crawler.sites.length);
-		});
-	});
-
-	describe('#eachText()', function() {
-		this.timeout(6000);
-		it('iterate through all the sites', function() {
-			let i = 0;
-			crawler.eachText(text => {
-				assert.equal(typeof text, 'string');
 				i++;
 			});
 			assert.equal(i, crawler.sites.length);
@@ -176,7 +152,6 @@ describe('Crawler', function() {
 
 		it('get PLAIN_TEXT of index.html', function() {
 			const content = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
-			console.log(content);
 			assert(content.length > 30);
 			assert(content.length < 100);
 		});
@@ -212,6 +187,30 @@ describe('Crawler', function() {
 				});
 				done();
 			});
+		});
+	});
+
+	describe('#eachHTML()', function() {
+		this.timeout(6000);
+		it('iterate through all the sites', function() {
+			let i = 0;
+			crawler.eachHTML(html => {
+				i++;
+				assert.equal(typeof html, 'string');
+			});
+			assert.equal(i, crawler.sites.length);
+		});
+	});
+
+	describe('#eachText()', function() {
+		this.timeout(6000);
+		it('iterate through all the sites', function() {
+			let i = 0;
+			crawler.eachText(text => {
+				i++;
+				assert.equal(typeof text, 'string');
+			});
+			assert.equal(i, crawler.sites.length);
 		});
 	});
 
