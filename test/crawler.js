@@ -174,7 +174,7 @@ describe('Crawler', function() {
 			assert.equal(crawler.getContent(url + '/profile.html', 'PLAIN_TEXT'), crawler.getContent(url + '/profile.html'));
 		});
 
-		it('get text from wikipedia to test performance', function(done) {
+		/*it('get text from wikipedia to test performance', function(done) {
 			this.timeout(60000);
 			const url = 'https://de.wikipedia.org/wiki/Test';
 			const wikiCrawler = new Crawler(url);
@@ -187,7 +187,7 @@ describe('Crawler', function() {
 				});
 				done();
 			});
-		});
+		});*/
 	});
 
 	describe('#eachHTML()', function() {

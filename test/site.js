@@ -89,16 +89,12 @@ describe('Site', function() {
 				sites
 			);
 			assert.equal(parseFloat(testThree('.content span').attr('entropy')), 1);
+		});
+	});
 
-			site.scoreNode(
-				testThree('a'),
-				compareDomsOne.map(element => {
-					return element('a');
-				}),
-				site,
-				sites
-			);
-			assert(parseFloat(testThree('a').attr('entropy')) <= 0);
+	describe('#scoreHyperlink()', function() {
+		it('should score a hyperlink', function() {
+
 		});
 	});
 
