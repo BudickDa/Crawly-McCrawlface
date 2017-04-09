@@ -518,14 +518,14 @@ var Crawler = function (_EventEmitter) {
 								}
 								if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.finished && !crawler.isWorking()) {
 									t = setTimeout(function () {
-										if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.finished && !crawler.isWorking()) {
+										if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.state.finished && !crawler.isWorking()) {
 											crawler.state.finished = true;
 											_this3.emit('finished', crawler);
 											crawler.stop();
 										} else {
 											clearTimeout(t);
 										}
-									}, 800);
+									}, 1000 + Math.random() * 1000);
 								}
 
 							case 24:

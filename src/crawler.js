@@ -307,14 +307,14 @@ class Crawler extends EventEmitter {
 			&& !crawler.finished && !crawler.isWorking()) {
 			const t = setTimeout(() => {
 				if ((crawler.queue.length === 0 || crawler.state.stopped)
-					&& !crawler.finished && !crawler.isWorking()) {
+					&& !crawler.state.finished && !crawler.isWorking()) {
 					crawler.state.finished = true;
 					this.emit('finished', crawler);
 					crawler.stop();
 				} else {
 					clearTimeout(t);
 				}
-			}, 800);
+			}, 1000 + Math.random() * 1000);
 		}
 	}
 
