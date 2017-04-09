@@ -467,7 +467,7 @@ var Crawler = function (_EventEmitter) {
 			var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(site, crawler) {
 				var _this3 = this;
 
-				var urls, queueEmpty, minimalSitesCrawled;
+				var urls, queueEmpty, minimalSitesCrawled, t;
 				return regeneratorRuntime.wrap(function _callee4$(_context4) {
 					while (1) {
 						switch (_context4.prev = _context4.next) {
@@ -517,9 +517,15 @@ var Crawler = function (_EventEmitter) {
 									this.emit('ready', crawler);
 								}
 								if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.finished && !crawler.isWorking()) {
-									crawler.state.finished = true;
-									this.emit('finished', crawler);
-									crawler.stop();
+									t = setTimeout(function () {
+										if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.finished && !crawler.isWorking()) {
+											crawler.state.finished = true;
+											_this3.emit('finished', crawler);
+											crawler.stop();
+										} else {
+											clearTimeout(t);
+										}
+									}, 800);
 								}
 
 							case 24:
