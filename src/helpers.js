@@ -17,9 +17,8 @@
  * You should have received a copy of the GNU General Public License
  * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
  */
-
-
 import _ from 'underscore';
+import Levenshtein from 'levenshtein';
 
 class Helpers {
 	static traverse(root, fnc, args) {
@@ -57,5 +56,39 @@ class Helpers {
 		});
 		return Math.sqrt(deviation / (array.length || 1));
 	}
+
+
+	/**
+	 *
+	 * @param node {Node}
+	 * @returns {number}
+	 */
+	static textDensity(node) {
+		if (!Helpers.isNode(node)) {
+			throw new TypeError('Parameter node in Helper.textDensity has to be a cheerio node. Or must have the function html() and text()');
+		}
+		return (node.text() || '').length / (node.html() || ' ').length;
+	}
+
+	/**
+	 * Get Levenshtein distance between two strings
+	 * @param text
+	 * @param otherText
+	 * @returns {*|number}
+	 */
+	static  getDistance(text, otherText) {
+		const cleanText = text.replace(/\d/gi, 'd');
+		const cleanOtherText = otherText.replace(/\d/gi, 'd');
+		const distance = new Levenshtein(cleanText, cleanOtherText).distance;
+		return distance;
+	}
+
+	static count(node, el) {
+		return (node.find(el) || []).length;
+	}
+
+	static isNode(node) {
+		return Boolean(node) && _.isFunction(node.text) && _.isFunction(node.html);
+	}
 }
-export {Helpers as default};
+export {Helpers  as  default};

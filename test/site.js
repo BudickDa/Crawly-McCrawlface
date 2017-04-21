@@ -64,8 +64,8 @@ describe('Site', function() {
 		});
 	});
 
-	describe('#scoreNode()', function() {
-		it('should score one node if it is part of the template and write that score in DOM as data-attribute', function() {
+	describe('#scoreNode()', function(done) {
+		it('should score one node if it is part of the template and write that score in DOM as data-attribute', function(done) {
 			const site = new Crawler.Site('', crawler);
 			const testThree = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Content 1<span>a</span></div><a href="same">Same</a></body>');
 			const compareDomsOne = [
@@ -87,19 +87,17 @@ describe('Site', function() {
 				}),
 				site,
 				sites
-			);
-			assert.equal(parseFloat(testThree('.content span').attr('entropy')), 1);
-		});
-	});
-
-	describe('#scoreHyperlink()', function() {
-		it('should score a hyperlink', function() {
-
+			).then(() => {
+				assert.equal(parseFloat(testThree('.content span').attr('entropy')), 1);
+				done();
+			});
 		});
 	});
 
 	describe('#scoreDOM()', function() {
-		it('should score every node if it is part of the template and write that score in DOM as data-attribute', function() {
+		it('should score every node if it is part of the template and write that score in DOM as data-attribute', function(done) {
+			this.timeout(12000);
+			crawler.options.readyIn = 3;
 			const site = new Crawler.Site('', crawler);
 			const testFour = Cheerio.load('<body><div><nav id="navbar">Template</nav></div><div class="content">Content 1</div></body>');
 			const pages = [
@@ -114,18 +112,21 @@ describe('Site', function() {
 				s.$ = dom;
 				return s;
 			});
-			site.scoreDOM(site, sites);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
-			assert.equal(parseInt(site.$('#navbar').attr('entropy')), 0);
-
-			const newSite = new Crawler.Site();
-			newSite.$ = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>');
-			newSite.hash = chance.hash();
-			sites.push(newSite)
-			site.scoreDOM(site, sites);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
-			site.scoreDOM(site, sites, true);
-			assert.equal(parseInt(site.$('.content').attr('entropy')), 145);
+			site.scoreDOM(site, sites).then(() => {
+				assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
+				assert.equal(parseInt(site.$('#navbar').attr('entropy')), 0);
+				const newSite = new Crawler.Site();
+				newSite.$ = Cheerio.load('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>');
+				newSite.hash = chance.hash();
+				sites.push(newSite)
+				site.scoreDOM(site, sites).then(() => {
+					assert.equal(parseInt(site.$('.content').attr('entropy')), 119);
+					site.scoreDOM(site, sites, true).then(() => {
+						assert.equal(parseInt(site.$('.content').attr('entropy')), 145);
+						done();
+					});
+				});
+			});
 		});
 	});
 

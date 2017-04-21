@@ -48,7 +48,6 @@ class Extractor {
 		$('[entropy]').each((index, element) => {
 			const e = $(element);
 			const entropy = parseInt(e.attr('entropy'));
-			entropies['textDensity'].push(parseInt(e.attr('text-density')));
 			const name = $(element).prop('name').toLowerCase();
 			if(Array.isArray(entropies[name])){
 				entropies[name].push(entropy);
@@ -75,8 +74,6 @@ class Extractor {
 			 */
 			const entropy = args.$(root).attr('entropy') - args.mean[key] / (args.deviation[key] || 1);
 			args.$(root).attr('entropy', entropy);
-			const textDensity = args.$(root).attr('text-density') - args.mean['textDensity'] / (args.deviation['textDensity'] || 1);
-			args.$(root).attr('text-density', textDensity);
 		}, {mean: mean, deviation: deviation, $: $});
 	}
 
@@ -90,17 +87,6 @@ class Extractor {
 			const element = $(node);
 
 			const entropy = element.attr('entropy');
-			/*let entropy = 0;
-			if (typeof valueAsString === 'number') {
-				entropy = valueAsString;
-			}
-			if (typeof valueAsString === 'string') {
-				/*
-				 Little workaround to get rid of , set by i18n in some browsers
-				 */
-			/*	entropy = parseInt(valueAsString.replace(/\./g, '').replace(',', '.'));
-			}*/
-
 			const textDensity = element.attr('text-density');
 
 			if (entropy <= 0 || element.text().replace(/\s|\t|\n/gi, '').length === 0) {

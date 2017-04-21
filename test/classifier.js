@@ -18,23 +18,27 @@
  * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
  */
 
-require("babel-core/register");
-require("babel-polyfill");
-/**
- * This is necessary for Meteor > 1.4
- */
-const regeneratorRuntime = require('babel-runtime/regenerator');
-if (global.window !== undefined) {
-	if (!Object.keys(global.window).includes('regeneratorRuntime')) {
-		global.window.regeneratorRuntime = regeneratorRuntime
-	}
-}
-if (!Object.keys(global).includes('regeneratorRuntime')) {
-	global.regeneratorRuntime = regeneratorRuntime
-}
+const Cheerio = require('cheerio');
+const assert = require('assert');
+const Chance = require('chance');
+const Crawler = require('./../index');
+const Classifier = Crawler.Classifier;
+const LinkQuotaFilter = Classifier.LinkQuotaFilter;
 
-const Crawly = require('./dist/crawler').default;
-Crawly.Site = require('./dist/site').default;
-Crawly.Classifier = require('./dist/classifier').default;
-Crawly.Helpers = require('./dist/helpers').default;
-module.exports = Crawly;
+describe('Classifier', function() {
+	describe('#classify()', function() {
+		it('should classify node', function() {
+			const $ = Cheerio.load('<div id="node"></div>');
+			assert.equal(Classifier.classify($('#node')), 0);
+		});
+	});
+});
+
+describe('LinkQuotaFilter', function() {
+	describe('#measure()', function() {
+		it('should classify node', function() {
+			const $ = Cheerio.load('<div id="node"><p>This is a paragraph. <a>Link</a></p></div>');
+			assert.equal(LinkQuotaFilter.measure($('#node')), 1, 'One p and one a should return one');
+		});
+	});
+});

@@ -99,14 +99,14 @@ class Crawler extends EventEmitter {
 	}
 
 	eachHTML(cb) {
-		_.forEach(this.sites, site => {
-			cb(site.getContent('HTML'));
+		_.forEach(this.sites, async site => {
+			cb(await site.getContent('HTML'));
 		});
 	}
 
 	eachText(cb) {
-		_.forEach(this.sites, site => {
-			cb(site.getContent('PLAIN_TEXT'));
+		_.forEach(this.sites, async site => {
+			cb(await site.getContent('PLAIN_TEXT'));
 		});
 	}
 
@@ -366,12 +366,12 @@ class Crawler extends EventEmitter {
 		return _.contains(this.crawled, href) || _.contains(this.queue.map(u => u.href), href);
 	}
 
-	getContent(url, type = 'PLAIN_TEXT') {
+	async getContent(url, type = 'PLAIN_TEXT') {
 		const site = this.getByUrl(url);
 		if (!site) {
 			throw new Error(404, 'Site not found');
 		}
-		site.scoreDOM();
+		await site.scoreDOM();
 		return site.getContent(type);
 	}
 
@@ -395,7 +395,7 @@ class Crawler extends EventEmitter {
 	 * @param url
 	 * @returns {Promise.<*>}
 	 */
-	async  getDOM(url) {
+	async getDOM(url) {
 		let response;
 		if (this.cache) {
 			try{
@@ -455,10 +455,10 @@ class Crawler extends EventEmitter {
 	 * @returns {Promise.<*>}
 	 */
 	async  getData(url, features = {
-									 extractSyntax: true,
-									 extractEntities: true,
-									 extractDocumentSentiment: false
-								 }, type = 'PLAIN_TEXT', encoding = 'UTF8') {
+		extractSyntax: true,
+		extractEntities: true,
+		extractDocumentSentiment: false
+	}, type = 'PLAIN_TEXT', encoding = 'UTF8') {
 
 		const text = this.getContent(url, type);
 		const language = await Crawler.getLanguage(text).then(language);

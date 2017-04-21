@@ -21,10 +21,10 @@
 import XXH from 'xxhashjs';
 import URL from 'url';
 import _ from 'underscore';
-import Levenshtein from 'levenshtein';
 import cheerio from 'cheerio';
 import Helpers from './helpers';
 import Extractor from './extractor';
+import Classifier from './classifier';
 
 class Site {
 	constructor(url, crawler) {
@@ -135,53 +135,41 @@ class Site {
 		Extractor.normalizeDOM($);
 	}
 
-	scoreNode(node, otherNodes, site = this, sites = this.crawler.originals) {
+	async scoreNode(node, otherNodes, site = this, sites = this.crawler.originals) {
 		const element = site.$(node);
-		/**
-		 * Text density of node
-		 */
-		const textDensity = Site.getTextDensity(site.$(node));
-		element.attr('text-density', textDensity);
 
 		/**
 		 * Score it by distance to other sites aka. entropy
 		 */
 		let entropy = 0;
 		if (!this.hasEquals(site.$(node))) {
-			switch (element.prop('tagName').toLowerCase()) {
-				case 'a':
-					entropy = this.scoreHyperlink(node);
-					break;
-				default:
-					const scores = [];
-					const lengthSites = sites.length;
-					const text = this.getOnlyText(node, site);
-
-					for (let i = 0; i < lengthSites; i++){
-						let otherText = this.getOnlyText(otherNodes[i], sites[i]);
-						if (site.$(otherNodes[i]).length === 0) {
-							scores.push(site.$(node).text().length);
-						} else {
-							scores.push(Site.getDistance(text, otherText));
-						}
+			const scores = [];
+			const lengthSites = sites.length;
+			/**
+			 * Test if enough sites were crawled.
+			 * If not use only Classifier.
+			 */
+			if(this.crawler && this.crawler.options.readyIn <= lengthSites) {
+				const text = this.getOnlyText(node, site);
+				for (let i = 0; i < lengthSites; i++){
+					let otherText = this.getOnlyText(otherNodes[i], sites[i]);
+					if (site.$(otherNodes[i]).length === 0) {
+						scores.push(site.$(node).text().length);
+					} else {
+						scores.push(Helpers.getDistance(text, otherText));
 					}
-					entropy = Helpers.mean(scores);
-
-					break;
+				}
+				entropy = Helpers.mean(scores) * Classifier.classify(site.$(node));
+			}else{
+				entropy = Classifier.classify(site.$(node));
 			}
-			element.attr('entropy', entropy);
-			_.forEach(element.children(), (child, index) => {
-				entropy += this.scoreNode(site.$(child), otherNodes.map((e, i) => {
-					return sites[i].$(e.children()[index]);
-				}), site, sites);
-			});
-		} else {
-			element.attr('entropy', entropy);
-			_.forEach(element.find('*'), e => {
-				site.$(e).attr('entropy', 0);
-			});
 		}
-
+		element.attr('entropy', entropy);
+		_.forEach(element.children(), async (child, index) => {
+			entropy += await this.scoreNode(site.$(child), otherNodes.map((e, i) => {
+				return sites[i].$(e.children()[index]);
+			}), site, sites);
+		});
 		element.attr('summedEntropy', entropy);
 		return entropy;
 	}
@@ -212,19 +200,6 @@ class Site {
 		return matches > 0;
 	}
 
-	static getDistance(text, otherText) {
-		const cleanText = text.replace(/\d/gi, 'd');
-		const cleanOtherText = otherText.replace(/\d/gi, 'd');
-		const distance = new Levenshtein(cleanText, cleanOtherText).distance;
-		return distance;
-	}
-
-	static getTextDensity(element) {
-		const context = element.text();
-		const nodeCount = element.children().length || 1;
-		return context.length / nodeCount;
-	}
-
 	/**
 	 * This functions runs only once per DOM. For repeated scoring set parameter force true.
 	 * @param site
@@ -232,7 +207,7 @@ class Site {
 	 * @param force (Boolean) if true the DOM is scored again
 	 * @returns {*}
 	 */
-	scoreDOM(site = this, sites = this.crawler.originals, force = false) {
+	async scoreDOM(site = this, sites = this.crawler.originals, force = false) {
 		const dom = site.$;
 		if (!force && Boolean(dom('body').attr('scored'))) {
 			/*
@@ -251,7 +226,7 @@ class Site {
 
 		const other = sites.map(site => site.$);
 		dom('body').attr('scored', true);
-		return this.scoreNode(dom('body'), other.map(item => {
+		return await this.scoreNode(dom('body'), other.map(item => {
 			return item('body');
 		}), site, sites);
 	}
@@ -266,16 +241,22 @@ class Site {
 	 * @param element
 	 */
 	scoreHyperlink(element, site = this, sites = this.crawler.originals) {
+		if (element.text().length === 0) {
+			return 0;
+		}
 		const $ = this.$;
 		const parent = element.parent();
 		const context = parent.text();
-		let linkTextLength = context.length;
-		$(parent).find('a').each((index, element) => {
-			linkTextLength -= $(element).text().length;
-		});
-		if (linkTextLength === 0) {
-			return 0;
-		}
+
+		/*
+		 let linkTextLength = context.length;
+		 $(parent).find('a').each((index, element) => {
+		 linkTextLength -= $(element).text().length;
+		 });
+		 if (linkTextLength === 0) {
+		 return 0;
+		 }
+		 */
 
 		/**
 		 * Check if this linktext and url combination exists on other sites
@@ -295,7 +276,6 @@ class Site {
 		if (score > 30) {
 			return 0;
 		}
-
 
 		return Site.getTextDensity(parent) + linkTextLength;
 	}
