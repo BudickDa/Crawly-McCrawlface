@@ -51,8 +51,8 @@ describe('Crawler', function() {
 	});
 
 	describe('#addFilter()', function() {
+		this.timeout(6000);
 		it('should only allow regex or string', function() {
-			this.timeout(6000);
 			const fail = new Crawler(url);
 			assert.throws(() => {
 				fail.addFilter(1);
@@ -193,6 +193,7 @@ describe('Crawler', function() {
 				c.stop();
 				policeCrawler.getContent(url, 'HTML').then(html => {
 					const $ = Cheerio.load(html);
+					//console.log($.html());
 					$('body *').each((index, element) => {
 						assert(($(element).attr('entropy') > 0) || ($(element).children().length > 0));
 					});

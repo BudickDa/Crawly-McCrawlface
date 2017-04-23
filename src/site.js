@@ -85,7 +85,7 @@ class Site {
 		$('style').remove();
 		$('script').remove();
 		$('link').remove();
-		$('meta').remove()
+		$('meta').remove();
 		/**
 		 * Remove every emtpy tag except hyperlinks without children recursively
 		 */

@@ -24,6 +24,8 @@ import Helpers from './helpers';
 
 class Extractor {
 	static extractContent($) {
+		$('input').remove();
+		$('label').remove();
 		Extractor.normalizeDOM($);
 		Extractor.cleanScoredDOM($);
 		const title = $('title').text();

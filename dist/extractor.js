@@ -49,6 +49,8 @@ var Extractor = function () {
 	_createClass(Extractor, null, [{
 		key: 'extractContent',
 		value: function extractContent($) {
+			$('input').remove();
+			$('label').remove();
 			Extractor.normalizeDOM($);
 			Extractor.cleanScoredDOM($);
 			var title = $('title').text();
