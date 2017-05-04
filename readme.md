@@ -7,7 +7,7 @@ A small crawler that downloads html from the web and applies content extraction.
     //Create crawler and supply seed as string or array of strings
     const crawler = new Crawler('https://budick.eu');
     // or if you want multiple domains:
-    // const crawler = new Crawler(['https://budick.eu', https://hackerberryfinn.com]);
+    // const crawler = new Crawler(['https://budick.eu', 'https://hackerberryfinn.com']);
 
     //start crawling
     crawler.start();
