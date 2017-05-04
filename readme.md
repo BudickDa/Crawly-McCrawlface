@@ -1,11 +1,13 @@
 # Crawly McCrawlface
-A small crawler that downloads html from the web and applying some content extraction.
+A small crawler that downloads html from the web and applies content extraction.
 
 #Install
 `npm install crawly-mccrawlface`
 
     //Create crawler and supply seed as string or array of strings
     const crawler = new Crawler('https://budick.eu');
+    // or if you want multiple domains:
+    // const crawler = new Crawler(['https://budick.eu', https://hackerberryfinn.com]);
 
     //start crawling
     crawler.start();
@@ -107,7 +109,7 @@ If the content is crawled from different domains, the event will not be helpful 
 
 `finished` is fired when the queue is empty. On default usages, this is the point when everything is ready.
 
-`ready` is called, when there are enough sites (default: 50) to do a content extraction or all sites of domain were crawled.
+`ready` is called, when there are enough sites (default: 50 or set with options.readyIn) to do a content extraction or all sites of domain were crawled.
 
 # API
 todo
@@ -119,9 +121,15 @@ Test with:
 `npm test`
 
 # Content extraction
-Content extraction will only work if at least five sites with the same template were crawled.
+There are multiple algorythm used to do content extraction:
+
+## Gold Miner
+Gold miner will only work if at least two sites with the same template were crawled.
 The extraction works by looking on the differences between the sites.
 The nodes with a difference more than the mean differences of all nodes are extracted as content.
+
+## Link Quota Filtering + Text density + some counting
+If only one site is crawled and its content extracted, nodes are classified with link quota filtering, text density and count of special tags.
 
 
 # For questions or problems
