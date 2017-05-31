@@ -31,7 +31,7 @@ class Site {
 		if (crawler) {
 			this.crawler = crawler;
 		} else {
-			console.info('This constructor should not be called manually.')
+			//console.info('This constructor should not be called manually.')
 		}
 		if (url) {
 			this.url = URL.parse(url);
@@ -52,7 +52,7 @@ class Site {
 			}
 			this.hash = XXH.h32(text, 0xABCD).toString(16);
 			this.$ = this.cleanDOM($);
-			this.original = cheerio.load(this.$).html();
+			this.original = this.$.html();
 			this.crawler.originals.push({
 				$: this.$,
 				hash: this.hash
@@ -61,6 +61,23 @@ class Site {
 			return this;
 		}
 		return false;
+	}
+
+	simulateLoading(html, crawler = this.crawler) {
+		this.crawler = crawler;
+		const $ = cheerio.load(html);
+		let text = $('body').html();
+		if (!text) {
+			text = '';
+		}
+		this.hash = XXH.h32(text, 0xABCD).toString(16);
+		this.$ = this.cleanDOM($);
+		this.original = this.$.html();
+		this.ready = true;
+		this.crawler.originals.push({
+			$: this.$,
+			hash: this.hash
+		});
 	}
 
 	html(selector) {
@@ -77,6 +94,9 @@ class Site {
 		}
 		if (type === 'HTML') {
 			return html;
+		}
+		if (type === 'CLEANEVAL') {
+			return this.html2cleaneval(html);
 		}
 
 	}
@@ -149,7 +169,7 @@ class Site {
 			 * Test if enough sites were crawled.
 			 * If not use only Classifier.
 			 */
-			if(this.crawler && this.crawler.options.readyIn <= lengthSites) {
+			if (this.crawler && this.crawler.options.readyIn <= lengthSites) {
 				const text = this.getOnlyText(node, site);
 				for (let i = 0; i < lengthSites; i++){
 					let otherText = this.getOnlyText(otherNodes[i], sites[i]);
@@ -160,7 +180,7 @@ class Site {
 					}
 				}
 				entropy = Helpers.mean(scores) * Classifier.classify(site.$(node));
-			}else{
+			} else {
 				entropy = Classifier.classify(site.$(node));
 			}
 		}
@@ -284,6 +304,51 @@ class Site {
 		const clone = site.$(node).clone();
 		clone.children().remove();
 		return clone.text();
+	}
+
+	html2cleaneval(html) {
+		const tmpDOM = cheerio.load(html.replace(/\n|\t/gi, ' ').replace(/\s+/gi, ' '));
+		tmpDOM('*').each((index, element) => {
+			const node = tmpDOM(element);
+			switch (element.name) {
+				case 'li':
+					node.prepend('[[l]]');
+					node.append('\n\n');
+					break;
+				case 'p':
+					node.prepend('[[p]]');
+					node.append('\n\n');
+					break;
+				case 'h1':
+					node.prepend('[[h]]');
+					node.append('\n\n');
+					break;
+				case 'h2':
+					node.prepend('[[h]]');
+					node.append('\n\n');
+					break;
+				case 'h3':
+					node.prepend('[[h]]');
+					node.append('\n\n');
+					break;
+				case 'h4':
+					node.prepend('[[h]]');
+					node.append('\n\n');
+					break;
+				case 'h5':
+					node.prepend('[[h]]');
+					node.append('\n\n');
+					break;
+				case 'h6':
+					node.prepend('[[h]]');
+					node.append('\n\n');
+					break;
+				default:
+					break;
+			}
+			node.append(' ');
+		});
+		return tmpDOM.text().replace(/\[\[/gi, '<').replace(/]]/gi, '>');
 	}
 
 	html2text(html) {

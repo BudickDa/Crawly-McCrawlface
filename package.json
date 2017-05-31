@@ -27,6 +27,7 @@
     "dotenv": "^4.0.0",
     "google-nlp-api": "^0.1.14",
     "levenshtein": "^1.0.5",
+    "lodash": "^4.17.4",
     "process": "^0.11.9",
     "request": "^2.75.0",
     "robots-parser": "^1.0.1",

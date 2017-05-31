@@ -66,7 +66,7 @@ var Site = function () {
 		if (crawler) {
 			this.crawler = crawler;
 		} else {
-			console.info('This constructor should not be called manually.');
+			//console.info('This constructor should not be called manually.')
 		}
 		if (url) {
 			this.url = _url2.default.parse(url);
@@ -104,7 +104,7 @@ var Site = function () {
 								}
 								this.hash = _xxhashjs2.default.h32(text, 0xABCD).toString(16);
 								this.$ = this.cleanDOM($);
-								this.original = _cheerio2.default.load(this.$).html();
+								this.original = this.$.html();
 								this.crawler.originals.push({
 									$: this.$,
 									hash: this.hash
@@ -130,6 +130,26 @@ var Site = function () {
 			return load;
 		}()
 	}, {
+		key: 'simulateLoading',
+		value: function simulateLoading(html) {
+			var crawler = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler;
+
+			this.crawler = crawler;
+			var $ = _cheerio2.default.load(html);
+			var text = $('body').html();
+			if (!text) {
+				text = '';
+			}
+			this.hash = _xxhashjs2.default.h32(text, 0xABCD).toString(16);
+			this.$ = this.cleanDOM($);
+			this.original = this.$.html();
+			this.ready = true;
+			this.crawler.originals.push({
+				$: this.$,
+				hash: this.hash
+			});
+		}
+	}, {
 		key: 'html',
 		value: function html(selector) {
 			return this.$(selector).html();
@@ -148,6 +168,9 @@ var Site = function () {
 			}
 			if (type === 'HTML') {
 				return html;
+			}
+			if (type === 'CLEANEVAL') {
+				return this.html2cleaneval(html);
 			}
 		}
 	}, {
@@ -286,7 +309,7 @@ var Site = function () {
 										}, _callee2, _this2);
 									}));
 
-									return function (_x9, _x10) {
+									return function (_x10, _x11) {
 										return _ref3.apply(this, arguments);
 									};
 								}());
@@ -301,7 +324,7 @@ var Site = function () {
 				}, _callee3, this);
 			}));
 
-			function scoreNode(_x5, _x6) {
+			function scoreNode(_x6, _x7) {
 				return _ref2.apply(this, arguments);
 			}
 
@@ -469,6 +492,52 @@ var Site = function () {
 			var clone = site.$(node).clone();
 			clone.children().remove();
 			return clone.text();
+		}
+	}, {
+		key: 'html2cleaneval',
+		value: function html2cleaneval(html) {
+			var tmpDOM = _cheerio2.default.load(html.replace(/\n|\t/gi, ' ').replace(/\s+/gi, ' '));
+			tmpDOM('*').each(function (index, element) {
+				var node = tmpDOM(element);
+				switch (element.name) {
+					case 'li':
+						node.prepend('[[l]]');
+						node.append('\n\n');
+						break;
+					case 'p':
+						node.prepend('[[p]]');
+						node.append('\n\n');
+						break;
+					case 'h1':
+						node.prepend('[[h]]');
+						node.append('\n\n');
+						break;
+					case 'h2':
+						node.prepend('[[h]]');
+						node.append('\n\n');
+						break;
+					case 'h3':
+						node.prepend('[[h]]');
+						node.append('\n\n');
+						break;
+					case 'h4':
+						node.prepend('[[h]]');
+						node.append('\n\n');
+						break;
+					case 'h5':
+						node.prepend('[[h]]');
+						node.append('\n\n');
+						break;
+					case 'h6':
+						node.prepend('[[h]]');
+						node.append('\n\n');
+						break;
+					default:
+						break;
+				}
+				node.append(' ');
+			});
+			return tmpDOM.text().replace(/\[\[/gi, '<').replace(/]]/gi, '>');
 		}
 	}, {
 		key: 'html2text',

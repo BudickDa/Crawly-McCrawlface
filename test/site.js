@@ -32,6 +32,16 @@ before(function() {
 describe('Site', function() {
 	const crawler = new Crawler();
 
+	describe('#simulateLoading()', function() {
+		it('should create a site from a string of html', function(done) {
+			const site = new Crawler.Site('https://test.com');
+			const html = '<body><div><nav>Template</nav></div><div class="content"><a href="/test.html">a</a><a href="mailto:test@test.de">mail</a><a href="https://google.com">google.com</a></div></body>';
+			site.simulateLoading(html);
+			assert.equal(site.$.html(), html);
+			assert.equal(site.original, html);
+		});
+	});
+
 	describe('#cleanDOM()', function() {
 		it('should clean the dom from empty nodes, styles and scripts but not images', function() {
 			const site = new Crawler.Site('', crawler);

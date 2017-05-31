@@ -114,10 +114,23 @@ var Helpers = function () {
 	}, {
 		key: 'getDistance',
 		value: function getDistance(text, otherText) {
-			var cleanText = text.replace(/\d/gi, 'd');
-			var cleanOtherText = otherText.replace(/\d/gi, 'd');
+			var cleanText = text.replace(/\n|\t|\s/, '').replace(/\d/gi, 'd');
+			var cleanOtherText = otherText.replace(/\n|\t|\s/, '').replace(/\d/gi, 'd');
 			var distance = new _levenshtein2.default(cleanText, cleanOtherText).distance;
 			return distance;
+		}
+
+		/**
+   * Get the equality of two texts zero to one by taking the levenshein distance and the length of the text.
+   * @param text
+   * @param otherText
+   */
+
+	}, {
+		key: 'compareText',
+		value: function compareText(text, otherText) {
+			var distance = Helpers.getDistance(text, otherText);
+			return 1 - distance / (text.length || 1);
 		}
 	}, {
 		key: 'count',

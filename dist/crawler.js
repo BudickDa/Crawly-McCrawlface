@@ -21,9 +21,9 @@ var _url2 = require('url');
 
 var _url3 = _interopRequireDefault(_url2);
 
-var _underscore = require('underscore');
+var _lodash = require('lodash');
 
-var _underscore2 = _interopRequireDefault(_underscore);
+var _lodash2 = _interopRequireDefault(_lodash);
 
 var _events = require('events');
 
@@ -140,7 +140,7 @@ var Crawler = function (_EventEmitter) {
 								} else if (typeof seed === 'string') {
 									this.queue.push(_url3.default.parse(seed));
 								}
-								urls = _underscore2.default.unique(this.queue.map(function (url) {
+								urls = _lodash2.default.uniq(this.queue.map(function (url) {
 									return _url3.default.parse(_url3.default.resolve(url.href, '/'));
 								}));
 
@@ -198,14 +198,14 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'each',
 		value: function each(cb) {
-			_underscore2.default.forEach(this.sites, cb);
+			_lodash2.default.forEach(this.sites, cb);
 		}
 	}, {
 		key: 'eachHTML',
 		value: function eachHTML(cb) {
 			var _this2 = this;
 
-			_underscore2.default.forEach(this.sites, function () {
+			_lodash2.default.forEach(this.sites, function () {
 				var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(site) {
 					return regeneratorRuntime.wrap(function _callee2$(_context2) {
 						while (1) {
@@ -237,7 +237,7 @@ var Crawler = function (_EventEmitter) {
 		value: function eachText(cb) {
 			var _this3 = this;
 
-			_underscore2.default.forEach(this.sites, function () {
+			_lodash2.default.forEach(this.sites, function () {
 				var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(site) {
 					return regeneratorRuntime.wrap(function _callee3$(_context3) {
 						while (1) {
@@ -288,7 +288,7 @@ var Crawler = function (_EventEmitter) {
 							case 4:
 								result = _context4.sent;
 
-								_underscore2.default.forEach(result.sites, function (site) {
+								_lodash2.default.forEach(result.sites, function (site) {
 									_this4.addToQueue(site);
 								});
 								_context4.next = 11;
@@ -370,7 +370,7 @@ var Crawler = function (_EventEmitter) {
 			/**
     * Prevents filters from beeing doubled.
     */
-			if (!_underscore2.default.contains(this.filters, filter)) {
+			if (!_lodash2.default.includes(this.filters, filter)) {
 				this.filters.push(filter);
 			}
 		}
@@ -390,6 +390,20 @@ var Crawler = function (_EventEmitter) {
 			if (this.sites.length === 0) {
 				return;
 			}
+
+			/**
+    * First try to find exact url
+    */
+			var i = _lodash2.default.findIndex(this.sites, function (u) {
+				return u.href === url;
+			});
+			if (i > -1) {
+				return this.sites[i];
+			}
+
+			/**
+    * If this fails find the next best url
+    */
 			var index = -1;
 			var distance = url.length / 2;
 			this.sites.forEach(function (site, i) {
@@ -421,7 +435,7 @@ var Crawler = function (_EventEmitter) {
 			}
 
 			if (crawler.queue.length > 0 && !crawler.state.stopped) {
-				var url = _underscore2.default.first(crawler.queue);
+				var url = _lodash2.default.first(crawler.queue);
 				crawler.crawled.push(url.href);
 				crawler.queue.shift();
 				var site = new _site2.default(url.href, crawler);
@@ -482,7 +496,7 @@ var Crawler = function (_EventEmitter) {
 			} else {
 				throw new TypeError('isWorkedOn needs Site or url as String or as URL as parameter.');
 			}
-			return _underscore2.default.contains(this.state.working, url);
+			return _lodash2.default.includes(this.state.working, url);
 		}
 
 		/**
@@ -621,7 +635,7 @@ var Crawler = function (_EventEmitter) {
 				match = match || Boolean(href.match(filter));
 			});
 
-			var domain = _underscore2.default.find(crawler.domains, function (domain) {
+			var domain = _lodash2.default.find(crawler.domains, function (domain) {
 				return domain.hostname === url.hostname;
 			});
 
@@ -642,7 +656,7 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'alreadyCrawled',
 		value: function alreadyCrawled(href) {
-			return _underscore2.default.contains(this.crawled, href) || _underscore2.default.contains(this.queue.map(function (u) {
+			return _lodash2.default.includes(this.crawled, href) || _lodash2.default.includes(this.queue.map(function (u) {
 				return u.href;
 			}), href);
 		}

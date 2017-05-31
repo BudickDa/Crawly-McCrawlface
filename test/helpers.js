@@ -39,7 +39,7 @@ describe('Helpers', function() {
 	describe('#count()', function() {
 		it('should return the number of p', function() {
 			const $ = Cheerio.load('<div id="node"><div><p></p></div><p><p></p></p><p></p></div>');
-			assert.equal(Helpers.count($('#node'),'p'), 5);
+			assert.equal(Helpers.count($('#node'), 'p'), 5);
 		});
 	});
 
@@ -47,6 +47,36 @@ describe('Helpers', function() {
 		it('should return one', function() {
 			const $ = Cheerio.load('<div id="node"><div><p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p></div><p>AAAAAAAAAAA</p><p>AAAAAAAAAAAAAAAAAAAAAAAA</p><p>AAAAAAAAAAAAAAAAAAA</p></div>');
 			assert.equal(Helpers.textDensity($('#node')), 0.7);
+		});
+	});
+
+	describe('#getDistance()', function() {
+		it('should return zero', function() {
+			assert.equal(Helpers.getDistance('aaaa', 'aaaa'), 0);
+		});
+		it('should return 1', function() {
+			assert.equal(Helpers.getDistance('aaab', 'aaaa'), 1);
+		});
+		it('should return 2', function() {
+			assert.equal(Helpers.getDistance('aabb', 'aaaa'), 2);
+		});
+		it('should return 3', function() {
+			assert.equal(Helpers.getDistance('abcd', 'aaaa'), 3);
+		});
+	});
+
+	describe('#compareText()', function() {
+		it('should return one', function() {
+			assert.equal(Helpers.compareText('aaaa', 'aaaa'), 1);
+		});
+		it('should return 0,75', function() {
+			assert.equal(Helpers.compareText('aaab', 'aaaa'), 0.75);
+		});
+		it('should return 0,5', function() {
+			assert.equal(Helpers.compareText('aabb', 'aaaa'), 0.5);
+		});
+		it('should return 0,25', function() {
+			assert.equal(Helpers.compareText('abcd', 'aaaa'), 0.25);
 		});
 	});
 });

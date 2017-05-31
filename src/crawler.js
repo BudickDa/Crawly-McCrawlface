@@ -21,7 +21,7 @@
 import cheerio from 'cheerio';
 import request from 'request';
 import URL from 'url';
-import _ from 'underscore';
+import _ from 'lodash';
 import EventEmitter from 'events';
 import Site from './site';
 import Levenshtein from 'levenshtein';
@@ -71,7 +71,7 @@ class Crawler extends EventEmitter {
 		} else if (typeof seed === 'string') {
 			this.queue.push(URL.parse(seed));
 		}
-		const urls = _.unique(this.queue.map(url => {
+		const urls = _.uniq(this.queue.map(url => {
 			return URL.parse(URL.resolve(url.href, '/'));
 		}));
 		this.domains = []
@@ -153,7 +153,7 @@ class Crawler extends EventEmitter {
 		/**
 		 * Prevents filters from beeing doubled.
 		 */
-		if (!_.contains(this.filters, filter)) {
+		if (!_.includes(this.filters, filter)) {
 			this.filters.push(filter);
 		}
 	}
@@ -171,6 +171,18 @@ class Crawler extends EventEmitter {
 		if (this.sites.length === 0) {
 			return;
 		}
+
+		/**
+		 * First try to find exact url
+		 */
+		const i = _.findIndex(this.sites, u => u.href === url);
+		if (i > -1) {
+			return this.sites[i];
+		}
+
+		/**
+		 * If this fails find the next best url
+		 */
 		let index = -1;
 		let distance = url.length / 2;
 		this.sites.forEach((site, i) => {
@@ -252,7 +264,7 @@ class Crawler extends EventEmitter {
 		} else {
 			throw new TypeError('isWorkedOn needs Site or url as String or as URL as parameter.')
 		}
-		return _.contains(this.state.working, url);
+		return _.includes(this.state.working, url);
 	}
 
 	/**
@@ -363,7 +375,7 @@ class Crawler extends EventEmitter {
 	}
 
 	alreadyCrawled(href) {
-		return _.contains(this.crawled, href) || _.contains(this.queue.map(u => u.href), href);
+		return _.includes(this.crawled, href) || _.includes(this.queue.map(u => u.href), href);
 	}
 
 	async getContent(url, type = 'PLAIN_TEXT') {

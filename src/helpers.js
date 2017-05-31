@@ -77,10 +77,20 @@ class Helpers {
 	 * @returns {*|number}
 	 */
 	static  getDistance(text, otherText) {
-		const cleanText = text.replace(/\d/gi, 'd');
-		const cleanOtherText = otherText.replace(/\d/gi, 'd');
+		const cleanText = text.replace(/\n|\t|\s/,'').replace(/\d/gi, 'd');
+		const cleanOtherText = otherText.replace(/\n|\t|\s/,'').replace(/\d/gi, 'd');
 		const distance = new Levenshtein(cleanText, cleanOtherText).distance;
 		return distance;
+	}
+
+	/**
+	 * Get the equality of two texts zero to one by taking the levenshein distance and the length of the text.
+	 * @param text
+	 * @param otherText
+	 */
+	static compareText(text, otherText) {
+		const distance = Helpers.getDistance(text, otherText);
+		return 1 - distance / (text.length || 1);
 	}
 
 	static count(node, el) {

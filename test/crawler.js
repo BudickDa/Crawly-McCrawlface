@@ -139,7 +139,7 @@ describe('Crawler', function() {
 					assert($(element).attr('entropy') > 0);
 				});
 				done();
-			});
+			}).catch(done);
 		});
 		it('get HTML of details.html', function(done) {
 			crawler.getContent(url + '/details.html').then(html => {
@@ -148,7 +148,7 @@ describe('Crawler', function() {
 					assert($(element).attr('entropy') > 0);
 				});
 				done();
-			});
+			}).catch(done);
 		});
 		it('get HTML of profile.html', function(done) {
 			crawler.getContent(url + '/profile.html').then(html => {
@@ -157,7 +157,7 @@ describe('Crawler', function() {
 					assert($(element).attr('entropy') > 0);
 				});
 				done();
-			});
+			}).catch(done);
 		});
 
 		it('get PLAIN_TEXT of index.html', function(done) {
@@ -165,58 +165,89 @@ describe('Crawler', function() {
 				assert(content.length > 30);
 				assert(content.length < 100);
 				done();
-			});
+			}).catch(done);
 		});
-
 		it('get PLAIN_TEXT of details.html', function(done) {
 			crawler.getContent(url + '/details.html', 'PLAIN_TEXT').then(content => {
 				assert(content.length > 1250);
 				assert(content.length < 1450);
 				done();
-			});
+			}).catch(done);
 		});
-
 		it('get PLAIN_TEXT of profile.html', function(done) {
 			crawler.getContent(url + '/profile.html', 'PLAIN_TEXT').then(content => {
 				assert(content.length > 700);
 				assert(content.length < 900);
 				done();
-			});
+			}).catch(done);
 		});
 
-		it('get text from wikipedia to test performance', function(done) {
-			this.timeout(60000);
-			const url = 'http://www.polizei.bayern.de/bepo/news/presse/aktuell/index.html/241771';
-			const policeCrawler = new Crawler(url);
-			policeCrawler.workQueue();
-			policeCrawler.on('ready', c => {
-				c.stop();
-				policeCrawler.getContent(url, 'HTML').then(html => {
-					const $ = Cheerio.load(html);
-					//console.log($.html());
-					$('body *').each((index, element) => {
-						assert(($(element).attr('entropy') > 0) || ($(element).children().length > 0));
-					});
-					done();
-				});
-			});
+		it('get CLEANEVAL of index.html', function(done) {
+			crawler.getContent(url + '/index.html', 'CLEANEVAL').then(content => {
+				console.log(content);
+				const result = Crawler.Helpers.compareText(content, `<h>Members:
+
+				<l>Daniel Budick | 1989 | Engineer
+				
+				`);
+				console.log(result);
+				assert(result > 0.8);
+				done();
+			}).catch(done);
+		});
+		it('get CLEANEVAL of details.html', function(done) {
+			crawler.getContent(url + '/details.html', 'CLEANEVAL').then(content => {
+				console.log(content);
+				const result = Crawler.Helpers.compareText(content, `<h>Lorem Ipsum
+    <p>Vivamus elementum est non purus interdum, nec lobortis arcu lacinia. Quisque ornare dapibus massa ac condimentum.
+        Duis sollicitudin ante eu erat lobortis pharetra. Sed viverra risus orci. Praesent rutrum, quam ut imperdiet
+        dictum, lectus tellus dignissim metus, et ullamcorper tortor massa congue tortor. Etiam vulputate aliquam
+        aliquam. Ut risus quam, aliquam quis dolor in, elementum accumsan purus. Praesent tempus vel justo et efficitur.
+        Vivamus ut dictum libero. Suspendisse vel purus ultrices, vestibulum tellus non, bibendum nisl. Pellentesque ut
+        molestie elit. Donec malesuada augue ac dui congue tincidunt. Orci varius natoque penatibus et magnis dis
+        parturient montes, nascetur ridiculus mus. Pellentesque ultricies sapien non eleifend porttitor. Aliquam at
+        nulla quis eros porta molestie ac dignissim magna.
+
+    <p>Vivamus suscipit ullamcorper ante at euismod. Ut at est eu nisl placerat dapibus id egestas neque. Praesent orci
+        mi, lacinia sed commodo sit amet, tincidunt venenatis dolor. Vivamus vitae justo ac elit varius vestibulum eu
+        eget dolor. Nulla varius nisi velit, quis auctor augue finibus eu. Phasellus eget tellus nulla. Duis ac enim
+        dignissim, lobortis erat eget, venenatis elit.
+				`);
+				console.log(result);
+				assert(result > 0.8);
+				done();
+			}).catch(done);
+		});
+		it('get CLEANEVAL of profile.html', function(done) {
+			crawler.getContent(url + '/profile.html', 'CLEANEVAL').then(content => {
+				console.log(content);
+				const result = Crawler.Helpers.compareText(content, `<h>Daniel Budick, B.Eng.
+
+				Phone:
+				+49 (0)911 - 980 328 49
+				
+				Mail:
+				daniel@budick.eu
+				
+				Address:
+				Zehentweg 11a,
+				90768 Fürth
+				Germany
+
+        <h>About me
+        <p>Daniel Budick (born 1989) is a freelancing developer creating
+            web apps, native apps and backends. He started programming
+            with 16 and became a freelancer with 24. 2015 he founded
+            budick.eu - software engineering.
+            He has a special interest in data mining, machine learning,
+            text analysis and dialog systems. His main languages are:
+            JavaScript, Java, C#, Python and PHP.`);
+				console.log(result);
+				assert(result > 0.8);
+				done();
+			}).catch(done);
 		});
 
-		/*it('get text from wikipedia to test performance', function(done) {
-		 this.timeout(60000);
-		 const url = 'https://de.wikipedia.org/wiki/Test';
-		 const wikiCrawler = new Crawler(url);
-		 wikiCrawler.workQueue();
-		 wikiCrawler.on('ready', c => {
-		 c.stop();
-		 const $ = Cheerio.load(wikiCrawler.getContent(url, 'HTML'));
-		 $('body *').each((index, element) => {
-		 assert(($(element).attr('entropy') > 0) || ($(element).children().length > 0));
-		 });
-		 done();
-		 });
-		 });
-		 });*/
 
 		describe('#eachHTML()', function() {
 			this.timeout(6000);
@@ -225,7 +256,7 @@ describe('Crawler', function() {
 				crawler.eachHTML(html => {
 					i++;
 					assert.equal(typeof html, 'string');
-					if(i===crawler.sites.length){
+					if (i === crawler.sites.length) {
 						done();
 					}
 				});
@@ -239,7 +270,7 @@ describe('Crawler', function() {
 				crawler.eachText(text => {
 					i++;
 					assert.equal(typeof text, 'string');
-					if(i===crawler.sites.length){
+					if (i === crawler.sites.length) {
 						done();
 					}
 				});

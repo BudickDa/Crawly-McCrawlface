@@ -97,10 +97,10 @@ var Classifier = function () {
 				throw new TypeError('Parameter node in Classifier.classify has to be a cheerio node. Or must have the function html() and text()');
 			}
 
-			if (node[0].name.toLowerCase() === 'a') {
+			if (node[0] && node[0].name.toLowerCase() === 'a') {
 				return Classifier.classifyHyperlink(node);
 			}
-			if (node[0].name.toLowerCase().match(/h[1-6]/i)) {
+			if (node[0] && node[0].name.toLowerCase().match(/h[1-6]/i)) {
 				return Classifier.classifyHeadline(node);
 			}
 
