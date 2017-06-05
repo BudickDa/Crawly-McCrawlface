@@ -77,8 +77,8 @@ class Helpers {
 	 * @returns {*|number}
 	 */
 	static  getDistance(text, otherText) {
-		const cleanText = text.replace(/\n|\t|\s/,'').replace(/\d/gi, 'd');
-		const cleanOtherText = otherText.replace(/\n|\t|\s/,'').replace(/\d/gi, 'd');
+		const cleanText = text.replace(/\n|\t|\s/, '').replace(/\d/gi, 'd');
+		const cleanOtherText = otherText.replace(/\n|\t|\s/, '').replace(/\d/gi, 'd');
 		const distance = new Levenshtein(cleanText, cleanOtherText).distance;
 		return distance;
 	}
@@ -99,6 +99,20 @@ class Helpers {
 
 	static isNode(node) {
 		return Boolean(node) && _.isFunction(node.text) && _.isFunction(node.html);
+	}
+
+	static isEmptyNode(node) {
+		if (Helpers.isNode(node)) {
+			return Helpers.nodeHasNoText(node) && node.children().length === 0;
+		}
+		throw new TypeError('Helpers.nodehasNoText() needs parameter type of node');
+	}
+
+	static nodeHasNoText(node) {
+		if (Helpers.isNode(node)) {
+			return node.text().replace(/\n|\s|\t/gi, '').length === 0;
+		}
+		throw new TypeError('Helpers.nodehasNoText() needs parameter type of node');
 	}
 }
 export {Helpers  as  default};

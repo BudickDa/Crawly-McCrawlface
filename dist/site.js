@@ -282,9 +282,8 @@ var Site = function () {
 											}
 										}
 										entropy = _helpers2.default.mean(scores) * _classifier2.default.classify(site.$(node));
-									} else {
-										entropy = _classifier2.default.classify(site.$(node));
 									}
+									entropy += _classifier2.default.classify(site.$(node));
 								}
 								element.attr('entropy', entropy);
 								_underscore2.default.forEach(element.children(), function () {
@@ -427,63 +426,6 @@ var Site = function () {
 
 			return scoreDOM;
 		}()
-
-		/**
-   * Evaluates ankers
-   * The worth of an anker is in relation to the context.
-   * An anker within a text is probably part of this text, thus it is part of the content.
-   *
-   * To compute the core we use the text density (length of text / count of children) and
-   * the length of the context - the length of all link text in parent.
-   * @param element
-   */
-
-	}, {
-		key: 'scoreHyperlink',
-		value: function scoreHyperlink(element) {
-			var _this3 = this;
-
-			var site = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this;
-			var sites = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.crawler.originals;
-
-			if (element.text().length === 0) {
-				return 0;
-			}
-			var $ = this.$;
-			var parent = element.parent();
-			var context = parent.text();
-
-			/*
-    let linkTextLength = context.length;
-    $(parent).find('a').each((index, element) => {
-    linkTextLength -= $(element).text().length;
-    });
-    if (linkTextLength === 0) {
-    return 0;
-    }
-    */
-
-			/**
-    * Check if this linktext and url combination exists on other sites
-    */
-			var count = 0;
-			sites.forEach(function (site) {
-				if (site.hash !== _this3.hash) {
-					site.$('a').each(function (i, el) {
-						var otherElement = site.$(el);
-						if (element.text() === otherElement.text() && element.attr('href') === otherElement.attr('href')) {
-							count++;
-						}
-					});
-				}
-			});
-			var score = count / (sites.length + 1) * 100;
-			if (score > 30) {
-				return 0;
-			}
-
-			return Site.getTextDensity(parent) + linkTextLength;
-		}
 	}, {
 		key: 'getOnlyText',
 		value: function getOnlyText(node) {
@@ -499,6 +441,12 @@ var Site = function () {
 			var tmpDOM = _cheerio2.default.load(html.replace(/\n|\t/gi, ' ').replace(/\s+/gi, ' '));
 			tmpDOM('*').each(function (index, element) {
 				var node = tmpDOM(element);
+				if (_helpers2.default.nodeHasNoText(node)) {
+					if (_helpers2.default.isEmptyNode(node)) {
+						return node.remove();
+					}
+					return;
+				}
 				switch (element.name) {
 					case 'li':
 						node.prepend('[[l]]');
@@ -537,7 +485,8 @@ var Site = function () {
 				}
 				node.append(' ');
 			});
-			return tmpDOM.text().replace(/\[\[/gi, '<').replace(/]]/gi, '>');
+			var text = tmpDOM.text();
+			return text.replace(/\[\[/gi, '<').replace(/]]/gi, '>');
 		}
 	}, {
 		key: 'html2text',

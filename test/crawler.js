@@ -220,6 +220,7 @@ describe('Crawler', function() {
 		});
 		it('get CLEANEVAL of profile.html', function(done) {
 			crawler.getContent(url + '/profile.html', 'CLEANEVAL').then(content => {
+				console.log(crawler.getByUrl(url + '/profile.html').$.html());
 				console.log(content);
 				const result = Crawler.Helpers.compareText(content, `<h>Daniel Budick, B.Eng.
 

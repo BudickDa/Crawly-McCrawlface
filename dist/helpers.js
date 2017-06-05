@@ -142,6 +142,22 @@ var Helpers = function () {
 		value: function isNode(node) {
 			return Boolean(node) && _underscore2.default.isFunction(node.text) && _underscore2.default.isFunction(node.html);
 		}
+	}, {
+		key: 'isEmptyNode',
+		value: function isEmptyNode(node) {
+			if (Helpers.isNode(node)) {
+				return Helpers.nodeHasNoText(node) && node.children().length === 0;
+			}
+			throw new TypeError('Helpers.nodehasNoText() needs parameter type of node');
+		}
+	}, {
+		key: 'nodeHasNoText',
+		value: function nodeHasNoText(node) {
+			if (Helpers.isNode(node)) {
+				return node.text().replace(/\n|\s|\t/gi, '').length === 0;
+			}
+			throw new TypeError('Helpers.nodehasNoText() needs parameter type of node');
+		}
 	}]);
 
 	return Helpers;

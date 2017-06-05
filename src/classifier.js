@@ -61,11 +61,10 @@ class Classifier {
 			throw new TypeError('Parameter node in Classifier.classify has to be a cheerio node. Or must have the function html() and text()');
 		}
 
-		if (node[0] && node[0].name.toLowerCase() === 'a') {
-			return Classifier.classifyHyperlink(node);
-		}
-		if(node[0] && node[0].name.toLowerCase().match(/h[1-6]/i)){
-			return Classifier.classifyHeadline(node);
+		if (node[0] && node[0].name.toLowerCase() === 'a' || node[0] && node[0].name.toLowerCase().match(/h[1-6]/i)) {
+			if(Classifier.isPartOfNav(node)){
+				return -9001;
+			}
 		}
 
 		const textDensity = Helpers.textDensity(node);
@@ -90,27 +89,19 @@ class Classifier {
 		return textDensity + lqf + imageNumber + paragraphs + inverseHyperlinks + inverseDivs + teh;
 	}
 
-	static classifyHeadline(node) {
-		try{
-			const parentDensity = Helpers.textDensity(node.parent());
-			return parentDensity > 0.5 ? parentDensity * 100 : 0;
-		}catch(e){
-			return 0;
-		}
-	}
-
-	static classifyHyperlink(node) {
+	static isPartOfNav(node) {
 		try{
 			if (node.parent()[0].name.toLowerCase() === 'li') {
 				const density = Helpers.textDensity(node.parent().parent().parent());
-				return density > 0.5 ? density * 100 : 0;
+				return density < 0.5;
 			}
 			const parentDensity = Helpers.textDensity(node.parent());
-			return parentDensity > 0.5 ? parentDensity * 100 : 0;
+			return parentDensity < 0.5;
 		}catch(e){
-			return 0;
+			return true;
 		}
 	}
+
 }
 
 Classifier.LinkQuotaFilter = LinkQuotaFilter;

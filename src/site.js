@@ -251,55 +251,6 @@ class Site {
 		}), site, sites);
 	}
 
-	/**
-	 * Evaluates ankers
-	 * The worth of an anker is in relation to the context.
-	 * An anker within a text is probably part of this text, thus it is part of the content.
-	 *
-	 * To compute the core we use the text density (length of text / count of children) and
-	 * the length of the context - the length of all link text in parent.
-	 * @param element
-	 */
-	scoreHyperlink(element, site = this, sites = this.crawler.originals) {
-		if (element.text().length === 0) {
-			return 0;
-		}
-		const $ = this.$;
-		const parent = element.parent();
-		const context = parent.text();
-
-		/*
-		 let linkTextLength = context.length;
-		 $(parent).find('a').each((index, element) => {
-		 linkTextLength -= $(element).text().length;
-		 });
-		 if (linkTextLength === 0) {
-		 return 0;
-		 }
-		 */
-
-		/**
-		 * Check if this linktext and url combination exists on other sites
-		 */
-		let count = 0;
-		sites.forEach(site => {
-			if (site.hash !== this.hash) {
-				site.$('a').each((i, el) => {
-					const otherElement = site.$(el);
-					if (element.text() === otherElement.text() && element.attr('href') === otherElement.attr('href')) {
-						count++;
-					}
-				});
-			}
-		});
-		const score = count / (sites.length + 1) * 100;
-		if (score > 30) {
-			return 0;
-		}
-
-		return Site.getTextDensity(parent) + linkTextLength;
-	}
-
 	getOnlyText(node, site = this) {
 		const clone = site.$(node).clone();
 		clone.children().remove();
@@ -310,6 +261,12 @@ class Site {
 		const tmpDOM = cheerio.load(html.replace(/\n|\t/gi, ' ').replace(/\s+/gi, ' '));
 		tmpDOM('*').each((index, element) => {
 			const node = tmpDOM(element);
+			if (Helpers.nodeHasNoText(node)) {
+				if (Helpers.isEmptyNode(node)) {
+					return node.remove();
+				}
+				return;
+			}
 			switch (element.name) {
 				case 'li':
 					node.prepend('[[l]]');
@@ -348,7 +305,8 @@ class Site {
 			}
 			node.append(' ');
 		});
-		return tmpDOM.text().replace(/\[\[/gi, '<').replace(/]]/gi, '>');
+		const text = tmpDOM.text();
+		return text.replace(/\[\[/gi, '<').replace(/]]/gi, '>');
 	}
 
 	html2text(html) {
