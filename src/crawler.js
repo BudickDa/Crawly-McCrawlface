@@ -18,7 +18,7 @@
  * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import cheerio from 'cheerio';
+import FckffDOM from 'fckffdom';
 import request from 'request';
 import URL from 'url';
 import _ from 'lodash';
@@ -49,7 +49,6 @@ class Crawler extends EventEmitter {
 			}
 		}
 
-		this.originals = [];
 		this.sites = [];
 		this.crawled = [];
 		this.expiries = {};
@@ -99,14 +98,14 @@ class Crawler extends EventEmitter {
 	}
 
 	eachHTML(cb) {
-		_.forEach(this.sites, async site => {
-			cb(await site.getContent('HTML'));
+		_.forEach(this.sites, site => {
+			cb(site.getContent('HTML'));
 		});
 	}
 
 	eachText(cb) {
-		_.forEach(this.sites, async site => {
-			cb(await site.getContent('PLAIN_TEXT'));
+		_.forEach(this.sites, site => {
+			cb(site.getContent('PLAIN_TEXT'));
 		});
 	}
 
@@ -378,12 +377,12 @@ class Crawler extends EventEmitter {
 		return _.includes(this.crawled, href) || _.includes(this.queue.map(u => u.href), href);
 	}
 
-	async getContent(url, type = 'PLAIN_TEXT') {
+	getContent(url, type = 'PLAIN_TEXT') {
 		const site = this.getByUrl(url);
 		if (!site) {
 			throw new Error(404, 'Site not found');
 		}
-		await site.scoreDOM();
+		site.scoreDOM();
 		return site.getContent(type);
 	}
 
@@ -436,9 +435,7 @@ class Crawler extends EventEmitter {
 			}
 		}
 		try{
-			response = this.clean(await
-				this.fetch(url)
-			)
+			response = this.clean(await  this.fetch(url));
 			;
 		}catch (e){
 			console.error(e);
@@ -451,7 +448,7 @@ class Crawler extends EventEmitter {
 			}
 			this.cache.set(url, response, expire);
 		}
-		return cheerio.load(response);
+		return new FckffDOM(response);
 	}
 
 	clean(string) {

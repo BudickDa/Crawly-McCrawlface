@@ -33,9 +33,9 @@ var _underscore = require('underscore');
 
 var _underscore2 = _interopRequireDefault(_underscore);
 
-var _helpers = require('./helpers');
+var _myHelpers = require('my-helpers');
 
-var _helpers2 = _interopRequireDefault(_helpers);
+var _myHelpers2 = _interopRequireDefault(_myHelpers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -48,16 +48,11 @@ var Extractor = function () {
 
 	_createClass(Extractor, null, [{
 		key: 'extractContent',
-		value: function extractContent($) {
-			$('input').remove();
-			$('label').remove();
+		value: function extractContent(dom) {
 			Extractor.normalizeDOM($);
 			Extractor.cleanScoredDOM($);
-			var title = $('title').text();
-			var extractedDom = _cheerio2.default.load('<html><head><title>' + title + '</title></head><body scored=true></body></html>');
-			_underscore2.default.forEach($('body').children(), function (node) {
-				Extractor.addStrongToDOM(node, $, extractedDom);
-			});
+			var title = dom.title();
+			var extractedDom = dom._nodes.map(function (n) {});
 			return extractedDom.html();
 		}
 	}, {
@@ -86,12 +81,12 @@ var Extractor = function () {
 			var mean = {};
 			var deviation = {};
 			for (var index in entropies) {
-				mean[index] = _helpers2.default.mean(entropies[index]);
-				deviation[index] = _helpers2.default.deviation(entropies[index]);
+				mean[index] = _myHelpers2.default.mean(entropies[index]);
+				deviation[index] = _myHelpers2.default.deviation(entropies[index]);
 			}
 
 			$('body').attr('normalized', true);
-			_helpers2.default.traverse($('body'), function (root, args) {
+			_myHelpers2.default.traverse($('body'), function (root, args) {
 				var name = args.$(root).prop('name');
 				var key = 'default';
 				if (args.mean[name]) {
