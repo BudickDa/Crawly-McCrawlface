@@ -97,5 +97,4 @@ describe('Run CleanEval as test', function() {
 			done();
 		}
 	});
-})
-;
+});
