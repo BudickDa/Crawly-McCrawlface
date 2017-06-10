@@ -20,19 +20,16 @@
 
 import cheerio from 'cheerio';
 import _ from 'underscore';
-import Helpers from './helpers';
+import Helpers from 'my-helpers';
 
 class Extractor {
-	static extractContent($) {
-		$('input').remove();
-		$('label').remove();
+	static extractContent(dom) {
 		Extractor.normalizeDOM($);
 		Extractor.cleanScoredDOM($);
-		const title = $('title').text();
-		const extractedDom = cheerio.load(`<html><head><title>${title}</title></head><body scored=true></body></html>`);
-		_.forEach($('body').children(), node => {
-			Extractor.addStrongToDOM(node, $, extractedDom);
-		});
+		const title = dom.title();
+		const extractedDom = dom._nodes.map(n => {
+
+		})
 		return extractedDom.html();
 	}
 

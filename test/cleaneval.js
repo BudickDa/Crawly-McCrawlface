@@ -65,12 +65,11 @@ function runTest() {
 				return s.site;
 			});
 			crawler.originals = _.cloneDeep(crawler.sites);
-			return crawler.getContent(site.url, 'CLEANEVAL').then(result => {
-				//console.log(crawler.getByUrl(site.url));
-				site.result = result;
-				//console.log(site.url, crawler.getByUrl(site.url).$.html());
-				return site;
-			});
+			const result = crawler.getContent(site.url, 'CLEANEVAL');
+			//console.log(crawler.getByUrl(site.url));
+			site.result = result;
+			//console.log(site.url, crawler.getByUrl(site.url).$.html());
+			return site;
 		}));
 	}).then(data => {
 		return data.map(site => {
@@ -84,7 +83,7 @@ function runTest() {
 describe('Run CleanEval as test', function() {
 	it('should return a value between 0 and 100 % about how many is correct.', function(done) {
 		this.timeout(12000);
-		const test = false;
+		const test = true;
 		if (test) {
 			runTest().then(correct => {
 				console.log(correct);
@@ -94,7 +93,7 @@ describe('Run CleanEval as test', function() {
 				console.error(err);
 				done();
 			});
-		}else{
+		} else {
 			done();
 		}
 	});

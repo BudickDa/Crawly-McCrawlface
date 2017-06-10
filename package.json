@@ -17,30 +17,32 @@
   "dependencies": {
     "@google-cloud/translate": "^0.7.0",
     "assert": "^1.4.1",
-    "babel-core": "^6.24.0",
+    "babel-core": "^6.25.0",
     "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-regenerator": "^6.22.0",
+    "babel-plugin-transform-regenerator": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
-    "chance": "^1.0.4",
+    "chance": "^1.0.9",
     "cheerio": "^0.22.0",
     "dotenv": "^4.0.0",
+    "fckffdom": "0.0.16",
     "google-nlp-api": "^0.1.14",
     "levenshtein": "^1.0.5",
     "lodash": "^4.17.4",
-    "process": "^0.11.9",
+    "my-helpers": "0.0.1",
+    "process": "^0.11.10",
     "request": "^2.75.0",
     "robots-parser": "^1.0.1",
-    "sitemapper": "^2.1.7",
+    "sitemapper": "^2.1.13",
     "underscore": "^1.8.3",
     "xxhashjs": "^0.2.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-preset-latest": "^6.24.0",
-    "babel-preset-stage-0": "^6.22.0",
-    "finalhandler": "^1.0.0",
-    "mocha": "^3.1.2",
-    "serve-static": "^1.12.1"
+    "babel-cli": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "finalhandler": "^1.0.3",
+    "mocha": "^3.4.2",
+    "serve-static": "^1.12.3"
   }
 }

@@ -61,12 +61,7 @@ class Classifier {
 			throw new TypeError('Parameter node in Classifier.classify has to be a cheerio node. Or must have the function html() and text()');
 		}
 
-		if (node[0] && node[0].name.toLowerCase() === 'a' || node[0] && node[0].name.toLowerCase().match(/h[1-6]/i)) {
-			if(Classifier.isPartOfNav(node)){
-				return -9001;
-			}
-		}
-
+		return 0;
 		const textDensity = Helpers.textDensity(node);
 		const lqf = LinkQuotaFilter.measure(node);
 		const imageNumber = Helpers.count(node, 'img') + Helpers.count(node, 'svg');

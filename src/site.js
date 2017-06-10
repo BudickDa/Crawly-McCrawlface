@@ -18,11 +18,10 @@
  * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import XXH from 'xxhashjs';
 import URL from 'url';
-import _ from 'underscore';
-import cheerio from 'cheerio';
-import Helpers from './helpers';
+import _ from 'lodash';
+import FckffDOM from 'fckffdom';
+import Helpers from 'my-helpers';
 import Extractor from './extractor';
 import Classifier from './classifier';
 
@@ -37,26 +36,16 @@ class Site {
 			this.url = URL.parse(url);
 			this.domain = URL.parse(URL.resolve(this.url.href, '/'));
 		}
-		this.scores = [];
-		this.entropies = [];
-		this.content = {};
 		this.ready = false;
+		this.scored = false;
 	}
 
 	async load() {
 		if (this.url && this.crawler) {
-			const $ = await this.crawler.getDOM(this.url.href);
-			let text = $('body').html();
-			if (!text) {
-				text = '';
+			this.dom = await this.crawler.getDOM(this.url.href);
+			if (this.dom.body()) {
+				this.hash = this.dom.body().hash();
 			}
-			this.hash = XXH.h32(text, 0xABCD).toString(16);
-			this.$ = this.cleanDOM($);
-			this.original = this.$.html();
-			this.crawler.originals.push({
-				$: this.$,
-				hash: this.hash
-			});
 			this.ready = true;
 			return this;
 		}
@@ -65,74 +54,52 @@ class Site {
 
 	simulateLoading(html, crawler = this.crawler) {
 		this.crawler = crawler;
-		const $ = cheerio.load(html);
-		let text = $('body').html();
-		if (!text) {
-			text = '';
+		this.dom = new FckffDOM(html);
+		if (this.dom.body()) {
+			this.hash = this.dom.body().hash();
 		}
-		this.hash = XXH.h32(text, 0xABCD).toString(16);
-		this.$ = this.cleanDOM($);
-		this.original = this.$.html();
 		this.ready = true;
-		this.crawler.originals.push({
-			$: this.$,
-			hash: this.hash
-		});
 	}
 
 	html(selector) {
-		return this.$(selector).html();
+		if (selector) {
+			return this.dom.querySelector(selector).map(node => node.html());
+		}
+		return this.dom.html();
 	}
 
-	getContent(type = 'HTML') {
-		if (!Boolean(this.$('body').attr('scored'))) {
+	querySelector(selector) {
+		return this.dom.querySelector(selector);
+	}
+
+	getContent(type = 'HTML', force = false) {
+		if (!this.scored || force) {
 			this.scoreDOM();
 		}
-		const html = Extractor.extractContent(this.$);
+
+		const cleanedDom = _.cloneDeep(this.dom);
+		cleanedDom._nodes.forEach(n => {
+			const entropy = parseInt(n.data('entropy'));
+			if (entropy <= 0 || isNaN(entropy)) {
+				n.remove();
+			}
+		})
+
+		//console.log(cleanedDom._nodes);
 		if (type === 'PLAIN_TEXT') {
-			return this.html2text(html);
+			return cleanedDom.text().trim();
 		}
 		if (type === 'HTML') {
-			return html;
+			return cleanedDom.html().trim();
 		}
 		if (type === 'CLEANEVAL') {
-			return this.html2cleaneval(html);
-		}
-
-	}
-
-	cleanDOM($ = this.$) {
-		$('style').remove();
-		$('script').remove();
-		$('link').remove();
-		$('meta').remove();
-		/**
-		 * Remove every emtpy tag except hyperlinks without children recursively
-		 */
-		let removed = 0;
-		$('*').each((index, element) => {
-			if (element.name === 'a') {
-				return;
-			}
-			if ($(element).text().replace(/\s|\n|\t/gi, '').length === 0 && $(element).children().length === 0) {
-				removed++;
-				$(element).remove();
-			}
-		});
-		if (removed === 0) {
-			return $;
-		} else {
-			return this.cleanDOM($);
+			return cleanedDom.cleaneval().trim();
 		}
 	}
 
 	returnUrls($ = this.$) {
 		const urls = [];
-		$('a').each((index, element) => {
-			const href = $(element).attr('href');
-			if (typeof href !== 'string') {
-				return;
-			}
+		this.dom.getLinks().forEach(href => {
 			if (href.indexOf('mailto:') !== -1) {
 				return;
 			}
@@ -148,76 +115,52 @@ class Site {
 				urls.push(URL.parse(absoluteUrl));
 			}
 		});
-		return _.unique(urls, false, url => url.href);
+		return _.uniqBy(urls, url => url.href);
 	}
 
-	normalizeDOM($ = this.$) {
-		Extractor.normalizeDOM($);
-	}
-
-	async scoreNode(node, otherNodes, site = this, sites = this.crawler.originals) {
-		const element = site.$(node);
+	scoreNode(node, otherNodes, goldMiner = false) {
+		if (otherNodes.filter(n => n && n.hash() === node.hash()).length > 0) {
+			node.setData('entropy', 0);
+			return 0;
+		}
 
 		/**
 		 * Score it by distance to other sites aka. entropy
 		 */
 		let entropy = 0;
-		if (!this.hasEquals(site.$(node))) {
-			const scores = [];
-			const lengthSites = sites.length;
+		if (node.isLeaf()) {
 			/**
 			 * Test if enough sites were crawled.
 			 * If not use only Classifier.
 			 */
-			if (this.crawler && this.crawler.options.readyIn <= lengthSites) {
-				const text = this.getOnlyText(node, site);
+			if (goldMiner) {
+				const text = node.text();
+				const scores = [];
+
+				const lengthSites = otherNodes.length;
 				for (let i = 0; i < lengthSites; i++){
-					let otherText = this.getOnlyText(otherNodes[i], sites[i]);
-					if (site.$(otherNodes[i]).length === 0) {
-						scores.push(site.$(node).text().length);
+					if (!otherNodes[i]) {
+						scores.push(text.length);
 					} else {
+						const otherText = otherNodes[i].text();
 						scores.push(Helpers.getDistance(text, otherText));
 					}
 				}
-				entropy = Helpers.mean(scores) * Classifier.classify(site.$(node));
-			} else {
-				entropy = Classifier.classify(site.$(node));
-			}
-		}
-		element.attr('entropy', entropy);
-		_.forEach(element.children(), async (child, index) => {
-			entropy += await this.scoreNode(site.$(child), otherNodes.map((e, i) => {
-				return sites[i].$(e.children()[index]);
-			}), site, sites);
-		});
-		element.attr('summedEntropy', entropy);
-		return entropy;
-	}
-
-	hasEquals(element, site = this, sites = this.crawler.originals) {
-		const id = element.attr('id');
-		const c = element.attr('class');
-		let selector = '';
-		if (id && c) {
-			selector = `#${id}.${c}`;
-		} else if (id) {
-			selector = `#${id}`;
-		} else if (c) {
-			selector = `.${c}`;
-		} else {
-			return false;
-		}
-		const text = element.text().replace(/\s|\n|\t/gi, '');
-		let matches = 0;
-		sites.forEach(s => {
-			if (site.hash !== s.hash && matches === 0) {
-				let otherText = s.$(selector).text().replace(/\s|\n|\t/gi, '');
-				if (text === otherText) {
-					matches++;
+				if (scores.length > 0) {
+					entropy = Helpers.mean(scores);
 				}
 			}
-		});
-		return matches > 0;
+			entropy += Classifier.classify(node);
+		} else {
+			const childEntropies = node.getChildren().map((child, index) => {
+				return this.scoreNode(child, otherNodes.map(n => {
+					return n.getChildren()[index];
+				}).filter(n => n instanceof FckffDOM.Node), goldMiner)
+			});
+			entropy += Helpers.sum(childEntropies);
+		}
+		node.setData('entropy', entropy);
+		return entropy;
 	}
 
 	/**
@@ -227,136 +170,19 @@ class Site {
 	 * @param force (Boolean) if true the DOM is scored again
 	 * @returns {*}
 	 */
-	async scoreDOM(site = this, sites = this.crawler.originals, force = false) {
-		const dom = site.$;
-		if (!force && Boolean(dom('body').attr('scored'))) {
-			/*
-			 DOM has already been scored. For repeated scoring call scoreDOM with paramter force set true
-			 */
-			return;
-		}
+	scoreDOM(site = this, sites = this.crawler.sites) {
 		/**
 		 * Sites with the same hash are filtered out.
 		 * The resulting array should contain only unique sites.
 		 * @type {Array.<*>}
 		 */
-		sites = sites.filter(item => {
-			return site.hash !== item.hash;
+		const otherSites = sites.filter(s => {
+			return site.hash !== s.hash;
 		});
-
-		const other = sites.map(site => site.$);
-		dom('body').attr('scored', true);
-		return await this.scoreNode(dom('body'), other.map(item => {
-			return item('body');
-		}), site, sites);
-	}
-
-	getOnlyText(node, site = this) {
-		const clone = site.$(node).clone();
-		clone.children().remove();
-		return clone.text();
-	}
-
-	html2cleaneval(html) {
-		const tmpDOM = cheerio.load(html.replace(/\n|\t/gi, ' ').replace(/\s+/gi, ' '));
-		tmpDOM('*').each((index, element) => {
-			const node = tmpDOM(element);
-			if (Helpers.nodeHasNoText(node)) {
-				if (Helpers.isEmptyNode(node)) {
-					return node.remove();
-				}
-				return;
-			}
-			switch (element.name) {
-				case 'li':
-					node.prepend('[[l]]');
-					node.append('\n\n');
-					break;
-				case 'p':
-					node.prepend('[[p]]');
-					node.append('\n\n');
-					break;
-				case 'h1':
-					node.prepend('[[h]]');
-					node.append('\n\n');
-					break;
-				case 'h2':
-					node.prepend('[[h]]');
-					node.append('\n\n');
-					break;
-				case 'h3':
-					node.prepend('[[h]]');
-					node.append('\n\n');
-					break;
-				case 'h4':
-					node.prepend('[[h]]');
-					node.append('\n\n');
-					break;
-				case 'h5':
-					node.prepend('[[h]]');
-					node.append('\n\n');
-					break;
-				case 'h6':
-					node.prepend('[[h]]');
-					node.append('\n\n');
-					break;
-				default:
-					break;
-			}
-			node.append(' ');
-		});
-		const text = tmpDOM.text();
-		return text.replace(/\[\[/gi, '<').replace(/]]/gi, '>');
-	}
-
-	html2text(html) {
-		const tmpDOM = cheerio.load(html);
-		tmpDOM('*').each((index, element) => {
-			const node = tmpDOM(element);
-			switch (element.name) {
-				case 'div':
-					node.prepend('\n');
-					node.append('\n');
-					break;
-				case 'ul':
-					node.prepend('\n');
-					node.append('\n');
-					break;
-				case 'ol':
-					node.prepend('\n');
-					node.append('\n');
-					break;
-				case 'li':
-					node.prepend('\t');
-					node.append('\n');
-					break;
-				case 'p':
-					node.append('\n');
-					break;
-				case 'h1':
-					node.append('\n');
-					break;
-				case 'h2':
-					node.append('\n');
-					break;
-				case 'h3':
-					node.append('\n');
-					break;
-				case 'h4':
-					node.append('\n');
-					break;
-				case 'h5':
-					node.append('\n');
-					break;
-				case 'h6':
-					node.append('\n');
-					break;
-				default:
-					break;
-			}
-			node.append(' ');
-		});
-		return tmpDOM.text().replace(/\s+/, ' ');
+		this.scoreNode(site.dom.body(), otherSites.map(s => {
+			return s.dom.body();
+		}), this.crawler.options.readyIn <= sites.length);
+		this.scored = true;
 	}
 }
 export {Site as default};

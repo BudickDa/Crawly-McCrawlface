@@ -9,9 +9,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _cheerio = require('cheerio');
+var _fckffdom = require('fckffdom');
 
-var _cheerio2 = _interopRequireDefault(_cheerio);
+var _fckffdom2 = _interopRequireDefault(_fckffdom);
 
 var _request = require('request');
 
@@ -108,7 +108,6 @@ var Crawler = function (_EventEmitter) {
 			};
 		}
 
-		_this.originals = [];
 		_this.sites = [];
 		_this.crawled = [];
 		_this.expiries = {};
@@ -203,66 +202,16 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'eachHTML',
 		value: function eachHTML(cb) {
-			var _this2 = this;
-
-			_lodash2.default.forEach(this.sites, function () {
-				var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(site) {
-					return regeneratorRuntime.wrap(function _callee2$(_context2) {
-						while (1) {
-							switch (_context2.prev = _context2.next) {
-								case 0:
-									_context2.t0 = cb;
-									_context2.next = 3;
-									return site.getContent('HTML');
-
-								case 3:
-									_context2.t1 = _context2.sent;
-									(0, _context2.t0)(_context2.t1);
-
-								case 5:
-								case 'end':
-									return _context2.stop();
-							}
-						}
-					}, _callee2, _this2);
-				}));
-
-				return function (_x2) {
-					return _ref2.apply(this, arguments);
-				};
-			}());
+			_lodash2.default.forEach(this.sites, function (site) {
+				cb(site.getContent('HTML'));
+			});
 		}
 	}, {
 		key: 'eachText',
 		value: function eachText(cb) {
-			var _this3 = this;
-
-			_lodash2.default.forEach(this.sites, function () {
-				var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(site) {
-					return regeneratorRuntime.wrap(function _callee3$(_context3) {
-						while (1) {
-							switch (_context3.prev = _context3.next) {
-								case 0:
-									_context3.t0 = cb;
-									_context3.next = 3;
-									return site.getContent('PLAIN_TEXT');
-
-								case 3:
-									_context3.t1 = _context3.sent;
-									(0, _context3.t0)(_context3.t1);
-
-								case 5:
-								case 'end':
-									return _context3.stop();
-							}
-						}
-					}, _callee3, _this3);
-				}));
-
-				return function (_x3) {
-					return _ref3.apply(this, arguments);
-				};
-			}());
+			_lodash2.default.forEach(this.sites, function (site) {
+				cb(site.getContent('PLAIN_TEXT'));
+			});
 		}
 	}, {
 		key: 'start',
@@ -272,44 +221,44 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'getSitemap',
 		value: function () {
-			var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(url) {
-				var _this4 = this;
+			var _ref2 = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(url) {
+				var _this2 = this;
 
 				var sitemap, result;
-				return regeneratorRuntime.wrap(function _callee4$(_context4) {
+				return regeneratorRuntime.wrap(function _callee2$(_context2) {
 					while (1) {
-						switch (_context4.prev = _context4.next) {
+						switch (_context2.prev = _context2.next) {
 							case 0:
 								sitemap = new _sitemapper2.default();
-								_context4.prev = 1;
-								_context4.next = 4;
+								_context2.prev = 1;
+								_context2.next = 4;
 								return sitemap.fetch(url.resolve('/sitemap.xml'));
 
 							case 4:
-								result = _context4.sent;
+								result = _context2.sent;
 
 								_lodash2.default.forEach(result.sites, function (site) {
-									_this4.addToQueue(site);
+									_this2.addToQueue(site);
 								});
-								_context4.next = 11;
+								_context2.next = 11;
 								break;
 
 							case 8:
-								_context4.prev = 8;
-								_context4.t0 = _context4['catch'](1);
+								_context2.prev = 8;
+								_context2.t0 = _context2['catch'](1);
 
-								console.log(_context4.t0);
+								console.log(_context2.t0);
 
 							case 11:
 							case 'end':
-								return _context4.stop();
+								return _context2.stop();
 						}
 					}
-				}, _callee4, this, [[1, 8]]);
+				}, _callee2, this, [[1, 8]]);
 			}));
 
-			function getSitemap(_x4) {
-				return _ref4.apply(this, arguments);
+			function getSitemap(_x2) {
+				return _ref2.apply(this, arguments);
 			}
 
 			return getSitemap;
@@ -317,35 +266,35 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'getRobot',
 		value: function () {
-			var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(url) {
+			var _ref3 = _asyncToGenerator(regeneratorRuntime.mark(function _callee3(url) {
 				var response;
-				return regeneratorRuntime.wrap(function _callee5$(_context5) {
+				return regeneratorRuntime.wrap(function _callee3$(_context3) {
 					while (1) {
-						switch (_context5.prev = _context5.next) {
+						switch (_context3.prev = _context3.next) {
 							case 0:
-								_context5.prev = 0;
-								_context5.next = 3;
+								_context3.prev = 0;
+								_context3.next = 3;
 								return this.fetch(url.resolve('/robots.txt'));
 
 							case 3:
-								response = _context5.sent;
-								return _context5.abrupt('return', (0, _robotsParser2.default)(url.resolve('/robots.txt'), response));
+								response = _context3.sent;
+								return _context3.abrupt('return', (0, _robotsParser2.default)(url.resolve('/robots.txt'), response));
 
 							case 7:
-								_context5.prev = 7;
-								_context5.t0 = _context5['catch'](0);
-								return _context5.abrupt('return', (0, _robotsParser2.default)(url.resolve('/robots.txt'), ''));
+								_context3.prev = 7;
+								_context3.t0 = _context3['catch'](0);
+								return _context3.abrupt('return', (0, _robotsParser2.default)(url.resolve('/robots.txt'), ''));
 
 							case 10:
 							case 'end':
-								return _context5.stop();
+								return _context3.stop();
 						}
 					}
-				}, _callee5, this, [[0, 7]]);
+				}, _callee3, this, [[0, 7]]);
 			}));
 
-			function getRobot(_x5) {
-				return _ref5.apply(this, arguments);
+			function getRobot(_x3) {
+				return _ref3.apply(this, arguments);
 			}
 
 			return getRobot;
@@ -528,46 +477,46 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'workSite',
 		value: function () {
-			var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(site, crawler) {
-				var _this5 = this;
+			var _ref4 = _asyncToGenerator(regeneratorRuntime.mark(function _callee4(site, crawler) {
+				var _this3 = this;
 
 				var urls, queueEmpty, minimalSitesCrawled, t;
-				return regeneratorRuntime.wrap(function _callee6$(_context6) {
+				return regeneratorRuntime.wrap(function _callee4$(_context4) {
 					while (1) {
-						switch (_context6.prev = _context6.next) {
+						switch (_context4.prev = _context4.next) {
 							case 0:
-								_context6.next = 2;
+								_context4.next = 2;
 								return this.ready;
 
 							case 2:
 								crawler.working(site);
-								_context6.prev = 3;
-								_context6.next = 6;
+								_context4.prev = 3;
+								_context4.next = 6;
 								return site.load();
 
 							case 6:
-								_context6.next = 12;
+								_context4.next = 12;
 								break;
 
 							case 8:
-								_context6.prev = 8;
-								_context6.t0 = _context6['catch'](3);
+								_context4.prev = 8;
+								_context4.t0 = _context4['catch'](3);
 
-								console.log(_context6.t0);
-								this.emit('error', _context6.t0);
+								console.log(_context4.t0);
+								this.emit('error', _context4.t0);
 
 							case 12:
-								_context6.prev = 12;
+								_context4.prev = 12;
 
 								crawler.worked(site);
-								return _context6.finish(12);
+								return _context4.finish(12);
 
 							case 15:
 								urls = site.returnUrls();
 
 
 								urls.forEach(function (url) {
-									_this5.addToQueue(url);
+									_this3.addToQueue(url);
 								});
 								crawler.sites.push(site);
 								this.emit('siteAdded', site);
@@ -584,7 +533,7 @@ var Crawler = function (_EventEmitter) {
 									t = setTimeout(function () {
 										if ((crawler.queue.length === 0 || crawler.state.stopped) && !crawler.state.finished && !crawler.isWorking()) {
 											crawler.state.finished = true;
-											_this5.emit('finished', crawler);
+											_this3.emit('finished', crawler);
 											crawler.stop();
 										} else {
 											clearTimeout(t);
@@ -594,14 +543,14 @@ var Crawler = function (_EventEmitter) {
 
 							case 24:
 							case 'end':
-								return _context6.stop();
+								return _context4.stop();
 						}
 					}
-				}, _callee6, this, [[3, 8, 12, 15]]);
+				}, _callee4, this, [[3, 8, 12, 15]]);
 			}));
 
-			function workSite(_x9, _x10) {
-				return _ref6.apply(this, arguments);
+			function workSite(_x7, _x8) {
+				return _ref4.apply(this, arguments);
 			}
 
 			return workSite;
@@ -662,44 +611,16 @@ var Crawler = function (_EventEmitter) {
 		}
 	}, {
 		key: 'getContent',
-		value: function () {
-			var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(url) {
-				var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
-				var site;
-				return regeneratorRuntime.wrap(function _callee7$(_context7) {
-					while (1) {
-						switch (_context7.prev = _context7.next) {
-							case 0:
-								site = this.getByUrl(url);
+		value: function getContent(url) {
+			var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'PLAIN_TEXT';
 
-								if (site) {
-									_context7.next = 3;
-									break;
-								}
-
-								throw new Error(404, 'Site not found');
-
-							case 3:
-								_context7.next = 5;
-								return site.scoreDOM();
-
-							case 5:
-								return _context7.abrupt('return', site.getContent(type));
-
-							case 6:
-							case 'end':
-								return _context7.stop();
-						}
-					}
-				}, _callee7, this);
-			}));
-
-			function getContent(_x12) {
-				return _ref7.apply(this, arguments);
+			var site = this.getByUrl(url);
+			if (!site) {
+				throw new Error(404, 'Site not found');
 			}
-
-			return getContent;
-		}()
+			site.scoreDOM();
+			return site.getContent(type);
+		}
 	}, {
 		key: 'getJSON',
 		value: function getJSON(url) {
@@ -725,20 +646,20 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'getDOM',
 		value: function () {
-			var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(url) {
+			var _ref5 = _asyncToGenerator(regeneratorRuntime.mark(function _callee5(url) {
 				var response, data, d, expire;
-				return regeneratorRuntime.wrap(function _callee8$(_context8) {
+				return regeneratorRuntime.wrap(function _callee5$(_context5) {
 					while (1) {
-						switch (_context8.prev = _context8.next) {
+						switch (_context5.prev = _context5.next) {
 							case 0:
 								response = void 0;
 
 								if (!this.cache) {
-									_context8.next = 24;
+									_context5.next = 24;
 									break;
 								}
 
-								_context8.prev = 2;
+								_context5.prev = 2;
 								data = this.cache.get(url);
 								/**
          * Check if data is a promise.
@@ -747,74 +668,76 @@ var Crawler = function (_EventEmitter) {
          */
 
 								if (!(data && (data instanceof Promise || typeof data.then === 'function'))) {
-									_context8.next = 12;
+									_context5.next = 12;
 									break;
 								}
 
-								_context8.next = 7;
+								_context5.next = 7;
 								return data;
 
 							case 7:
-								d = _context8.sent;
+								d = _context5.sent;
 
 								if (!d) {
-									_context8.next = 10;
+									_context5.next = 10;
 									break;
 								}
 
-								return _context8.abrupt('return', _cheerio2.default.load(d));
+								return _context5.abrupt('return', cheerio.load(d));
 
 							case 10:
-								_context8.next = 18;
+								_context5.next = 18;
 								break;
 
 							case 12:
 								if (!(data && typeof data === 'string')) {
-									_context8.next = 16;
+									_context5.next = 16;
 									break;
 								}
 
-								return _context8.abrupt('return', _cheerio2.default.load(data));
+								return _context5.abrupt('return', cheerio.load(data));
 
 							case 16:
 								if (!data) {
-									_context8.next = 18;
+									_context5.next = 18;
 									break;
 								}
 
 								throw new TypeError('get method of cache returns ' + (typeof data === 'undefined' ? 'undefined' : _typeof(data)) + '. But it should be a Promise or a string. Content of data: ' + data);
 
 							case 18:
-								_context8.next = 24;
+								_context5.next = 24;
 								break;
 
 							case 20:
-								_context8.prev = 20;
-								_context8.t0 = _context8['catch'](2);
+								_context5.prev = 20;
+								_context5.t0 = _context5['catch'](2);
 
-								console.error(_context8.t0);
-								throw _context8.t0;
+								console.error(_context5.t0);
+								throw _context5.t0;
 
 							case 24:
-								_context8.prev = 24;
-								_context8.t1 = this;
-								_context8.next = 28;
+								_context5.prev = 24;
+								_context5.t1 = this;
+								_context5.next = 28;
 								return this.fetch(url);
 
 							case 28:
-								_context8.t2 = _context8.sent;
-								response = _context8.t1.clean.call(_context8.t1, _context8.t2);
-								_context8.next = 36;
+								_context5.t2 = _context5.sent;
+								response = _context5.t1.clean.call(_context5.t1, _context5.t2);
+
+								;
+								_context5.next = 37;
 								break;
 
-							case 32:
-								_context8.prev = 32;
-								_context8.t3 = _context8['catch'](24);
+							case 33:
+								_context5.prev = 33;
+								_context5.t3 = _context5['catch'](24);
 
-								console.error(_context8.t3);
-								throw _context8.t3;
+								console.error(_context5.t3);
+								throw _context5.t3;
 
-							case 36:
+							case 37:
 								if (this.cache) {
 									expire = this.options.expireDefault;
 
@@ -823,18 +746,18 @@ var Crawler = function (_EventEmitter) {
 									}
 									this.cache.set(url, response, expire);
 								}
-								return _context8.abrupt('return', _cheerio2.default.load(response));
+								return _context5.abrupt('return', new _fckffdom2.default(response));
 
-							case 38:
+							case 39:
 							case 'end':
-								return _context8.stop();
+								return _context5.stop();
 						}
 					}
-				}, _callee8, this, [[2, 20], [24, 32]]);
+				}, _callee5, this, [[2, 20], [24, 33]]);
 			}));
 
-			function getDOM(_x14) {
-				return _ref8.apply(this, arguments);
+			function getDOM(_x11) {
+				return _ref5.apply(this, arguments);
 			}
 
 			return getDOM;
@@ -857,7 +780,7 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'getData',
 		value: function () {
-			var _ref9 = _asyncToGenerator(regeneratorRuntime.mark(function _callee9(url) {
+			var _ref6 = _asyncToGenerator(regeneratorRuntime.mark(function _callee6(url) {
 				var features = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
 					extractSyntax: true,
 					extractEntities: true,
@@ -866,51 +789,51 @@ var Crawler = function (_EventEmitter) {
 				var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'PLAIN_TEXT';
 				var encoding = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'UTF8';
 				var text, language, nlp, translation;
-				return regeneratorRuntime.wrap(function _callee9$(_context9) {
+				return regeneratorRuntime.wrap(function _callee6$(_context6) {
 					while (1) {
-						switch (_context9.prev = _context9.next) {
+						switch (_context6.prev = _context6.next) {
 							case 0:
 								text = this.getContent(url, type);
-								_context9.next = 3;
+								_context6.next = 3;
 								return Crawler.getLanguage(text).then(language);
 
 							case 3:
-								language = _context9.sent;
+								language = _context6.sent;
 								nlp = new _googleNlpApi2.default();
 
 								if (!(language === 'en')) {
-									_context9.next = 9;
+									_context6.next = 9;
 									break;
 								}
 
-								_context9.next = 8;
+								_context6.next = 8;
 								return nlp.annotateText(text, type, encoding, features);
 
 							case 8:
-								return _context9.abrupt('return', _context9.sent);
+								return _context6.abrupt('return', _context6.sent);
 
 							case 9:
-								_context9.next = 11;
+								_context6.next = 11;
 								return Crawler.getTranslation(text);
 
 							case 11:
-								translation = _context9.sent;
-								_context9.next = 14;
+								translation = _context6.sent;
+								_context6.next = 14;
 								return nlp.annotateText(translation, type, encoding, features);
 
 							case 14:
-								return _context9.abrupt('return', _context9.sent);
+								return _context6.abrupt('return', _context6.sent);
 
 							case 15:
 							case 'end':
-								return _context9.stop();
+								return _context6.stop();
 						}
 					}
-				}, _callee9, this);
+				}, _callee6, this);
 			}));
 
-			function getData(_x15) {
-				return _ref9.apply(this, arguments);
+			function getData(_x12) {
+				return _ref6.apply(this, arguments);
 			}
 
 			return getData;
@@ -946,14 +869,14 @@ var Crawler = function (_EventEmitter) {
 	}], [{
 		key: 'getTranslation',
 		value: function () {
-			var _ref10 = _asyncToGenerator(regeneratorRuntime.mark(function _callee10(text) {
+			var _ref7 = _asyncToGenerator(regeneratorRuntime.mark(function _callee7(text) {
 				var translate, results;
-				return regeneratorRuntime.wrap(function _callee10$(_context10) {
+				return regeneratorRuntime.wrap(function _callee7$(_context7) {
 					while (1) {
-						switch (_context10.prev = _context10.next) {
+						switch (_context7.prev = _context7.next) {
 							case 0:
 								if (_process2.default.env.GOOGLE_TRANSLATE_API) {
-									_context10.next = 2;
+									_context7.next = 2;
 									break;
 								}
 
@@ -961,23 +884,23 @@ var Crawler = function (_EventEmitter) {
 
 							case 2:
 								translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
-								_context10.next = 5;
+								_context7.next = 5;
 								return translate.translate(text, 'en');
 
 							case 5:
-								results = _context10.sent;
-								return _context10.abrupt('return', results[0]);
+								results = _context7.sent;
+								return _context7.abrupt('return', results[0]);
 
 							case 7:
 							case 'end':
-								return _context10.stop();
+								return _context7.stop();
 						}
 					}
-				}, _callee10, this);
+				}, _callee7, this);
 			}));
 
-			function getTranslation(_x19) {
-				return _ref10.apply(this, arguments);
+			function getTranslation(_x16) {
+				return _ref7.apply(this, arguments);
 			}
 
 			return getTranslation;
@@ -985,14 +908,14 @@ var Crawler = function (_EventEmitter) {
 	}, {
 		key: 'getLanguage',
 		value: function () {
-			var _ref11 = _asyncToGenerator(regeneratorRuntime.mark(function _callee11(text) {
+			var _ref8 = _asyncToGenerator(regeneratorRuntime.mark(function _callee8(text) {
 				var translate, results, detection;
-				return regeneratorRuntime.wrap(function _callee11$(_context11) {
+				return regeneratorRuntime.wrap(function _callee8$(_context8) {
 					while (1) {
-						switch (_context11.prev = _context11.next) {
+						switch (_context8.prev = _context8.next) {
 							case 0:
 								if (_process2.default.env.GOOGLE_TRANSLATE_API) {
-									_context11.next = 2;
+									_context8.next = 2;
 									break;
 								}
 
@@ -1000,24 +923,24 @@ var Crawler = function (_EventEmitter) {
 
 							case 2:
 								translate = (0, _translate2.default)({ key: _process2.default.env.GOOGLE_TRANSLATE_API });
-								_context11.next = 5;
+								_context8.next = 5;
 								return translate.detect(text);
 
 							case 5:
-								results = _context11.sent;
+								results = _context8.sent;
 								detection = results[0];
-								return _context11.abrupt('return', detection.language);
+								return _context8.abrupt('return', detection.language);
 
 							case 8:
 							case 'end':
-								return _context11.stop();
+								return _context8.stop();
 						}
 					}
-				}, _callee11, this);
+				}, _callee8, this);
 			}));
 
-			function getLanguage(_x20) {
-				return _ref11.apply(this, arguments);
+			function getLanguage(_x17) {
+				return _ref8.apply(this, arguments);
 			}
 
 			return getLanguage;
