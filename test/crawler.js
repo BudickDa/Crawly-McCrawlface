@@ -19,7 +19,7 @@
  */
 
 const assert = require('assert');
-const _ = require('underscore');
+const _ = require('lodash');
 const process = require('process');
 const Cheerio = require('cheerio');
 const Helpers = require('my-helpers');
@@ -33,7 +33,7 @@ describe('Crawler', function() {
 	const port = config.port;
 	const url = `http://localhost:${port}`;
 	const crawler = new Crawler(url, {
-		readyIn: 5, goHaywire: false,
+		readyIn: 4, goHaywire: false,
 		userAgent: 'CrawlyMcCrawlface',
 		expireDefault: 7 * 24 * 60 * 60 * 1000
 	});
@@ -128,39 +128,40 @@ describe('Crawler', function() {
 	describe('#getContent()', function() {
 		it('get HTML of index.html', function() {
 			const html = crawler.getContent(url + '/index.html', 'HTML');
+			console.log(html);
 			const result = `<div><div><h1>Members:</h1><div><li><a href="profile.html">Daniel Budick</a><span> | 1989 | Engineer</span></li></div><a href="details.html">Details</a></div></div>`
-			const quality = Helpers.compareText(html.replace(/\sdata-entropy="\d+(\.)?(\d+)?"/gi, '').replace(/\n|\t/gi, ''), result);
+			const quality = Helpers.compareText(html.replace(/\sdata-entropy="\d+(\.)?(\d+)?"/gi, ''), result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 		it('get HTML of details.html', function() {
 			const html = crawler.getContent(url + '/details.html', 'HTML');
 			const result = '<div><div><h1>Lorem Ipsum</h1><p>Vivamus elementum est non purus interdum, nec lobortis arcu lacinia. Quisque ornare dapibus massa ac condimentum. Duis sollicitudin ante eu erat lobortis pharetra. Sed viverra risus orci. Praesent rutrum, quam ut imperdiet dictum, lectus tellus dignissim metus, et ullamcorper tortor massa congue tortor. Etiam vulputate aliquam	aliquam. Ut risus quam, aliquam quis dolor in, elementum accumsan purus. Praesent tempus vel justo et efficitur. Vivamus ut dictum libero. Suspendisse vel purus ultrices, vestibulum tellus non, bibendum nisl. Pellentesque ut molestie elit. Donec malesuada augue ac dui congue tincidunt. Orci varius natoque penatibus et magnis dis	parturient montes, nascetur ridiculus mus. Pellentesque ultricies sapien non eleifend porttitor. Aliquam at	nulla quis eros porta molestie ac dignissim magna.</p><p>Vivamus suscipit ullamcorper ante at euismod. Ut at est eu nisl placerat dapibus id egestas neque. Praesent orci	mi, lacinia sed commodo sit amet, tincidunt venenatis dolor. Vivamus vitae justo ac elit varius vestibulum eu	eget dolor. Nulla varius nisi velit, quis auctor augue finibus eu. Phasellus eget tellus nulla. Duis ac enim dignissim, lobortis erat eget, venenatis elit.</p></div></div>';
-			const quality = Helpers.compareText(html.replace(/\sdata-entropy="\d+(\.)?(\d+)?"/gi, '').replace(/\n|\t/gi, ''), result);
+			const quality = Helpers.compareText(html.replace(/\sdata-entropy="\d+(\.)?(\d+)?"/gi, ''), result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 		it('get HTML of profile.html', function() {
 			const html = crawler.getContent(url + '/profile.html', 'HTML');
 			const result = '<div><div><h1>Daniel Budick, B.Eng.</h1><div><div><div><div>Phone:</div><div>+49 (0)911 - 980 328 49</div></div><div><div>Mail:</div><div><a href="mailto:daniel@budick.eu">daniel@budick.eu</a></div></div><div><div>Address:</div><div><span>Zehentweg 11a,</span><div></div><div></div><span> Germany </span></div></div></div></div><div><h1>About me</h1><p><span>Daniel Budick (born 1989) is a freelancing developer creating web apps, native apps and backends. He started programming with 16 and became a freelancer with 24. 2015 he founded </span><a href="https://budick.eu">budick.eu - software engineering</a><span>. He has a special interest in data mining, machine learning, text analysis and dialog systems. His main languages are: JavaScript, Java, C#, Python and PHP.</span></p></div></div></div>';
-			const quality = Helpers.compareText(html.replace(/\sdata-entropy="\d+(\.)?(\d+)?"/gi, '').replace(/\n|\t/gi, ''), result);
+			const quality = Helpers.compareText(html.replace(/\sdata-entropy="\d+(\.)?(\d+)?"/gi, ''), result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 
 		it('get PLAIN_TEXT of index.html', function() {
 			const text = crawler.getContent(url + '/index.html', 'PLAIN_TEXT');
 			const result = `Members: Daniel Budick | 1989 | Engineer Details`
-			const quality = Helpers.compareText(text.replace(/\n|\t/gi, ''), result);
+			const quality = Helpers.compareText(text, result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 		it('get PLAIN_TEXT of details.html', function() {
 			const text = crawler.getContent(url + '/details.html', 'PLAIN_TEXT');
 			const result = 'Lorem Ipsum Vivamus elementum est non purus interdum, nec lobortis arcu lacinia. Quisque ornare dapibus massa ac condimentum. Duis sollicitudin ante eu erat lobortis pharetra. Sed viverra risus orci. Praesent rutrum, quam ut imperdiet dictum, lectus tellus dignissim metus, et ullamcorper tortor massa congue tortor. Etiam vulputate aliquam	aliquam. Ut risus quam, aliquam quis dolor in, elementum accumsan purus. Praesent tempus vel justo et efficitur. Vivamus ut dictum libero. Suspendisse vel purus ultrices, vestibulum tellus non, bibendum nisl. Pellentesque ut molestie elit. Donec malesuada augue ac dui congue tincidunt. Orci varius natoque penatibus et magnis dis	parturient montes, nascetur ridiculus mus. Pellentesque ultricies sapien non eleifend porttitor. Aliquam at	nulla quis eros porta molestie ac dignissim magna. Vivamus suscipit ullamcorper ante at euismod. Ut at est eu nisl placerat dapibus id egestas neque. Praesent orci	mi, lacinia sed commodo sit amet, tincidunt venenatis dolor. Vivamus vitae justo ac elit varius vestibulum eu	eget dolor. Nulla varius nisi velit, quis auctor augue finibus eu. Phasellus eget tellus nulla. Duis ac enim dignissim, lobortis erat eget, venenatis elit.';
-			const quality = Helpers.compareText(text.replace(/\n|\t/gi, ''), result);
+			const quality = Helpers.compareText(text, result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 		it('get PLAIN_TEXT of profile.html', function() {
 			const text = crawler.getContent(url + '/profile.html', 'PLAIN_TEXT');
 			const result = 'Daniel Budick, B.Eng. Phone: +49 (0)911 - 980 328 49 Mail: daniel@budick.eu Address: Zehentweg 11a, Germany About me Daniel Budick (born 1989) is a freelancing developer creating web apps, native apps and backends. He started programming with 16 and became a freelancer with 24. 2015 he founded budick.eu - software engineering. He has a special interest in data mining, machine learning, text analysis and dialog systems. His main languages are: JavaScript, Java, C#, Python and PHP.';
-			const quality = Helpers.compareText(text.replace(/\n|\t/gi, ''), result);
+			const quality = Helpers.compareText(text, result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 
@@ -169,7 +170,7 @@ describe('Crawler', function() {
 			const result = `<h>Members:
 				<l>Daniel Budick | 1989 | Engineer
 				`;
-			const quality = Helpers.compareText(text.replace(/\t/gi, ''), result.replace(/\t/gi, ''));
+			const quality = Helpers.compareText(text, result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 		it('get CLEANEVAL of details.html', function() {
@@ -188,7 +189,7 @@ describe('Crawler', function() {
         eget dolor. Nulla varius nisi velit, quis auctor augue finibus eu. Phasellus eget tellus nulla. Duis ac enim
         dignissim, lobortis erat eget, venenatis elit.
 				`;
-			const quality = Helpers.compareText(text.replace(/\t|\s{2,}/gi, ''), result.replace(/\t|\s{2,}/gi, ''));
+			const quality = Helpers.compareText(text, result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 
 		});
@@ -211,7 +212,7 @@ describe('Crawler', function() {
             He has a special interest in data mining, machine learning,
             text analysis and dialog systems. His main languages are:
             JavaScript, Java, C#, Python and PHP.`;
-			const quality = Helpers.compareText(text.replace(/\t/gi, ''), result.replace(/\t/gi, ''));
+			const quality = Helpers.compareText(text, result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
 

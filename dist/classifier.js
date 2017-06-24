@@ -25,17 +25,13 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
 
-var _cheerio = require('cheerio');
+var _lodash = require('lodash');
 
-var _cheerio2 = _interopRequireDefault(_cheerio);
+var _lodash2 = _interopRequireDefault(_lodash);
 
-var _underscore = require('underscore');
+var _fckffdom = require('fckffdom');
 
-var _underscore2 = _interopRequireDefault(_underscore);
-
-var _helpers = require('./helpers');
-
-var _helpers2 = _interopRequireDefault(_helpers);
+var _fckffdom2 = _interopRequireDefault(_fckffdom);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49,24 +45,29 @@ var LinkQuotaFilter = function () {
 	_createClass(LinkQuotaFilter, null, [{
 		key: 'measure',
 		value: function measure(node) {
-			if (!_helpers2.default.isNode(node)) {
+			if (!node instanceof _fckffdom2.default.Node) {
 				throw new TypeError('Parameter node in LinkQuotaFilter.measure has to be a cheerio node. Or must have the function html() and text()');
 			}
-			var layout = ['a', 'aside', 'button', 'div', 'main', 'nav', 'li', 'ul'];
-			var content = ['abbr', 'address', 'article', 'b', 'blockquote', 'br', 'caption', 'cite', 'code', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'span', 'p'];
-			var c = content.reduce(function (memo, el) {
-				if (typeof memo === 'string') {
-					memo = _helpers2.default.count(node, memo);
-				}
-				return memo + _helpers2.default.count(node, el);
+			if (node.isLeaf()) {
+				return 0;
+			}
+			var childLeafs = node.getChildren().filter(function (c) {
+				return c.isLeaf();
 			});
-			var l = layout.reduce(function (memo, el) {
-				if (typeof memo === 'string') {
-					memo = _helpers2.default.count(node, memo);
-				}
-				return memo + _helpers2.default.count(node, el);
+			if (childLeafs.length === 0) {
+				return 0;
+			}
+			var boilerTags = ['a', 'l', 'd'];
+			var boilerChilds = childLeafs.filter(function (c) {
+				return _lodash2.default.includes(boilerTags, c.getType());
 			});
-			return c / (l || 1);
+
+			var contentTags = ['p', 'h'];
+			var contentChilds = childLeafs.filter(function (c) {
+				return _lodash2.default.includes(contentTags, c.getType());
+			});
+
+			return contentChilds.length / (boilerChilds.length || 1);
 		}
 	}]);
 
@@ -93,45 +94,59 @@ var Classifier = function () {
 	_createClass(Classifier, null, [{
 		key: 'classify',
 		value: function classify(node) {
-			if (!_helpers2.default.isNode(node)) {
+			if (!node instanceof _fckffdom2.default.Node) {
 				throw new TypeError('Parameter node in Classifier.classify has to be a cheerio node. Or must have the function html() and text()');
 			}
 
-			return 0;
-			var textDensity = _helpers2.default.textDensity(node);
-			var lqf = LinkQuotaFilter.measure(node);
-			var imageNumber = _helpers2.default.count(node, 'img') + _helpers2.default.count(node, 'svg');
-			var paragraphs = _helpers2.default.count(node, 'a');
+			/**
+    * If DOM has only one node, things get weird... let's prevent weirdness:
+    */
+			if (node._dom._nodes.length === 1) {
+				return node._text.length;
+			}
 
-			var countHyperlinks = _helpers2.default.count(node, 'a');
-			var inverseHyperlinks = countHyperlinks ? 1 / countHyperlinks : 0;
+			if (Classifier.isPartOfNav(node)) {
+				return 0;
+			}
 
-			var divCount = _helpers2.default.count(node, 'div');
-			var inverseDivs = divCount ? 1 / divCount : 0;
+			var textDensity = Classifier.textDensity(node);
 
-			var words = ['is', 'the', 'le', 'la', 'der', 'die', 'das'];
-			var teh = words.reduce(function (memo, word) {
-				if (typeof memo === 'string') {
-					memo = (node.text().match(new RegExp(memo, 'gi')) || []).length;
-				}
-				return memo + (node.text().match(new RegExp(word, 'gi')) || []).length;
-			});
-
-			return textDensity + lqf + imageNumber + paragraphs + inverseHyperlinks + inverseDivs + teh;
+			return textDensity + LinkQuotaFilter.measure(node);
 		}
+
+		/**
+   * Calculates length of text of children divided by number of children
+   * @param node
+   * @returns {*}
+   */
+
+	}, {
+		key: 'textDensity',
+		value: function textDensity(node) {
+			var childLeafs = node.getChildren().filter(function (c) {
+				return c.isLeaf();
+			});
+			var childLeafsLength = childLeafs.length;
+			if (childLeafsLength === 0) {
+				return 0;
+			}
+			var textLength = childLeafs.map(function (c) {
+				return c.getText();
+			}).join('').length;
+
+			return textLength / (childLeafsLength || 1);
+		}
+
+		/**
+   * Looks for hyperlinks in list items, which are typical for navbars
+   * @param node
+   * @returns {*|boolean}
+   */
+
 	}, {
 		key: 'isPartOfNav',
 		value: function isPartOfNav(node) {
-			try {
-				if (node.parent()[0].name.toLowerCase() === 'li') {
-					var density = _helpers2.default.textDensity(node.parent().parent().parent());
-					return density < 0.5;
-				}
-				var parentDensity = _helpers2.default.textDensity(node.parent());
-				return parentDensity < 0.5;
-			} catch (e) {
-				return true;
-			}
+			return node.getChildren().length === 1 && node.getChildren()[0].getType() === 'a' && node.getType() === 'l';
 		}
 	}]);
 

@@ -3,18 +3,25 @@ const assert = require('assert');
 const URL = require('url');
 const cheerio = require('cheerio');
 const _ = require('lodash');
+const Helpers = require('my-helpers');
+const leven = require('leven');
+const exec = require('child_process').exec;
 
 const Crawler = require('./../index');
 
 const cleanevalPathInput = './test/cleaneval/input';
-const cleanevalPathOutput = './test/cleaneval/gold_standard';
+const cleanevalPathGoldStandard = './test/cleaneval/gold_standard';
+const cleanevalPathOutput = './test/cleaneval/output';
+const cleanevalPathResult = './test/cleaneval/result.csv';
+
+const crawler = new Crawler([]);
 
 function readFile(filename) {
-	return new Promise(function(resolve, reject) {
+	return new Promise((resolve, reject) => {
 		try{
-			fs.readFile(filename, function(err, buffer) {
+			fs.readFile(filename, (err, buffer) => {
 				if (err) reject(err); else {
-					resolve(buffer.toString('utf8'));
+					resolve({data: buffer.toString('utf8'), filename: filename});
 				}
 			});
 		}catch (err){
@@ -24,77 +31,89 @@ function readFile(filename) {
 };
 
 
-function runTest() {
-	const outputFiles = fs.readdirSync(cleanevalPathOutput).map(outputFile => outputFile.replace('.txt', ''));
-	const inputFiles = fs.readdirSync(cleanevalPathInput).map(inputFile => inputFile.replace('.html', ''));
-	const files = inputFiles.filter(inputFile => {
-		return outputFiles.indexOf(inputFile) !== -1;
-	});
+const allTestFiles = fs.readdirSync(cleanevalPathGoldStandard).map(testFile => testFile.replace('.txt', ''));
+const inputFiles = fs.readdirSync(cleanevalPathInput)
+	.map(inputFile => inputFile.replace('.html', ''))
+	.filter(inputFile => _.includes(allTestFiles, inputFile));
+const testFiles = allTestFiles.filter(testFile => _.includes(inputFiles, testFile));
+const outputFiles = fs.readdirSync(cleanevalPathOutput).map(outputFile => outputFile.replace('.txt', ''));
 
+function createTestData(overwrite) {
+	const files = inputFiles.filter(inputFile => {
+		return overwrite || !_.includes(outputFiles, inputFile);
+	});
 	const promises = files.map(file => {
-		return Promise.all([readFile(`${cleanevalPathInput}/${file}.html`), readFile(`${cleanevalPathOutput}/${file}.txt`), file]);
+		return readFile(`${cleanevalPathInput}/${file}.html`);
 	});
 	return Promise.all(promises).then(data => {
-		return data.map(arr => {
-			const html = arr[1].substring(arr[1].indexOf('\n') + 1);
-			const output = arr[0];
-			const file = arr[2]
-			const firstLine = arr[0].split('\n')[0];
+		return data.map(file => {
+			const html = file.data.substring(file.data.indexOf('\n') + 1);
+			const firstLine = file.data.split('\n')[0];
 			const $ = cheerio.load(firstLine);
 			return {
 				html: html,
-				output: output,
 				url: $('text').attr('id'),
-				title: $('text').attr('title'),
 				encoding: $('text').attr('encoding'),
-				file: file
+				file: _.last(file.filename.split('/')).replace('.html', '')
 			};
 		});
 	}).then(data => {
-		data = data.map(s => {
-			s.site = new Crawler.Site(s.url);
-			return s;
-		});
-		return Promise.all(data.map(site => {
-			const crawler = new Crawler(site.url);
-			const hostname = URL.parse(site.url).hostname;
-			crawler.sites = data.filter(s => {
-				return s.site.url.hostname === hostname;
-			}).map(s => {
-				s.site.simulateLoading(s.html, crawler);
-				return s.site;
-			});
-			crawler.originals = _.cloneDeep(crawler.sites);
-			const result = crawler.getContent(site.url, 'CLEANEVAL');
-			//console.log(crawler.getByUrl(site.url));
-			site.result = result;
-			//console.log(site.url, crawler.getByUrl(site.url).$.html());
+		crawler.sites = data.map(d => {
+			const site = new Crawler.Site(d.url, crawler);
+			site.simulateLoading(d.html, d.url);
+			site.__url = d.url;
+			site.__file = d.file;
 			return site;
-		}));
-	}).then(data => {
-		return data.map(site => {
-			return Crawler.Helpers.compareText(site.output, site.result) * 100;
 		});
-	}).then(results => {
-		return Crawler.Helpers.mean([])
+		return Promise.all(crawler.sites.map((site, index) => {
+			const destionation = `${cleanevalPathOutput}/${site.__file}.txt`;
+			const cleanEval = crawler.getContent(site.__url, 'CLEANEVAL');
+			return new Promise(resolve => {
+				if (cleanEval) {
+					fs.writeFile(destionation, cleanEval, resolve);
+				} else {
+					console.log(site.__file, cleanEval);
+				}
+			});
+		}));
 	});
+}
+
+function clean(string) {
+	return string.replace(/<p>|<h>|<l>|<x>/g, '');
 }
 
 describe('Run CleanEval as test', function() {
 	it('should return a value between 0 and 100 % about how many is correct.', function(done) {
-		this.timeout(12000);
-		const test = true;
-		if (test) {
-			runTest().then(correct => {
-				console.log(correct);
-				assert(correct);
+		return done();
+		this.timeout(12 * 60000);
+		createTestData().then(() => {
+			const loadTestFiles = fs.readdirSync(cleanevalPathOutput).map(file => {
+				return Promise.all([
+					readFile(`${cleanevalPathOutput}/${file}`),
+					readFile(`${cleanevalPathGoldStandard}/${file}`)
+				])
+			});
+			return Promise.all(loadTestFiles).then(allTests => {
+				const qualities = [];
+				allTests.forEach(arr => {
+					const testData = clean(arr[1].data.substring(arr[1].data.indexOf('\n') + 1).replace(/\n|\t|\s/gi, ''));
+					const cleanEvalData = clean(arr[0].data.replace(/\n|\t|\s/gi, ''));
+					const quality = Helpers.compareText(cleanEvalData, testData);
+					qualities.push(quality);
+				});
+				const mean = Helpers.mean(qualities);
+				console.log('Mean:', mean);
+				console.log('Standard Deviation', Helpers.standardDeviation(qualities, mean));
+				fs.writeFile(cleanevalPathResult, qualities.map(q => `${q};\n`).join(''));
+				assert(mean > 0.5);
 				done();
 			}).catch(err => {
-				console.error(err);
-				done();
+				throw err;
 			});
-		} else {
+		}).catch(err => {
+			console.error(err);
 			done();
-		}
+		});
 	});
 });

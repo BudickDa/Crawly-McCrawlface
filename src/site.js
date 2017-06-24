@@ -22,7 +22,7 @@ import URL from 'url';
 import _ from 'lodash';
 import FckffDOM from 'fckffdom';
 import Helpers from 'my-helpers';
-import Extractor from './extractor';
+import leven from 'leven';
 import Classifier from './classifier';
 
 class Site {
@@ -38,6 +38,7 @@ class Site {
 		}
 		this.ready = false;
 		this.scored = false;
+		this.entropies = [];
 	}
 
 	async load() {
@@ -52,13 +53,16 @@ class Site {
 		return false;
 	}
 
-	simulateLoading(html, crawler = this.crawler) {
+	simulateLoading(html, url = 'http://localhost:3000', crawler = this.crawler) {
 		this.crawler = crawler;
 		this.dom = new FckffDOM(html);
 		if (this.dom.body()) {
 			this.hash = this.dom.body().hash();
 		}
 		this.ready = true;
+		this.url = URL.parse(url);
+		this.domain = URL.parse(URL.resolve(this.url.href, '/'));
+		return this;
 	}
 
 	html(selector) {
@@ -78,14 +82,21 @@ class Site {
 		}
 
 		const cleanedDom = _.cloneDeep(this.dom);
-		cleanedDom._nodes.forEach(n => {
-			const entropy = parseInt(n.data('entropy'));
-			if (entropy <= 0 || isNaN(entropy)) {
-				n.remove();
-			}
-		})
+		const mean = Helpers.mean(this.entropies);
+		const deviation = Helpers.standardDeviation(this.entropies, mean);
 
-		//console.log(cleanedDom._nodes);
+		console.log(cleanedDom.html());
+		cleanedDom._nodes.forEach(node => {
+			const entropy = (parseFloat(node.data('entropy')) - mean) / (deviation || 1);
+			node.data('entropy', entropy);
+			if (entropy <= 0) {
+				node.remove();
+			}
+		});
+
+		console.log('\n');
+		console.log(cleanedDom.html());
+
 		if (type === 'PLAIN_TEXT') {
 			return cleanedDom.text().trim();
 		}
@@ -118,22 +129,27 @@ class Site {
 		return _.uniqBy(urls, url => url.href);
 	}
 
-	scoreNode(node, otherNodes, goldMiner = false) {
+	scoreNode(node, otherNodes, schnuffel = false, allHashes) {
 		if (otherNodes.filter(n => n && n.hash() === node.hash()).length > 0) {
 			node.setData('entropy', 0);
 			return 0;
 		}
 
+		if (_.includes(allHashes, n => n === node.hash())) {
+			entropy -= node.getText().length;
+		}
+
+
 		/**
 		 * Score it by distance to other sites aka. entropy
 		 */
-		let entropy = 0;
-		if (node.isLeaf()) {
+		let entropy = Classifier.classify(node);
+
 			/**
 			 * Test if enough sites were crawled.
 			 * If not use only Classifier.
 			 */
-			if (goldMiner) {
+			if (schnuffel) {
 				const text = node.text();
 				const scores = [];
 
@@ -143,24 +159,28 @@ class Site {
 						scores.push(text.length);
 					} else {
 						const otherText = otherNodes[i].text();
-						scores.push(Helpers.getDistance(text, otherText));
+						scores.push(leven(this.clean(text), this.clean(otherText)));
 					}
 				}
 				if (scores.length > 0) {
 					entropy = Helpers.mean(scores);
 				}
 			}
-			entropy += Classifier.classify(node);
-		} else {
+		if (!node.isLeaf()) {
 			const childEntropies = node.getChildren().map((child, index) => {
 				return this.scoreNode(child, otherNodes.map(n => {
 					return n.getChildren()[index];
-				}).filter(n => n instanceof FckffDOM.Node), goldMiner)
+				}).filter(n => n instanceof FckffDOM.Node), schnuffel, allHashes)
 			});
-			entropy += Helpers.sum(childEntropies);
+			entropy += _.sum(childEntropies);
 		}
 		node.setData('entropy', entropy);
+		this.entropies.push(entropy);
 		return entropy;
+	}
+
+	clean(text) {
+		return text.replace(/\t|\n/gi, '');
 	}
 
 	/**
@@ -171,6 +191,7 @@ class Site {
 	 * @returns {*}
 	 */
 	scoreDOM(site = this, sites = this.crawler.sites) {
+		sites = sites.filter(s => site.domain.hostname === s.domain.hostname);
 		/**
 		 * Sites with the same hash are filtered out.
 		 * The resulting array should contain only unique sites.
@@ -179,9 +200,12 @@ class Site {
 		const otherSites = sites.filter(s => {
 			return site.hash !== s.hash;
 		});
+
+		const allHashes = _.flatten(otherSites.map(s => s.dom._nodes.filter(n => n.isLeaf()).map(n => n.getHash())));
+
 		this.scoreNode(site.dom.body(), otherSites.map(s => {
 			return s.dom.body();
-		}), this.crawler.options.readyIn <= sites.length);
+		}), otherSites.length > 0, allHashes);
 		this.scored = true;
 	}
 }

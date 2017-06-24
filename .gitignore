@@ -9,3 +9,4 @@ lib/
 node_modules/
 .env
 test/cleaneval/*/**
+test/cleaneval/evaluation_script/cleaneval.prl

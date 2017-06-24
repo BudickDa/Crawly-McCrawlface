@@ -36,5 +36,4 @@ if (!Object.keys(global).includes('regeneratorRuntime')) {
 const Crawly = require('./dist/crawler').default;
 Crawly.Site = require('./dist/site').default;
 Crawly.Classifier = require('./dist/classifier').default;
-Crawly.Helpers = require('./dist/helpers').default;
 module.exports = Crawly;

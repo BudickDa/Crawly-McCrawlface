@@ -24,7 +24,7 @@ import URL from 'url';
 import _ from 'lodash';
 import EventEmitter from 'events';
 import Site from './site';
-import Levenshtein from 'levenshtein';
+import leven from 'leven';
 import NLP from 'google-nlp-api';
 import Translate from '@google-cloud/translate';
 import process from 'process';
@@ -170,13 +170,25 @@ class Crawler extends EventEmitter {
 		if (this.sites.length === 0) {
 			return;
 		}
+		url = URL.parse(url);
+		const sites = this.sites.filter(s => {
+			return s.url.host === url.host;
+		});
 
 		/**
 		 * First try to find exact url
 		 */
-		const i = _.findIndex(this.sites, u => u.href === url);
+		const i = _.findIndex(this.sites, s => s.url.path === url.path);
 		if (i > -1) {
 			return this.sites[i];
+		}
+
+		/**
+		 * Secondly try to find url by removing slashes
+		 */
+		const j = _.findIndex(this.sites, s => s.url.path.replace(/\//gi,'') === url.path.replace(/\//gi,''));
+		if (j > -1) {
+			return this.sites[j];
 		}
 
 		/**
@@ -184,8 +196,8 @@ class Crawler extends EventEmitter {
 		 */
 		let index = -1;
 		let distance = url.length / 2;
-		this.sites.forEach((site, i) => {
-			const tmp = new Levenshtein(site.url.href, url).distance;
+		this.sites.forEach((s, i) => {
+			const tmp = new leven(s.url.path, url.path);
 			if (tmp < distance) {
 				distance = tmp;
 				index = i;

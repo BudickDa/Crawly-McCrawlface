@@ -18,9 +18,9 @@
  * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const Cheerio = require('cheerio');
 const assert = require('assert');
 const Chance = require('chance');
+const FckffDOM = require('fckffdom');
 const Crawler = require('./../index');
 const Classifier = Crawler.Classifier;
 const LinkQuotaFilter = Classifier.LinkQuotaFilter;
@@ -28,8 +28,23 @@ const LinkQuotaFilter = Classifier.LinkQuotaFilter;
 describe('Classifier', function() {
 	describe('#classify()', function() {
 		it('should classify node', function() {
-			const $ = Cheerio.load('<div id="node"></div>');
-			assert.equal(Classifier.classify($('#node')), 0);
+			const dom = new FckffDOM('<div id="node">Test</div>');
+			assert.equal(Classifier.classify(dom.querySelector('#node')), 0);
+		});
+	});
+
+	describe('#textDensity()', function() {
+		it('should classify node', function() {
+			const dom = new FckffDOM('<div id="node">Test <span>Child with text</span> Some more text, this should have a really high textdensity!</div>');
+			assert.equal(Classifier.textDensity(dom.querySelector('#node')), 27);
+		});
+	});
+
+	describe('#isPartOfNav()', function() {
+		it('should check if node is part of nav', function() {
+			const dom = new FckffDOM('<div id="node"><nav><li  id="home"><a>Home</a></li><li><a>Profile</a></li></nav><main id="content"><p>This is text and a <a>link</a> that belongs to content.</p></main></div>');
+			assert.equal(Classifier.isPartOfNav(dom.querySelector('#home')), true);
+			assert.equal(Classifier.isPartOfNav(dom.querySelector('#content')), false);
 		});
 	});
 });
@@ -37,8 +52,8 @@ describe('Classifier', function() {
 describe('LinkQuotaFilter', function() {
 	describe('#measure()', function() {
 		it('should classify node', function() {
-			const $ = Cheerio.load('<div id="node"><p>This is a paragraph. <a>Link</a></p></div>');
-			assert.equal(LinkQuotaFilter.measure($('#node')), 1, 'One p and one a should return one');
+			const dom = new FckffDOM('<div id="node"><p>This is a paragraph. <a>Link</a></p></div>');
+			assert.equal(LinkQuotaFilter.measure(dom.querySelector('#node')), 0, 'One p and one a should return one');
 		});
 	});
 });

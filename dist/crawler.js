@@ -33,9 +33,9 @@ var _site = require('./site');
 
 var _site2 = _interopRequireDefault(_site);
 
-var _levenshtein = require('levenshtein');
+var _leven = require('leven');
 
-var _levenshtein2 = _interopRequireDefault(_levenshtein);
+var _leven2 = _interopRequireDefault(_leven);
 
 var _googleNlpApi = require('google-nlp-api');
 
@@ -339,15 +339,29 @@ var Crawler = function (_EventEmitter) {
 			if (this.sites.length === 0) {
 				return;
 			}
+			url = _url3.default.parse(url);
+			var sites = this.sites.filter(function (s) {
+				return s.url.host === url.host;
+			});
 
 			/**
     * First try to find exact url
     */
-			var i = _lodash2.default.findIndex(this.sites, function (u) {
-				return u.href === url;
+			var i = _lodash2.default.findIndex(this.sites, function (s) {
+				return s.url.path === url.path;
 			});
 			if (i > -1) {
 				return this.sites[i];
+			}
+
+			/**
+    * Secondly try to find url by removing slashes
+    */
+			var j = _lodash2.default.findIndex(this.sites, function (s) {
+				return s.url.path.replace(/\//gi, '') === url.path.replace(/\//gi, '');
+			});
+			if (j > -1) {
+				return this.sites[j];
 			}
 
 			/**
@@ -355,8 +369,8 @@ var Crawler = function (_EventEmitter) {
     */
 			var index = -1;
 			var distance = url.length / 2;
-			this.sites.forEach(function (site, i) {
-				var tmp = new _levenshtein2.default(site.url.href, url).distance;
+			this.sites.forEach(function (s, i) {
+				var tmp = new _leven2.default(s.url.path, url.path);
 				if (tmp < distance) {
 					distance = tmp;
 					index = i;

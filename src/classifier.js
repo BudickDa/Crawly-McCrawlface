@@ -18,32 +18,31 @@
  * along with Crawly McCrawlface. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import cheerio from 'cheerio';
-import _ from 'underscore';
-import Helpers from './helpers';
+import _ from 'lodash';
+import FckffDOM from 'fckffdom';
 
 class LinkQuotaFilter {
 	static measure(node) {
-		if (!Helpers.isNode(node)) {
+		if (!node instanceof FckffDOM.Node) {
 			throw new TypeError('Parameter node in LinkQuotaFilter.measure has to be a cheerio node. Or must have the function html() and text()');
 		}
-		const layout = ['a', 'aside', 'button', 'div', 'main', 'nav', 'li', 'ul'];
-		const content = ['abbr', 'address', 'article', 'b', 'blockquote', 'br', 'caption', 'cite', 'code', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'img', 'span', 'p'];
-		const c = content.reduce((memo, el) => {
-			if (typeof memo === 'string') {
-				memo = Helpers.count(node, memo);
-			}
-			return memo + Helpers.count(node, el);
-		})
-		const l = layout.reduce((memo, el) => {
-			if (typeof memo === 'string') {
-				memo = Helpers.count(node, memo);
-			}
-			return memo + Helpers.count(node, el);
-		});
-		return c / (l || 1);
+		if (node.isLeaf()) {
+			return 0;
+		}
+		const childLeafs = node.getChildren().filter(c => c.isLeaf());
+		if (childLeafs.length === 0) {
+			return 0;
+		}
+		const boilerTags = ['a', 'l', 'd'];
+		const boilerChilds = childLeafs.filter(c => _.includes(boilerTags, c.getType()));
+
+		const contentTags = ['p', 'h'];
+		const contentChilds = childLeafs.filter(c => _.includes(contentTags, c.getType()));
+
+		return contentChilds.length / (boilerChilds.length || 1);
 	}
 }
+
 
 /**
  * Scores node with several features (higher is always better):
@@ -57,44 +56,50 @@ class LinkQuotaFilter {
  */
 class Classifier {
 	static classify(node) {
-		if (!Helpers.isNode(node)) {
+		if (!node instanceof FckffDOM.Node) {
 			throw new TypeError('Parameter node in Classifier.classify has to be a cheerio node. Or must have the function html() and text()');
 		}
 
-		return 0;
-		const textDensity = Helpers.textDensity(node);
-		const lqf = LinkQuotaFilter.measure(node);
-		const imageNumber = Helpers.count(node, 'img') + Helpers.count(node, 'svg');
-		const paragraphs = Helpers.count(node, 'a');
+		/**
+		 * If DOM has only one node, things get weird... let's prevent weirdness:
+		 */
+		if (node._dom._nodes.length === 1) {
+			return node._text.length;
+		}
 
-		const countHyperlinks = Helpers.count(node, 'a');
-		const inverseHyperlinks = countHyperlinks ? 1 / countHyperlinks : 0;
+		if (Classifier.isPartOfNav(node)) {
+			return 0;
+		}
 
-		const divCount = Helpers.count(node, 'div')
-		const inverseDivs = divCount ? 1 / divCount : 0;
+		const textDensity = Classifier.textDensity(node);
 
-		const words = ['is', 'the', 'le', 'la', 'der', 'die', 'das'];
-		const teh = words.reduce((memo, word) => {
-			if (typeof memo === 'string') {
-				memo = (node.text().match(new RegExp(memo, 'gi')) || []).length;
-			}
-			return memo + (node.text().match(new RegExp(word, 'gi')) || []).length;
-		});
-
-		return textDensity + lqf + imageNumber + paragraphs + inverseHyperlinks + inverseDivs + teh;
+		return textDensity + LinkQuotaFilter.measure(node);
 	}
 
-	static isPartOfNav(node) {
-		try{
-			if (node.parent()[0].name.toLowerCase() === 'li') {
-				const density = Helpers.textDensity(node.parent().parent().parent());
-				return density < 0.5;
-			}
-			const parentDensity = Helpers.textDensity(node.parent());
-			return parentDensity < 0.5;
-		}catch(e){
-			return true;
+
+	/**
+	 * Calculates length of text of children divided by number of children
+	 * @param node
+	 * @returns {*}
+	 */
+	static textDensity(node) {
+		const childLeafs = node.getChildren().filter(c => c.isLeaf());
+		const childLeafsLength = childLeafs.length;
+		if (childLeafsLength === 0) {
+			return 0;
 		}
+		const textLength = childLeafs.map(c => c.getText()).join('').length;
+
+		return textLength / (childLeafsLength || 1);
+	}
+
+	/**
+	 * Looks for hyperlinks in list items, which are typical for navbars
+	 * @param node
+	 * @returns {*|boolean}
+	 */
+	static isPartOfNav(node) {
+		return node.getChildren().length === 1 && node.getChildren()[0].getType() === 'a' && node.getType() === 'l';
 	}
 
 }

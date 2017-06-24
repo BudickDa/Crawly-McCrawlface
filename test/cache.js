@@ -58,7 +58,7 @@ describe('Cache', function() {
 		crawler.on('ready', () => {
 			crawler.stop();
 			const text = cacheString.get(url);
-			assert.equal(text.length, 543);
+			assert.equal(text.length, 614);
 			done();
 		});
 	});
@@ -70,7 +70,7 @@ describe('Cache', function() {
 		crawler.on('ready', () => {
 			crawler.stop();
 			cachePromise.get(url).then(text => {
-				assert.equal(text.length, 543);
+				assert.equal(text.length, 614);
 				done();
 			});
 		});

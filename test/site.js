@@ -78,22 +78,22 @@ describe('Site', function() {
 				'<body><div class="zero"><nav id="navbar">Template</nav></div><div class="content"> Proin porta ultrices quam, sit amet lacinia odio finibus nec. Fusce lectus ex, tempus non aliquet non, vehicula ac magna.</div></body>',
 				'<body><div class="zero"><nav id="navbar">Template</nav></div><div class="content">Fusce pellentesque, est nec auctor semper, leo arcu pellentesque diam, ut porta nibh eros ac turpis.</div></body>'
 			];
-			site.simulateLoading(testHtmlFour)
-			const sites = compareHtml.map(html => {
+			site.simulateLoading(testHtmlFour, 'http://www.test.de')
+			const sites = compareHtml.map((html, i) => {
 				const s = new Crawler.Site();
-				s.simulateLoading(html);
+				s.simulateLoading(html, 'http://www.test.de/' + i);
 				return s;
 			});
 
 			site.scoreDOM(site, sites, true);
-			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 119);
+			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 102);
 			assert.equal(site.dom.querySelector('.zero').data('entropy'), 0);
 			assert.equal(site.dom.querySelector('#navbar').data('entropy'), undefined);
 			const newSite = new Crawler.Site();
-			newSite.dom = new Dom('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>');
+			newSite.simulateLoading('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>','http://www.test.de/42');
 			sites.push(newSite)
 			site.scoreDOM(site, sites, true);
-			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 145);
+			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 124);
 		});
 	});
 
@@ -110,7 +110,7 @@ describe('Site', function() {
 			crawler.workQueue();
 			crawler.on('ready', () => {
 				crawler.stop();
-				const crawledSite = crawler.getByUrl(url);
+				const crawledSite = crawler.getByUrl(url + '/');
 				assert.deepEqual(crawledSite.returnUrls().map(url => url.href), [url + '/index.html',
 					url + '/profile.html', url + '/details.html', url + '/german.html', 'https://budick.eu/']);
 				done();
@@ -126,7 +126,7 @@ describe('Site', function() {
 			this.timeout(10000);
 			const site = new Crawler.Site(url, crawler);
 			site.load().then(() => {
-				assert.equal(site.dom.getById(7).text(), 'Members:');
+				assert.equal(site.dom.getById(8).text(), 'Details ');
 				done();
 			});
 		});

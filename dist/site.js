@@ -41,9 +41,9 @@ var _myHelpers = require('my-helpers');
 
 var _myHelpers2 = _interopRequireDefault(_myHelpers);
 
-var _extractor = require('./extractor');
+var _leven = require('leven');
 
-var _extractor2 = _interopRequireDefault(_extractor);
+var _leven2 = _interopRequireDefault(_leven);
 
 var _classifier = require('./classifier');
 
@@ -70,6 +70,7 @@ var Site = function () {
 		}
 		this.ready = false;
 		this.scored = false;
+		this.entropies = [];
 	}
 
 	_createClass(Site, [{
@@ -117,7 +118,8 @@ var Site = function () {
 	}, {
 		key: 'simulateLoading',
 		value: function simulateLoading(html) {
-			var crawler = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler;
+			var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'http://localhost:3000';
+			var crawler = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.crawler;
 
 			this.crawler = crawler;
 			this.dom = new _fckffdom2.default(html);
@@ -125,6 +127,9 @@ var Site = function () {
 				this.hash = this.dom.body().hash();
 			}
 			this.ready = true;
+			this.url = _url2.default.parse(url);
+			this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
+			return this;
 		}
 	}, {
 		key: 'html',
@@ -152,15 +157,22 @@ var Site = function () {
 			}
 
 			var cleanedDom = _lodash2.default.cloneDeep(this.dom);
-			cleanedDom._nodes.forEach(function (n) {
-				var entropy = parseInt(n.data('entropy'));
-				if (entropy <= 0 || isNaN(entropy)) {
-					n.remove();
-				}
-			}
+			var mean = _myHelpers2.default.mean(this.entropies);
+			var deviation = _myHelpers2.default.standardDeviation(this.entropies, mean);
 
-			//console.log(cleanedDom._nodes);
-			);if (type === 'PLAIN_TEXT') {
+			console.log(cleanedDom.html());
+			cleanedDom._nodes.forEach(function (node) {
+				var entropy = (parseFloat(node.data('entropy')) - mean) / (deviation || 1);
+				node.data('entropy', entropy);
+				if (entropy <= 0) {
+					node.remove();
+				}
+			});
+
+			console.log('\n');
+			console.log(cleanedDom.html());
+
+			if (type === 'PLAIN_TEXT') {
 				return cleanedDom.text().trim();
 			}
 			if (type === 'HTML') {
@@ -203,7 +215,8 @@ var Site = function () {
 		value: function scoreNode(node, otherNodes) {
 			var _this2 = this;
 
-			var goldMiner = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+			var schnuffel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+			var allHashes = arguments[3];
 
 			if (otherNodes.filter(function (n) {
 				return n && n.hash() === node.hash();
@@ -212,45 +225,56 @@ var Site = function () {
 				return 0;
 			}
 
+			if (_lodash2.default.includes(allHashes, function (n) {
+				return n === node.hash();
+			})) {
+				entropy -= node.getText().length;
+			}
+
 			/**
     * Score it by distance to other sites aka. entropy
     */
-			var entropy = 0;
-			if (node.isLeaf()) {
-				/**
-     * Test if enough sites were crawled.
-     * If not use only Classifier.
-     */
-				if (goldMiner) {
-					var text = node.text();
-					var scores = [];
+			var entropy = _classifier2.default.classify(node);
 
-					var lengthSites = otherNodes.length;
-					for (var i = 0; i < lengthSites; i++) {
-						if (!otherNodes[i]) {
-							scores.push(text.length);
-						} else {
-							var otherText = otherNodes[i].text();
-							scores.push(_myHelpers2.default.getDistance(text, otherText));
-						}
-					}
-					if (scores.length > 0) {
-						entropy = _myHelpers2.default.mean(scores);
+			/**
+    * Test if enough sites were crawled.
+    * If not use only Classifier.
+    */
+			if (schnuffel) {
+				var text = node.text();
+				var scores = [];
+
+				var lengthSites = otherNodes.length;
+				for (var i = 0; i < lengthSites; i++) {
+					if (!otherNodes[i]) {
+						scores.push(text.length);
+					} else {
+						var otherText = otherNodes[i].text();
+						scores.push((0, _leven2.default)(this.clean(text), this.clean(otherText)));
 					}
 				}
-				entropy += _classifier2.default.classify(node);
-			} else {
+				if (scores.length > 0) {
+					entropy = _myHelpers2.default.mean(scores);
+				}
+			}
+			if (!node.isLeaf()) {
 				var childEntropies = node.getChildren().map(function (child, index) {
 					return _this2.scoreNode(child, otherNodes.map(function (n) {
 						return n.getChildren()[index];
 					}).filter(function (n) {
 						return n instanceof _fckffdom2.default.Node;
-					}), goldMiner);
+					}), schnuffel, allHashes);
 				});
-				entropy += _myHelpers2.default.sum(childEntropies);
+				entropy += _lodash2.default.sum(childEntropies);
 			}
 			node.setData('entropy', entropy);
+			this.entropies.push(entropy);
 			return entropy;
+		}
+	}, {
+		key: 'clean',
+		value: function clean(text) {
+			return text.replace(/\t|\n/gi, '');
 		}
 
 		/**
@@ -267,6 +291,9 @@ var Site = function () {
 			var site = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
 			var sites = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler.sites;
 
+			sites = sites.filter(function (s) {
+				return site.domain.hostname === s.domain.hostname;
+			});
 			/**
     * Sites with the same hash are filtered out.
     * The resulting array should contain only unique sites.
@@ -275,9 +302,18 @@ var Site = function () {
 			var otherSites = sites.filter(function (s) {
 				return site.hash !== s.hash;
 			});
+
+			var allHashes = _lodash2.default.flatten(otherSites.map(function (s) {
+				return s.dom._nodes.filter(function (n) {
+					return n.isLeaf();
+				}).map(function (n) {
+					return n.getHash();
+				});
+			}));
+
 			this.scoreNode(site.dom.body(), otherSites.map(function (s) {
 				return s.dom.body();
-			}), this.crawler.options.readyIn <= sites.length);
+			}), otherSites.length > 0, allHashes);
 			this.scored = true;
 		}
 	}]);
