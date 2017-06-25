@@ -70,7 +70,7 @@ var Site = function () {
 		}
 		this.ready = false;
 		this.scored = false;
-		this.entropies = [];
+		this.scores = [];
 	}
 
 	_createClass(Site, [{
@@ -157,20 +157,33 @@ var Site = function () {
 			}
 
 			var cleanedDom = _lodash2.default.cloneDeep(this.dom);
-			var mean = _myHelpers2.default.mean(this.entropies);
-			var deviation = _myHelpers2.default.standardDeviation(this.entropies, mean);
 
-			console.log(cleanedDom.html());
-			cleanedDom._nodes.forEach(function (node) {
-				var entropy = (parseFloat(node.data('entropy')) - mean) / (deviation || 1);
-				node.data('entropy', entropy);
-				if (entropy <= 0) {
-					node.remove();
-				}
-			});
+			if (!this.activateSchnuffelMode) {
+				var meanScore = _myHelpers2.default.mean(this.scores);
+				var deviationScore = _myHelpers2.default.standardDeviation(this.scores, meanScore);
+				cleanedDom._nodes.forEach(function (node) {
+					var score = (parseFloat(node.data('score')) - meanScore) / (deviationScore || 1);
+					node.data('score', score);
+					if (score < 0) {
+						node.remove();
+					}
+				});
+			} else {
+				cleanedDom._nodes.forEach(function (node) {
+					var entropies = [parseFloat(node.data('entropy'))];
+					node.getSiblings().forEach(function (s) {
+						entropies.push(parseFloat(s.data('entropy')));
+					});
+					var meanEntropy = _myHelpers2.default.mean(entropies);
+					var deviationEntropy = _myHelpers2.default.standardDeviation(entropies, meanEntropy);
 
-			console.log('\n');
-			console.log(cleanedDom.html());
+					var entropy = (parseFloat(node.data('entropy')) - meanEntropy) / (deviationEntropy || 1);
+					node.data('entropy', entropy);
+					if (entropy < 0) {
+						node.remove();
+					}
+				});
+			}
 
 			if (type === 'PLAIN_TEXT') {
 				return cleanedDom.text().trim();
@@ -212,63 +225,76 @@ var Site = function () {
 		}
 	}, {
 		key: 'scoreNode',
-		value: function scoreNode(node, otherNodes) {
+		value: function scoreNode(node, otherNodes, allHashes) {
 			var _this2 = this;
-
-			var schnuffel = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-			var allHashes = arguments[3];
-
-			if (otherNodes.filter(function (n) {
-				return n && n.hash() === node.hash();
-			}).length > 0) {
-				node.setData('entropy', 0);
-				return 0;
-			}
-
-			if (_lodash2.default.includes(allHashes, function (n) {
-				return n === node.hash();
-			})) {
-				entropy -= node.getText().length;
-			}
 
 			/**
     * Score it by distance to other sites aka. entropy
     */
-			var entropy = _classifier2.default.classify(node);
-
+			var text = node.text();
+			var entropy = 0;
 			/**
     * Test if enough sites were crawled.
     * If not use only Classifier.
     */
-			if (schnuffel) {
-				var text = node.text();
-				var scores = [];
+			if (this.activateSchnuffelMode) {
+
+				var sameContext = otherNodes.filter(function (n) {
+					return n && n.hash() === node.hash();
+				}).filter(function (n) {
+					var parent = n.getParent();
+					if (parent) {
+						return _myHelpers2.default.compareText(parent.getText(), node.getText()) > 0.8;
+					}
+					return false;
+				});
+				if (sameContext.length > 0) {
+					node.setData('entropy', -sameContext.length);
+					entropy -= sameContext.length;
+				}
+
+				if (_lodash2.default.includes(allHashes, function (n) {
+					return n === node.hash();
+				})) {
+					entropy -= node.getText().length;
+				}
 
 				var lengthSites = otherNodes.length;
 				for (var i = 0; i < lengthSites; i++) {
 					if (!otherNodes[i]) {
-						scores.push(text.length);
+						entropy += text.length;
 					} else {
 						var otherText = otherNodes[i].text();
-						scores.push((0, _leven2.default)(this.clean(text), this.clean(otherText)));
+						entropy += (0, _leven2.default)(this.clean(text), this.clean(otherText));
 					}
 				}
-				if (scores.length > 0) {
-					entropy = _myHelpers2.default.mean(scores);
+			} else {
+				var _Classifier$classify = _classifier2.default.classify(node),
+				    textDensity = _Classifier$classify.textDensity,
+				    lqf = _Classifier$classify.lqf,
+				    partOfNav = _Classifier$classify.partOfNav;
+
+				var offset = 0;
+				if (partOfNav) {
+					offset -= text;
 				}
+				var score = (textDensity + lqf) / 2;
+				node.setData('score', score);
+				this.scores.push(score);
 			}
+
 			if (!node.isLeaf()) {
 				var childEntropies = node.getChildren().map(function (child, index) {
 					return _this2.scoreNode(child, otherNodes.map(function (n) {
 						return n.getChildren()[index];
 					}).filter(function (n) {
 						return n instanceof _fckffdom2.default.Node;
-					}), schnuffel, allHashes);
+					}), allHashes);
 				});
 				entropy += _lodash2.default.sum(childEntropies);
 			}
+
 			node.setData('entropy', entropy);
-			this.entropies.push(entropy);
 			return entropy;
 		}
 	}, {
@@ -311,9 +337,10 @@ var Site = function () {
 				});
 			}));
 
+			this.activateSchnuffelMode = otherSites.length > 0;
 			this.scoreNode(site.dom.body(), otherSites.map(function (s) {
 				return s.dom.body();
-			}), otherSites.length > 0, allHashes);
+			}), allHashes);
 			this.scored = true;
 		}
 	}]);

@@ -43,31 +43,29 @@ var LinkQuotaFilter = function () {
 	}
 
 	_createClass(LinkQuotaFilter, null, [{
+		key: 'countLinksRecursivly',
+		value: function countLinksRecursivly(node) {
+			if (node.isLeaf()) {
+				return 0;
+			}
+			return node.getChildren().map(function (c) {
+				return (c.getType === 'a' ? 1 : 0) + _lodash2.default.sum(LinkQuotaFilter.countLinksRecursivly(c));
+			});
+		}
+	}, {
 		key: 'measure',
 		value: function measure(node) {
 			if (!node instanceof _fckffdom2.default.Node) {
 				throw new TypeError('Parameter node in LinkQuotaFilter.measure has to be a cheerio node. Or must have the function html() and text()');
 			}
+
+			var textLength = node.getText().length;
+			var linkQuota = _lodash2.default.sum(LinkQuotaFilter.countLinksRecursivly(node));
+
 			if (node.isLeaf()) {
-				return 0;
+				return textLength;
 			}
-			var childLeafs = node.getChildren().filter(function (c) {
-				return c.isLeaf();
-			});
-			if (childLeafs.length === 0) {
-				return 0;
-			}
-			var boilerTags = ['a', 'l', 'd'];
-			var boilerChilds = childLeafs.filter(function (c) {
-				return _lodash2.default.includes(boilerTags, c.getType());
-			});
-
-			var contentTags = ['p', 'h'];
-			var contentChilds = childLeafs.filter(function (c) {
-				return _lodash2.default.includes(contentTags, c.getType());
-			});
-
-			return contentChilds.length / (boilerChilds.length || 1);
+			return textLength / (linkQuota || 1);
 		}
 	}]);
 
@@ -105,36 +103,11 @@ var Classifier = function () {
 				return node._text.length;
 			}
 
-			if (Classifier.isPartOfNav(node)) {
-				return 0;
-			}
-
-			var textDensity = Classifier.textDensity(node);
-
-			return textDensity + LinkQuotaFilter.measure(node);
-		}
-
-		/**
-   * Calculates length of text of children divided by number of children
-   * @param node
-   * @returns {*}
-   */
-
-	}, {
-		key: 'textDensity',
-		value: function textDensity(node) {
-			var childLeafs = node.getChildren().filter(function (c) {
-				return c.isLeaf();
-			});
-			var childLeafsLength = childLeafs.length;
-			if (childLeafsLength === 0) {
-				return 0;
-			}
-			var textLength = childLeafs.map(function (c) {
-				return c.getText();
-			}).join('').length;
-
-			return textLength / (childLeafsLength || 1);
+			return {
+				textDensity: TextDensity.measure(node),
+				lqf: LinkQuotaFilter.measure(node),
+				partOfNav: Classifier.isPartOfNav(node)
+			};
 		}
 
 		/**
@@ -153,5 +126,40 @@ var Classifier = function () {
 	return Classifier;
 }();
 
+var TextDensity = function () {
+	function TextDensity() {
+		_classCallCheck(this, TextDensity);
+	}
+
+	_createClass(TextDensity, null, [{
+		key: 'measure',
+
+		/**
+   * Calculates length of text of children divided by number of children
+   * @param node
+   * @returns {*}
+   */
+		value: function measure(node) {
+			var elenentCount = _lodash2.default.sum(TextDensity.countElementsRecursivly(node));
+			var textLength = node.getText().length;
+
+			return textLength / (elenentCount || 1);
+		}
+	}, {
+		key: 'countElementsRecursivly',
+		value: function countElementsRecursivly(node) {
+			if (node.isLeaf()) {
+				return 0;
+			}
+			return node.getChildren().map(function (c) {
+				return 1 + _lodash2.default.sum(TextDensity.countElementsRecursivly(c));
+			});
+		}
+	}]);
+
+	return TextDensity;
+}();
+
 Classifier.LinkQuotaFilter = LinkQuotaFilter;
+Classifier.TextDensity = TextDensity;
 exports.default = Classifier;

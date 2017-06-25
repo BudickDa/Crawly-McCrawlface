@@ -57,6 +57,10 @@ var _robotsParser = require('robots-parser');
 
 var _robotsParser2 = _interopRequireDefault(_robotsParser);
 
+var _webAutoExtractor = require('web-auto-extractor');
+
+var _webAutoExtractor2 = _interopRequireDefault(_webAutoExtractor);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -697,7 +701,7 @@ var Crawler = function (_EventEmitter) {
 									break;
 								}
 
-								return _context5.abrupt('return', cheerio.load(d));
+								return _context5.abrupt('return', new _fckffdom2.default(d));
 
 							case 10:
 								_context5.next = 18;
@@ -709,7 +713,7 @@ var Crawler = function (_EventEmitter) {
 									break;
 								}
 
-								return _context5.abrupt('return', cheerio.load(data));
+								return _context5.abrupt('return', new _fckffdom2.default(data));
 
 							case 16:
 								if (!data) {
@@ -784,6 +788,8 @@ var Crawler = function (_EventEmitter) {
 
 		/**
    * Returns data extracted with the Google NLP API
+   * or
+   * had already been available withe scheme.org annotation
    * @param url
    * @param features
    * @param type
@@ -802,43 +808,44 @@ var Crawler = function (_EventEmitter) {
 				};
 				var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'PLAIN_TEXT';
 				var encoding = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'UTF8';
-				var text, language, nlp, translation;
+				var site, text, language, nlp, translation;
 				return regeneratorRuntime.wrap(function _callee6$(_context6) {
 					while (1) {
 						switch (_context6.prev = _context6.next) {
 							case 0:
-								text = this.getContent(url, type);
-								_context6.next = 3;
-								return Crawler.getLanguage(text).then(language);
+								site = this.getByUrl(url);
 
-							case 3:
+								console.log((0, _webAutoExtractor2.default)().parse(site.getOrinial()));
+								return _context6.abrupt('return');
+
+							case 6:
 								language = _context6.sent;
 								nlp = new _googleNlpApi2.default();
 
 								if (!(language === 'en')) {
-									_context6.next = 9;
+									_context6.next = 12;
 									break;
 								}
 
-								_context6.next = 8;
+								_context6.next = 11;
 								return nlp.annotateText(text, type, encoding, features);
 
-							case 8:
+							case 11:
 								return _context6.abrupt('return', _context6.sent);
 
-							case 9:
-								_context6.next = 11;
+							case 12:
+								_context6.next = 14;
 								return Crawler.getTranslation(text);
 
-							case 11:
+							case 14:
 								translation = _context6.sent;
-								_context6.next = 14;
+								_context6.next = 17;
 								return nlp.annotateText(translation, type, encoding, features);
 
-							case 14:
+							case 17:
 								return _context6.abrupt('return', _context6.sent);
 
-							case 15:
+							case 18:
 							case 'end':
 								return _context6.stop();
 						}

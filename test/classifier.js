@@ -24,19 +24,15 @@ const FckffDOM = require('fckffdom');
 const Crawler = require('./../index');
 const Classifier = Crawler.Classifier;
 const LinkQuotaFilter = Classifier.LinkQuotaFilter;
+const TextDensity = Classifier.TextDensity;
 
 describe('Classifier', function() {
 	describe('#classify()', function() {
 		it('should classify node', function() {
 			const dom = new FckffDOM('<div id="node">Test</div>');
-			assert.equal(Classifier.classify(dom.querySelector('#node')), 0);
-		});
-	});
-
-	describe('#textDensity()', function() {
-		it('should classify node', function() {
-			const dom = new FckffDOM('<div id="node">Test <span>Child with text</span> Some more text, this should have a really high textdensity!</div>');
-			assert.equal(Classifier.textDensity(dom.querySelector('#node')), 27);
+			assert.deepEqual(Classifier.classify(dom.querySelector('#node')), {
+				textDensity: 5, lqf: 5, partOfNav: false
+			});
 		});
 	});
 
@@ -48,12 +44,21 @@ describe('Classifier', function() {
 		});
 	});
 });
+describe('TextDensity', function() {
+	describe('#measure()', function() {
+		it('should return textdensity of length of text', function() {
+			const text = 'Test Some more text, this should have a really high textdensity! ';
+			const dom = new FckffDOM(`<div id="node">${text}</div>`);
+			assert.equal(TextDensity.measure(dom.querySelector('#node')), text.length);
+		});
+	});
+});
 
 describe('LinkQuotaFilter', function() {
 	describe('#measure()', function() {
 		it('should classify node', function() {
 			const dom = new FckffDOM('<div id="node"><p>This is a paragraph. <a>Link</a></p></div>');
-			assert.equal(LinkQuotaFilter.measure(dom.querySelector('#node')), 0, 'One p and one a should return one');
+			assert.equal(LinkQuotaFilter.measure(dom.querySelector('#node')), dom.querySelector('#node').getText().length, 'One p and one a should return textLength divided by one');
 		});
 	});
 });

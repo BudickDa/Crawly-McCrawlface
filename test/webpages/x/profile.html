@@ -13,22 +13,22 @@
         <li><a href="german.html">German</a></li>
     </ul>
 </nav>
-<div class="content">
-    <h1>Daniel Budick, B.Eng.</h1>
+<div class="content" itemscope itemtype="http://schema.org/Person">>
+    <h1><span itemprop="givenName">Daniel</span> <span itemprop="familyName">Budick</span>, <span itemprop="honorificSuffix">B.Eng.</span></h1>
     <table>
         <tr>
             <th>Phone:</th>
-            <td>+49 (0)911 - 980 328 49</td>
+            <td itemprop="telephone">+49 (0)911 - 980 328 49</td>
         </tr>
         <tr>
             <th>Mail:</th>
-            <td><a href="mailto:daniel@budick.eu">daniel@budick.eu</a> </td>
+            <td><a href="mailto:daniel@budick.eu" itemprop="email">daniel@budick.eu</a> </td>
         </tr>
-        <tr>
+        <tr itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
             <th>Address:</th>
-            <td>Zehentweg 11a,<br/>
-                90768 Fürth<br/>
-                Germany
+            <td itemprop="streetAddress">Zehentweg 11a,<br/>
+                <span itemprop="postalCode">90768</span> <span itemprop="addressLocality">Fürth</span><br/>
+                <span itemprop="addressCountry">Germany</span>
             </td>
         </tr>
     </table>

@@ -64,7 +64,7 @@ describe('Site', function() {
 				sites.map(s => s.dom.body()),
 				true
 			);
-			assert.equal(site.querySelector('.a').data('entropy'), 1);
+			assert.equal(site.querySelector('.a').data('entropy'), 0);
 		});
 	});
 
@@ -86,14 +86,14 @@ describe('Site', function() {
 			});
 
 			site.scoreDOM(site, sites, true);
-			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 102);
-			assert.equal(site.dom.querySelector('.zero').data('entropy'), 0);
-			assert.equal(site.dom.querySelector('#navbar').data('entropy'), undefined);
+			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 359);
+			assert.equal(site.dom.querySelector('.zero').data('entropy'), -3);
+			assert.equal(site.dom.querySelector('#navbar').data('entropy'), -3);
 			const newSite = new Crawler.Site();
 			newSite.simulateLoading('<body><div><nav>Template</nav></div><div class="content">Nullam euismod nisl non purus efficitur eleifend. Sed ultrices sodales odio. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin et tortor turpis. Phasellus dignissim ut augue eu cursus.</div></body>','http://www.test.de/42');
 			sites.push(newSite)
 			site.scoreDOM(site, sites, true);
-			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 124);
+			assert.equal(Math.floor(site.dom.querySelector('.content').data('entropy')), 583);
 		});
 	});
 

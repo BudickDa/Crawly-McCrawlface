@@ -38,7 +38,7 @@ class Site {
 		}
 		this.ready = false;
 		this.scored = false;
-		this.entropies = [];
+		this.scores = [];
 	}
 
 	async load() {
@@ -82,20 +82,33 @@ class Site {
 		}
 
 		const cleanedDom = _.cloneDeep(this.dom);
-		const mean = Helpers.mean(this.entropies);
-		const deviation = Helpers.standardDeviation(this.entropies, mean);
 
-		console.log(cleanedDom.html());
-		cleanedDom._nodes.forEach(node => {
-			const entropy = (parseFloat(node.data('entropy')) - mean) / (deviation || 1);
-			node.data('entropy', entropy);
-			if (entropy <= 0) {
-				node.remove();
-			}
-		});
+		if (!this.activateSchnuffelMode) {
+			const meanScore = Helpers.mean(this.scores);
+			const deviationScore = Helpers.standardDeviation(this.scores, meanScore);
+			cleanedDom._nodes.forEach(node => {
+				const score = (parseFloat(node.data('score')) - meanScore) / (deviationScore || 1);
+				node.data('score', score);
+				if (score < 0) {
+					node.remove();
+				}
+			});
+		} else {
+			cleanedDom._nodes.forEach(node => {
+				const entropies = [parseFloat(node.data('entropy'))];
+				node.getSiblings().forEach(s => {
+					entropies.push(parseFloat(s.data('entropy')));
+				});
+				const meanEntropy = Helpers.mean(entropies);
+				const deviationEntropy = Helpers.standardDeviation(entropies, meanEntropy);
 
-		console.log('\n');
-		console.log(cleanedDom.html());
+				const entropy = (parseFloat(node.data('entropy')) - meanEntropy) / (deviationEntropy || 1);
+				node.data('entropy', entropy);
+				if (entropy < 0) {
+					node.remove();
+				}
+			});
+		}
 
 		if (type === 'PLAIN_TEXT') {
 			return cleanedDom.text().trim();
@@ -129,53 +142,65 @@ class Site {
 		return _.uniqBy(urls, url => url.href);
 	}
 
-	scoreNode(node, otherNodes, schnuffel = false, allHashes) {
-		if (otherNodes.filter(n => n && n.hash() === node.hash()).length > 0) {
-			node.setData('entropy', 0);
-			return 0;
-		}
-
-		if (_.includes(allHashes, n => n === node.hash())) {
-			entropy -= node.getText().length;
-		}
-
-
+	scoreNode(node, otherNodes, allHashes) {
 		/**
 		 * Score it by distance to other sites aka. entropy
 		 */
-		let entropy = Classifier.classify(node);
+		const text = node.text();
+		let entropy = 0;
+		/**
+		 * Test if enough sites were crawled.
+		 * If not use only Classifier.
+		 */
+		if (this.activateSchnuffelMode) {
 
-			/**
-			 * Test if enough sites were crawled.
-			 * If not use only Classifier.
-			 */
-			if (schnuffel) {
-				const text = node.text();
-				const scores = [];
-
-				const lengthSites = otherNodes.length;
-				for (let i = 0; i < lengthSites; i++){
-					if (!otherNodes[i]) {
-						scores.push(text.length);
-					} else {
-						const otherText = otherNodes[i].text();
-						scores.push(leven(this.clean(text), this.clean(otherText)));
-					}
+			const sameContext = otherNodes.filter(n => n && n.hash() === node.hash()).filter(n => {
+				const parent = n.getParent();
+				if (parent) {
+					return Helpers.compareText(parent.getText(), node.getText()) > 0.8;
 				}
-				if (scores.length > 0) {
-					entropy = Helpers.mean(scores);
+				return false;
+			});
+			if (sameContext.length > 0) {
+				node.setData('entropy', -sameContext.length);
+				entropy -= sameContext.length;
+			}
+
+
+			if (_.includes(allHashes, n => n === node.hash())) {
+				entropy -= node.getText().length;
+			}
+
+			const lengthSites = otherNodes.length;
+			for (let i = 0; i < lengthSites; i++){
+				if (!otherNodes[i]) {
+					entropy += text.length;
+				} else {
+					const otherText = otherNodes[i].text();
+					entropy += leven(this.clean(text), this.clean(otherText));
 				}
 			}
+		} else {
+			const {textDensity, lqf, partOfNav} = Classifier.classify(node);
+			let offset = 0;
+			if (partOfNav) {
+				offset -= text;
+			}
+			const score = (textDensity + lqf) / 2;
+			node.setData('score', score);
+			this.scores.push(score);
+		}
+
 		if (!node.isLeaf()) {
 			const childEntropies = node.getChildren().map((child, index) => {
 				return this.scoreNode(child, otherNodes.map(n => {
 					return n.getChildren()[index];
-				}).filter(n => n instanceof FckffDOM.Node), schnuffel, allHashes)
+				}).filter(n => n instanceof FckffDOM.Node), allHashes)
 			});
 			entropy += _.sum(childEntropies);
 		}
+
 		node.setData('entropy', entropy);
-		this.entropies.push(entropy);
 		return entropy;
 	}
 
@@ -203,9 +228,10 @@ class Site {
 
 		const allHashes = _.flatten(otherSites.map(s => s.dom._nodes.filter(n => n.isLeaf()).map(n => n.getHash())));
 
+		this.activateSchnuffelMode = otherSites.length > 0;
 		this.scoreNode(site.dom.body(), otherSites.map(s => {
 			return s.dom.body();
-		}), otherSites.length > 0, allHashes);
+		}), allHashes);
 		this.scored = true;
 	}
 }

@@ -30,6 +30,7 @@ import Translate from '@google-cloud/translate';
 import process from 'process';
 import Sitemapper from 'sitemapper';
 import RobotsParser from 'robots-parser';
+import WAE from 'web-auto-extractor';
 
 class Crawler extends EventEmitter {
 	constructor(seed, options) {
@@ -186,7 +187,7 @@ class Crawler extends EventEmitter {
 		/**
 		 * Secondly try to find url by removing slashes
 		 */
-		const j = _.findIndex(this.sites, s => s.url.path.replace(/\//gi,'') === url.path.replace(/\//gi,''));
+		const j = _.findIndex(this.sites, s => s.url.path.replace(/\//gi, '') === url.path.replace(/\//gi, ''));
 		if (j > -1) {
 			return this.sites[j];
 		}
@@ -434,10 +435,10 @@ class Crawler extends EventEmitter {
 					 */
 					const d = await data;
 					if (d) {
-						return cheerio.load(d);
+						return new FckffDOM(d);
 					}
 				} else if (data && typeof data === 'string') {
-					return cheerio.load(data);
+					return new FckffDOM(data);
 				} else if (data) {
 					throw new TypeError(`get method of cache returns ${typeof data}. But it should be a Promise or a string. Content of data: ${data}`);
 				}
@@ -469,6 +470,8 @@ class Crawler extends EventEmitter {
 
 	/**
 	 * Returns data extracted with the Google NLP API
+	 * or
+	 * had already been available withe scheme.org annotation
 	 * @param url
 	 * @param features
 	 * @param type
@@ -480,8 +483,12 @@ class Crawler extends EventEmitter {
 		extractEntities: true,
 		extractDocumentSentiment: false
 	}, type = 'PLAIN_TEXT', encoding = 'UTF8') {
+		const site = this.getByUrl(url);
+		console.log(WAE().parse(site.getOrinial()));
+		return;
 
-		const text = this.getContent(url, type);
+
+		const text = site.getContent(type);
 		const language = await Crawler.getLanguage(text).then(language);
 		const nlp = new NLP();
 		if (language === 'en') {

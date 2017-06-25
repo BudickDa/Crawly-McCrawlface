@@ -72,7 +72,10 @@ function createTestData(overwrite) {
 				if (cleanEval) {
 					fs.writeFile(destionation, cleanEval, resolve);
 				} else {
-					console.log(site.__file, cleanEval);
+					console.log(site.__url, site.__file, cleanEval);
+					console.log(crawler.getByUrl(site.__url).getContent('CLEANEVAL'));
+					console.log('\n');
+
 				}
 			});
 		}));
@@ -85,7 +88,7 @@ function clean(string) {
 
 describe('Run CleanEval as test', function() {
 	it('should return a value between 0 and 100 % about how many is correct.', function(done) {
-		return done();
+		//return done();
 		this.timeout(12 * 60000);
 		createTestData().then(() => {
 			const loadTestFiles = fs.readdirSync(cleanevalPathOutput).map(file => {
@@ -95,18 +98,17 @@ describe('Run CleanEval as test', function() {
 				])
 			});
 			return Promise.all(loadTestFiles).then(allTests => {
-				const qualities = [];
+				const results = [];
 				allTests.forEach(arr => {
-					const testData = clean(arr[1].data.substring(arr[1].data.indexOf('\n') + 1).replace(/\n|\t|\s/gi, ''));
-					const cleanEvalData = clean(arr[0].data.replace(/\n|\t|\s/gi, ''));
+					const testData = clean(arr[1].data.substring(arr[1].data.indexOf('\n') + 1));
+					const cleanEvalData = clean(arr[0].data);
 					const quality = Helpers.compareText(cleanEvalData, testData);
-					qualities.push(quality);
+					results.push({quality: quality, filename: arr[0].filename});
 				});
+				const qualities = results.map(q => q.quality)
 				const mean = Helpers.mean(qualities);
-				console.log('Mean:', mean);
-				console.log('Standard Deviation', Helpers.standardDeviation(qualities, mean));
-				fs.writeFile(cleanevalPathResult, qualities.map(q => `${q};\n`).join(''));
-				assert(mean > 0.5);
+				fs.writeFile(cleanevalPathResult, `sep=,\n${results.map(q => `${q.filename},${q.quality}\n`).join('')}`);
+				assert(mean > 0);
 				done();
 			}).catch(err => {
 				throw err;

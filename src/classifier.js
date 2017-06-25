@@ -22,24 +22,27 @@ import _ from 'lodash';
 import FckffDOM from 'fckffdom';
 
 class LinkQuotaFilter {
+	static countLinksRecursivly(node) {
+		if (node.isLeaf()) {
+			return 0;
+		}
+		return node.getChildren().map(c => {
+			return (c.getType === 'a' ? 1 : 0) + _.sum(LinkQuotaFilter.countLinksRecursivly(c));
+		});
+	}
+
 	static measure(node) {
 		if (!node instanceof FckffDOM.Node) {
 			throw new TypeError('Parameter node in LinkQuotaFilter.measure has to be a cheerio node. Or must have the function html() and text()');
 		}
+
+		const textLength = node.getText().length;
+		const linkQuota = _.sum(LinkQuotaFilter.countLinksRecursivly(node));
+
 		if (node.isLeaf()) {
-			return 0;
+			return textLength;
 		}
-		const childLeafs = node.getChildren().filter(c => c.isLeaf());
-		if (childLeafs.length === 0) {
-			return 0;
-		}
-		const boilerTags = ['a', 'l', 'd'];
-		const boilerChilds = childLeafs.filter(c => _.includes(boilerTags, c.getType()));
-
-		const contentTags = ['p', 'h'];
-		const contentChilds = childLeafs.filter(c => _.includes(contentTags, c.getType()));
-
-		return contentChilds.length / (boilerChilds.length || 1);
+		return textLength / (linkQuota || 1);
 	}
 }
 
@@ -67,30 +70,11 @@ class Classifier {
 			return node._text.length;
 		}
 
-		if (Classifier.isPartOfNav(node)) {
-			return 0;
-		}
-
-		const textDensity = Classifier.textDensity(node);
-
-		return textDensity + LinkQuotaFilter.measure(node);
-	}
-
-
-	/**
-	 * Calculates length of text of children divided by number of children
-	 * @param node
-	 * @returns {*}
-	 */
-	static textDensity(node) {
-		const childLeafs = node.getChildren().filter(c => c.isLeaf());
-		const childLeafsLength = childLeafs.length;
-		if (childLeafsLength === 0) {
-			return 0;
-		}
-		const textLength = childLeafs.map(c => c.getText()).join('').length;
-
-		return textLength / (childLeafsLength || 1);
+		return {
+			textDensity: TextDensity.measure(node),
+			lqf: LinkQuotaFilter.measure(node),
+			partOfNav: Classifier.isPartOfNav(node)
+		};
 	}
 
 	/**
@@ -101,8 +85,32 @@ class Classifier {
 	static isPartOfNav(node) {
 		return node.getChildren().length === 1 && node.getChildren()[0].getType() === 'a' && node.getType() === 'l';
 	}
+}
 
+class TextDensity {
+	/**
+	 * Calculates length of text of children divided by number of children
+	 * @param node
+	 * @returns {*}
+	 */
+	static measure(node) {
+		const elenentCount = _.sum(TextDensity.countElementsRecursivly(node));
+		const textLength = node.getText().length;
+
+		return textLength / (elenentCount || 1);
+	}
+
+
+	static countElementsRecursivly(node) {
+		if (node.isLeaf()) {
+			return 0;
+		}
+		return node.getChildren().map(c => {
+			return 1 + _.sum(TextDensity.countElementsRecursivly(c));
+		});
+	}
 }
 
 Classifier.LinkQuotaFilter = LinkQuotaFilter;
+Classifier.TextDensity = TextDensity;
 export {Classifier as default};
