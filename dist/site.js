@@ -337,11 +337,11 @@ var Site = function () {
 				});
 			}));
 
-			this.activateSchnuffelMode = otherSites.length > 0;
-			this.scoreNode(site.dom.body(), otherSites.map(function (s) {
+			site.activateSchnuffelMode = otherSites.length > 0;
+			site.scoreNode(site.dom.body(), otherSites.map(function (s) {
 				return s.dom.body();
 			}), allHashes);
-			this.scored = true;
+			site.scored = true;
 		}
 	}]);
 

@@ -228,11 +228,11 @@ class Site {
 
 		const allHashes = _.flatten(otherSites.map(s => s.dom._nodes.filter(n => n.isLeaf()).map(n => n.getHash())));
 
-		this.activateSchnuffelMode = otherSites.length > 0;
-		this.scoreNode(site.dom.body(), otherSites.map(s => {
+		site.activateSchnuffelMode = otherSites.length > 0;
+		site.scoreNode(site.dom.body(), otherSites.map(s => {
 			return s.dom.body();
 		}), allHashes);
-		this.scored = true;
+		site.scored = true;
 	}
 }
 export {Site as default};

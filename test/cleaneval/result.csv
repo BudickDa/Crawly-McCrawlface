@@ -1,682 +1,682 @@
-sep=,
-./test/cleaneval/output/103.txt,0.5570991287967977
-./test/cleaneval/output/104.txt,0.18758472839622942
-./test/cleaneval/output/105.txt,0.5694552666997237
-./test/cleaneval/output/106.txt,0.6398763523956723
-./test/cleaneval/output/107.txt,0.2804753000784125
-./test/cleaneval/output/108.txt,0.4921804007843512
-./test/cleaneval/output/109.txt,0.134617576655648
-./test/cleaneval/output/110.txt,0.7476543209876543
-./test/cleaneval/output/111.txt,0.2026230376896072
-./test/cleaneval/output/112.txt,0.012304722842149673
-./test/cleaneval/output/113.txt,0.2448378579649313
-./test/cleaneval/output/114.txt,0.12937240190611377
-./test/cleaneval/output/115.txt,0.6229969075063255
-./test/cleaneval/output/116.txt,0.1995947792489281
-./test/cleaneval/output/117.txt,0.5251306651392569
-./test/cleaneval/output/118.txt,0.7137452711223202
-./test/cleaneval/output/119.txt,0.418490412629582
-./test/cleaneval/output/120.txt,0.7743023172394002
-./test/cleaneval/output/121.txt,0.6708253358925145
-./test/cleaneval/output/122.txt,0.6933015980958858
-./test/cleaneval/output/123.txt,0.26626506024096386
-./test/cleaneval/output/124.txt,0.43497608187785075
-./test/cleaneval/output/125.txt,0.35167464114832536
-./test/cleaneval/output/126.txt,0.3893638420920291
-./test/cleaneval/output/127.txt,0.2427383099577355
-./test/cleaneval/output/128.txt,0.6642563616247827
-./test/cleaneval/output/129.txt,0.18900015895724054
-./test/cleaneval/output/130.txt,0.7134915544152234
-./test/cleaneval/output/131.txt,0.8029226437860303
-./test/cleaneval/output/132.txt,0.22479126525369297
-./test/cleaneval/output/133.txt,0.2102557948841023
-./test/cleaneval/output/134.txt,0.23757993113625187
-./test/cleaneval/output/135.txt,0.3546593578700078
-./test/cleaneval/output/136.txt,0.22571004304430364
-./test/cleaneval/output/137.txt,0.22329452922371673
-./test/cleaneval/output/138.txt,0.193086592178771
-./test/cleaneval/output/139.txt,0.10854831657192832
-./test/cleaneval/output/140.txt,0.3557671020588886
-./test/cleaneval/output/141.txt,0.45972439266941323
-./test/cleaneval/output/142.txt,0.7112740084100466
-./test/cleaneval/output/143.txt,0.000044261496923825305
-./test/cleaneval/output/144.txt,0.338702393496914
-./test/cleaneval/output/145.txt,0.13961688744877543
-./test/cleaneval/output/146.txt,0.5819642534753566
-./test/cleaneval/output/147.txt,0.5603528066641259
-./test/cleaneval/output/148.txt,0.25746943344239714
-./test/cleaneval/output/149.txt,0.5157962604771116
-./test/cleaneval/output/150.txt,0.028436018957345932
-./test/cleaneval/output/151.txt,0.22415178571428573
-./test/cleaneval/output/152.txt,0.5791510460757044
-./test/cleaneval/output/153.txt,0.3866666666666667
-./test/cleaneval/output/154.txt,0.1922447156891932
-./test/cleaneval/output/155.txt,0.5129008016032064
-./test/cleaneval/output/156.txt,0.24017467248908297
-./test/cleaneval/output/157.txt,0.4122340425531915
-./test/cleaneval/output/158.txt,0.2529935523487872
-./test/cleaneval/output/159.txt,0.27396373056994816
-./test/cleaneval/output/160.txt,0.037592986184909694
-./test/cleaneval/output/161.txt,0.8453884424033677
-./test/cleaneval/output/162.txt,0.48493079808562933
-./test/cleaneval/output/163.txt,0.2467858172383972
-./test/cleaneval/output/164.txt,0.22708039492242593
-./test/cleaneval/output/165.txt,0.38206788468676534
-./test/cleaneval/output/166.txt,0.7318626689451608
-./test/cleaneval/output/167.txt,0.6114359047483245
-./test/cleaneval/output/168.txt,0.8218289085545722
-./test/cleaneval/output/169.txt,0.4545374681542651
-./test/cleaneval/output/170.txt,0.7980442176870748
-./test/cleaneval/output/171.txt,0.9375326257177657
-./test/cleaneval/output/172.txt,0.7077306733167082
-./test/cleaneval/output/173.txt,0.5950272479564033
-./test/cleaneval/output/174.txt,0.34705819196907883
-./test/cleaneval/output/175.txt,0.5734958111195735
-./test/cleaneval/output/176.txt,0.6535648994515539
-./test/cleaneval/output/177.txt,0.05821545157780195
-./test/cleaneval/output/178.txt,0.24328147100424324
-./test/cleaneval/output/179.txt,0.2421019868236759
-./test/cleaneval/output/180.txt,0.17812336644014637
-./test/cleaneval/output/181.txt,0.6751951176574145
-./test/cleaneval/output/182.txt,0.3542260208926875
-./test/cleaneval/output/183.txt,0.7020527859237536
-./test/cleaneval/output/184.txt,0.3469012218460179
-./test/cleaneval/output/185.txt,0.3681974509407242
-./test/cleaneval/output/186.txt,0.41126222322131056
-./test/cleaneval/output/187.txt,0.4191024011771788
-./test/cleaneval/output/188.txt,0.6016985138004246
-./test/cleaneval/output/189.txt,0.27052295072079136
-./test/cleaneval/output/190.txt,0.7273163706192991
-./test/cleaneval/output/191.txt,0.17632070054550675
-./test/cleaneval/output/192.txt,0.3447113358617784
-./test/cleaneval/output/193.txt,0.6148899258195741
-./test/cleaneval/output/194.txt,0.44008945386064036
-./test/cleaneval/output/195.txt,0.6904761904761905
-./test/cleaneval/output/196.txt,0.2833768733672487
-./test/cleaneval/output/197.txt,0.5293434405184008
-./test/cleaneval/output/198.txt,0.00486342194756284
-./test/cleaneval/output/199.txt,0.06569861900893581
-./test/cleaneval/output/200.txt,0.11708461122136027
-./test/cleaneval/output/201.txt,0.7085326953748006
-./test/cleaneval/output/202.txt,0.6226864577606743
-./test/cleaneval/output/203.txt,0.08721735117674201
-./test/cleaneval/output/204.txt,0.22440891075577418
-./test/cleaneval/output/205.txt,0.5622713453908383
-./test/cleaneval/output/206.txt,0.46245969599263015
-./test/cleaneval/output/207.txt,0.5153423199716212
-./test/cleaneval/output/208.txt,0.20072075092189068
-./test/cleaneval/output/209.txt,0.2437925857489317
-./test/cleaneval/output/210.txt,0.03044564522688975
-./test/cleaneval/output/211.txt,0.29927448609431684
-./test/cleaneval/output/212.txt,0.6816344858554109
-./test/cleaneval/output/213.txt,0.5305428355488374
-./test/cleaneval/output/214.txt,0.00012677484787015914
-./test/cleaneval/output/215.txt,0.6340018845066631
-./test/cleaneval/output/216.txt,0.05815567049325088
-./test/cleaneval/output/217.txt,0.4453575301032928
-./test/cleaneval/output/218.txt,0.6287439613526571
-./test/cleaneval/output/219.txt,0.6360927991886409
-./test/cleaneval/output/220.txt,0.4254897644728153
-./test/cleaneval/output/221.txt,0.7227518390632037
-./test/cleaneval/output/222.txt,0.5015384615384615
-./test/cleaneval/output/223.txt,0.12027263405513
-./test/cleaneval/output/224.txt,0.048720698636433246
-./test/cleaneval/output/225.txt,0.10326499620349283
-./test/cleaneval/output/226.txt,0.004177930695502541
-./test/cleaneval/output/227.txt,0.1682871203937102
-./test/cleaneval/output/228.txt,0.6769007615133567
-./test/cleaneval/output/229.txt,0.24138970987393693
-./test/cleaneval/output/230.txt,0.11338707545923088
-./test/cleaneval/output/231.txt,0.2168706758914316
-./test/cleaneval/output/232.txt,0.06182456525316804
-./test/cleaneval/output/233.txt,0.4462170273258569
-./test/cleaneval/output/234.txt,0.1739139344262295
-./test/cleaneval/output/235.txt,0.14269419413710505
-./test/cleaneval/output/236.txt,0.24784365763918215
-./test/cleaneval/output/237.txt,0.10158188585607941
-./test/cleaneval/output/238.txt,0.00043731778425659673
-./test/cleaneval/output/239.txt,0.0010396554284866077
-./test/cleaneval/output/240.txt,0.8365108164689463
-./test/cleaneval/output/241.txt,0.3131038236494761
-./test/cleaneval/output/242.txt,0.23553893479703236
-./test/cleaneval/output/243.txt,0.0013231013495633714
-./test/cleaneval/output/244.txt,0.3726127590410402
-./test/cleaneval/output/245.txt,0.3394853832682204
-./test/cleaneval/output/246.txt,0.17419354838709677
-./test/cleaneval/output/247.txt,0.13734658094681473
-./test/cleaneval/output/249.txt,0.8093286062486151
-./test/cleaneval/output/250.txt,0.08419174438487653
-./test/cleaneval/output/251.txt,0.5789761092150171
-./test/cleaneval/output/252.txt,0.11983772681751059
-./test/cleaneval/output/253.txt,0.002151462994836484
-./test/cleaneval/output/254.txt,0.4382588478429347
-./test/cleaneval/output/255.txt,0.007939287799182737
-./test/cleaneval/output/256.txt,0.264127565587459
-./test/cleaneval/output/257.txt,0.590609756097561
-./test/cleaneval/output/258.txt,0.8001680142812139
-./test/cleaneval/output/259.txt,0.3189189189189189
-./test/cleaneval/output/260.txt,0.13781942078364562
-./test/cleaneval/output/261.txt,0.6761104867806234
-./test/cleaneval/output/262.txt,0.2249462365591398
-./test/cleaneval/output/263.txt,0.025201612903225756
-./test/cleaneval/output/264.txt,0.02904998691442029
-./test/cleaneval/output/265.txt,0.6880193905817175
-./test/cleaneval/output/266.txt,0.019845644983461974
-./test/cleaneval/output/267.txt,0.01476193623724853
-./test/cleaneval/output/268.txt,0.0023560503122701526
-./test/cleaneval/output/269.txt,0.6924914675767918
-./test/cleaneval/output/270.txt,0.296875
-./test/cleaneval/output/271.txt,0.4075382803297998
-./test/cleaneval/output/272.txt,0.19995082672567455
-./test/cleaneval/output/273.txt,0.777673451594514
-./test/cleaneval/output/274.txt,0.3317307692307693
-./test/cleaneval/output/275.txt,0.33156498673740054
-./test/cleaneval/output/276.txt,0.30715577370188585
-./test/cleaneval/output/277.txt,0.4946195720977339
-./test/cleaneval/output/278.txt,0.050000000000000044
-./test/cleaneval/output/279.txt,0.48390929795029214
-./test/cleaneval/output/280.txt,0.4126040428061831
-./test/cleaneval/output/281.txt,0.7290580071658579
-./test/cleaneval/output/282.txt,0.4572150299968425
-./test/cleaneval/output/283.txt,0.665678409487269
-./test/cleaneval/output/284.txt,0.9363395225464191
-./test/cleaneval/output/285.txt,0.21132596685082872
-./test/cleaneval/output/286.txt,0.23884820239680427
-./test/cleaneval/output/287.txt,0.8232425843153189
-./test/cleaneval/output/288.txt,0.05692213083250053
-./test/cleaneval/output/289.txt,0.5366067942210074
-./test/cleaneval/output/290.txt,0.2401263823064771
-./test/cleaneval/output/291.txt,0.5363974836307613
-./test/cleaneval/output/292.txt,0.3907228229937393
-./test/cleaneval/output/293.txt,0.29613095238095233
-./test/cleaneval/output/294.txt,0.91027496382055
-./test/cleaneval/output/295.txt,0.0018655628752988207
-./test/cleaneval/output/296.txt,0.0009138261902585931
-./test/cleaneval/output/297.txt,0.5613354037267081
-./test/cleaneval/output/298.txt,0.616869351779538
-./test/cleaneval/output/299.txt,0.04290307762976575
-./test/cleaneval/output/300.txt,0.5378388554216867
-./test/cleaneval/output/301.txt,0.6267617592120903
-./test/cleaneval/output/302.txt,0.6435754189944134
-./test/cleaneval/output/303.txt,0.4606715731370745
-./test/cleaneval/output/304.txt,0.630745948672678
-./test/cleaneval/output/305.txt,0.3499882711705372
-./test/cleaneval/output/306.txt,0.3784245714572966
-./test/cleaneval/output/307.txt,0.4441489361702128
-./test/cleaneval/output/308.txt,0.3740334055057223
-./test/cleaneval/output/309.txt,0.22232945292237172
-./test/cleaneval/output/310.txt,0.885024154589372
-./test/cleaneval/output/311.txt,0.5318439624193618
-./test/cleaneval/output/312.txt,0.7097244303126656
-./test/cleaneval/output/313.txt,0.49300364193981216
-./test/cleaneval/output/314.txt,0.6709987397605546
-./test/cleaneval/output/315.txt,0.00018814675446843232
-./test/cleaneval/output/316.txt,0.2609391951232113
-./test/cleaneval/output/317.txt,0.24504792332268366
-./test/cleaneval/output/318.txt,0.06598114824335899
-./test/cleaneval/output/319.txt,0.5145255748204137
-./test/cleaneval/output/320.txt,0.6132345217949466
-./test/cleaneval/output/321.txt,0.011736334405144655
-./test/cleaneval/output/322.txt,0.04772703844964432
-./test/cleaneval/output/323.txt,0.4929383396486393
-./test/cleaneval/output/324.txt,0.55263776486786
-./test/cleaneval/output/325.txt,0.8280023899621589
-./test/cleaneval/output/326.txt,0.6517687333586915
-./test/cleaneval/output/327.txt,0.011164274322169043
-./test/cleaneval/output/328.txt,0.1586283802620574
-./test/cleaneval/output/329.txt,0.0625
-./test/cleaneval/output/330.txt,0.4097166353803522
-./test/cleaneval/output/331.txt,0.46443636363636365
-./test/cleaneval/output/332.txt,0.9244046318549268
-./test/cleaneval/output/333.txt,0.8650793650793651
-./test/cleaneval/output/334.txt,0.25833886241630977
-./test/cleaneval/output/335.txt,0.8154350828729282
-./test/cleaneval/output/336.txt,0.41099694529297415
-./test/cleaneval/output/337.txt,0.20104590354445095
-./test/cleaneval/output/338.txt,0.6296181310152127
-./test/cleaneval/output/339.txt,0.7247356560929104
-./test/cleaneval/output/340.txt,0.3453292496171516
-./test/cleaneval/output/341.txt,0.11372662476000106
-./test/cleaneval/output/342.txt,0.18974703380344748
-./test/cleaneval/output/343.txt,0.5695946417358544
-./test/cleaneval/output/344.txt,0.11201932008173876
-./test/cleaneval/output/345.txt,0.03352992573176061
-./test/cleaneval/output/346.txt,0.7629238795352146
-./test/cleaneval/output/347.txt,0.4837061828430509
-./test/cleaneval/output/348.txt,0.7284831193533048
-./test/cleaneval/output/349.txt,0.05199068823494302
-./test/cleaneval/output/350.txt,0.024673851389676704
-./test/cleaneval/output/351.txt,0.07483772432226043
-./test/cleaneval/output/352.txt,0.301366044047951
-./test/cleaneval/output/353.txt,0.19071669071669073
-./test/cleaneval/output/354.txt,0.6712515489467162
-./test/cleaneval/output/355.txt,0.7762868015221309
-./test/cleaneval/output/356.txt,0.3489720611491829
-./test/cleaneval/output/357.txt,0.4377214113646025
-./test/cleaneval/output/358.txt,0.47269303201506596
-./test/cleaneval/output/359.txt,0.40117670522536897
-./test/cleaneval/output/360.txt,0.23744017899687175
-./test/cleaneval/output/361.txt,0.16973684210526319
-./test/cleaneval/output/362.txt,0.5039001560062403
-./test/cleaneval/output/363.txt,0.5046040515653776
-./test/cleaneval/output/364.txt,0.4545454545454546
-./test/cleaneval/output/365.txt,0.5156915313042107
-./test/cleaneval/output/366.txt,0.10345508390918068
-./test/cleaneval/output/367.txt,0.6936257102272727
-./test/cleaneval/output/368.txt,0.3923116526514502
-./test/cleaneval/output/369.txt,0.005350454788657033
-./test/cleaneval/output/370.txt,0.006776239907727799
-./test/cleaneval/output/371.txt,0.4184296464574755
-./test/cleaneval/output/372.txt,0.846932542106641
-./test/cleaneval/output/373.txt,0.19515816655907037
-./test/cleaneval/output/374.txt,0.5024395417904115
-./test/cleaneval/output/375.txt,0.209470304975923
-./test/cleaneval/output/376.txt,0.7262673820212416
-./test/cleaneval/output/377.txt,0.22172628023403096
-./test/cleaneval/output/378.txt,0.13523662267380865
-./test/cleaneval/output/379.txt,0.27112786679233425
-./test/cleaneval/output/380.txt,0.6377025036818851
-./test/cleaneval/output/381.txt,0.617240512691631
-./test/cleaneval/output/382.txt,0.2935746823303764
-./test/cleaneval/output/383.txt,0.23276723276723277
-./test/cleaneval/output/384.txt,0.43120142693336727
-./test/cleaneval/output/385.txt,0.0909314126698314
-./test/cleaneval/output/386.txt,0.41501723917762734
-./test/cleaneval/output/387.txt,0.24817275747508305
-./test/cleaneval/output/388.txt,0.0000406487541156908
-./test/cleaneval/output/389.txt,0.4780531501940878
-./test/cleaneval/output/390.txt,0.00008216251745951642
-./test/cleaneval/output/391.txt,0.1440387668142702
-./test/cleaneval/output/392.txt,0.826334453154162
-./test/cleaneval/output/393.txt,0.37286736378646124
-./test/cleaneval/output/394.txt,0.569578243834985
-./test/cleaneval/output/395.txt,0.4048023284016493
-./test/cleaneval/output/396.txt,0.3406728124722753
-./test/cleaneval/output/397.txt,0.3965670976370932
-./test/cleaneval/output/398.txt,0.4721689577875604
-./test/cleaneval/output/399.txt,0.2788836001730852
-./test/cleaneval/output/400.txt,0.11317981381675646
-./test/cleaneval/output/401.txt,0.781948424068768
-./test/cleaneval/output/402.txt,0.6504938988959907
-./test/cleaneval/output/403.txt,0.6140030249558861
-./test/cleaneval/output/404.txt,0.3430410875632063
-./test/cleaneval/output/405.txt,0.09905518444966
-./test/cleaneval/output/406.txt,0.33140729327170004
-./test/cleaneval/output/407.txt,0.5125266088095628
-./test/cleaneval/output/408.txt,0.7125494215844194
-./test/cleaneval/output/409.txt,0.2948891140380502
-./test/cleaneval/output/410.txt,0.44246447705567205
-./test/cleaneval/output/411.txt,0.41999131210132834
-./test/cleaneval/output/412.txt,0.29147389292795767
-./test/cleaneval/output/413.txt,0.6789514663898262
-./test/cleaneval/output/414.txt,0.1731804534630914
-./test/cleaneval/output/415.txt,0.6626303397241844
-./test/cleaneval/output/416.txt,0.4330270119743804
-./test/cleaneval/output/417.txt,0.4682331863285557
-./test/cleaneval/output/418.txt,0.5342118094190306
-./test/cleaneval/output/419.txt,0.11876470233427827
-./test/cleaneval/output/420.txt,0.4036109112317655
-./test/cleaneval/output/421.txt,0.6429466299173139
-./test/cleaneval/output/422.txt,0.35279590756747226
-./test/cleaneval/output/424.txt,0.09859722129001947
-./test/cleaneval/output/425.txt,0.5298915562146631
-./test/cleaneval/output/426.txt,0.13966693706160238
-./test/cleaneval/output/427.txt,0.11787905346187555
-./test/cleaneval/output/428.txt,0.00014604936468531893
-./test/cleaneval/output/429.txt,0.07374063638237927
-./test/cleaneval/output/430.txt,0.234373610740642
-./test/cleaneval/output/431.txt,0.2442196866248525
-./test/cleaneval/output/433.txt,0.12953595777435667
-./test/cleaneval/output/434.txt,0.8147693817468106
-./test/cleaneval/output/435.txt,0.7660630449362844
-./test/cleaneval/output/436.txt,0.7525380710659899
-./test/cleaneval/output/437.txt,0.00010899182561308063
-./test/cleaneval/output/438.txt,0.15023667421280096
-./test/cleaneval/output/439.txt,0.479650655021834
-./test/cleaneval/output/440.txt,0.604502688172043
-./test/cleaneval/output/441.txt,0.6272545090180361
-./test/cleaneval/output/442.txt,0.40846504411907303
-./test/cleaneval/output/443.txt,0.4478486036493877
-./test/cleaneval/output/444.txt,0.1984489051094891
-./test/cleaneval/output/445.txt,0.3463490055520416
-./test/cleaneval/output/446.txt,0.3929327126534067
-./test/cleaneval/output/447.txt,0.6048627071489052
-./test/cleaneval/output/448.txt,0.2707039025272936
-./test/cleaneval/output/449.txt,0.051311419081433995
-./test/cleaneval/output/450.txt,0.6878032642258491
-./test/cleaneval/output/451.txt,0.8495708154506438
-./test/cleaneval/output/452.txt,0.34354838709677415
-./test/cleaneval/output/453.txt,0.15369865348559741
-./test/cleaneval/output/454.txt,0.0007063722209830203
-./test/cleaneval/output/455.txt,0.25239949542039164
-./test/cleaneval/output/456.txt,0.29939467312348667
-./test/cleaneval/output/457.txt,0.8105474561142517
-./test/cleaneval/output/458.txt,0.00992033669021497
-./test/cleaneval/output/459.txt,0.012566489361702127
-./test/cleaneval/output/460.txt,0.0022788605697151576
-./test/cleaneval/output/461.txt,0.022100732813772228
-./test/cleaneval/output/462.txt,0.682498518079431
-./test/cleaneval/output/463.txt,0.8125802310654686
-./test/cleaneval/output/464.txt,0.10904826270175716
-./test/cleaneval/output/465.txt,0.42334089998664703
-./test/cleaneval/output/466.txt,0.05736172266119788
-./test/cleaneval/output/467.txt,0.4093692590324556
-./test/cleaneval/output/468.txt,0.36064744562468387
-./test/cleaneval/output/469.txt,0.23200346921075454
-./test/cleaneval/output/470.txt,0.31870096335286524
-./test/cleaneval/output/471.txt,0.0019342359767892114
-./test/cleaneval/output/472.txt,0.34515744960381
-./test/cleaneval/output/473.txt,0.671519109954889
-./test/cleaneval/output/474.txt,0.10249828884325807
-./test/cleaneval/output/475.txt,0.7647249540689506
-./test/cleaneval/output/476.txt,0.1428571428571429
-./test/cleaneval/output/477.txt,0.24521665728756326
-./test/cleaneval/output/478.txt,0.16682969242473644
-./test/cleaneval/output/479.txt,0.613704323146318
-./test/cleaneval/output/480.txt,0.16849451645064806
-./test/cleaneval/output/481.txt,0.11245122383824047
-./test/cleaneval/output/482.txt,0.12444961369111907
-./test/cleaneval/output/483.txt,0.39625344352617076
-./test/cleaneval/output/484.txt,0.913721225303607
-./test/cleaneval/output/485.txt,0.07744698778261483
-./test/cleaneval/output/486.txt,0.8585826771653543
-./test/cleaneval/output/487.txt,0.3639408317052749
-./test/cleaneval/output/488.txt,0.1431931962120755
-./test/cleaneval/output/489.txt,0.2001398356930607
-./test/cleaneval/output/490.txt,0.2201986754966887
-./test/cleaneval/output/491.txt,0.025332409099502184
-./test/cleaneval/output/492.txt,0.10356098400137626
-./test/cleaneval/output/493.txt,0.4769930960003086
-./test/cleaneval/output/494.txt,0.1309964617789846
-./test/cleaneval/output/495.txt,0.4679245283018868
-./test/cleaneval/output/496.txt,0.15781563126252507
-./test/cleaneval/output/497.txt,0.767314990512334
-./test/cleaneval/output/498.txt,0.752383439989552
-./test/cleaneval/output/499.txt,0.33974683544303796
-./test/cleaneval/output/500.txt,0.18544404062995057
-./test/cleaneval/output/501.txt,0.27072163136151883
-./test/cleaneval/output/502.txt,0.08410336726703216
-./test/cleaneval/output/503.txt,0.034075104311543813
-./test/cleaneval/output/504.txt,0.3636957231472413
-./test/cleaneval/output/505.txt,0.010783189070810328
-./test/cleaneval/output/506.txt,0.01830189598869225
-./test/cleaneval/output/507.txt,0.2534129692832765
-./test/cleaneval/output/508.txt,0.6184757505773673
-./test/cleaneval/output/509.txt,0.3799101035763143
-./test/cleaneval/output/510.txt,0.4928288068355203
-./test/cleaneval/output/561.txt,0.5338604331385356
-./test/cleaneval/output/562.txt,0.400854602148054
-./test/cleaneval/output/563.txt,0.4807972102260918
-./test/cleaneval/output/564.txt,0.4923990498812352
-./test/cleaneval/output/565.txt,0.213730039579637
-./test/cleaneval/output/566.txt,0.656707842573973
-./test/cleaneval/output/567.txt,0.30143408714837283
-./test/cleaneval/output/568.txt,0.062359723628042096
-./test/cleaneval/output/569.txt,0.5958445040214477
-./test/cleaneval/output/570.txt,0.2148483423465789
-./test/cleaneval/output/571.txt,0.2839033723989476
-./test/cleaneval/output/572.txt,0.4934154267145545
-./test/cleaneval/output/573.txt,0.4686137750653879
-./test/cleaneval/output/574.txt,0.09960341671751072
-./test/cleaneval/output/575.txt,0.1729244214274155
-./test/cleaneval/output/576.txt,0.6691937994990862
-./test/cleaneval/output/577.txt,0.5568548387096774
-./test/cleaneval/output/578.txt,0.17583239805462025
-./test/cleaneval/output/579.txt,0.5022096167798957
-./test/cleaneval/output/580.txt,0.0012468827930174342
-./test/cleaneval/output/581.txt,0.38265394622723325
-./test/cleaneval/output/582.txt,0.29666311138199
-./test/cleaneval/output/583.txt,0.10193707926913043
-./test/cleaneval/output/584.txt,0.722397476340694
-./test/cleaneval/output/585.txt,0.2343846629560915
-./test/cleaneval/output/586.txt,0.6200746578183327
-./test/cleaneval/output/587.txt,0.2457466918714556
-./test/cleaneval/output/588.txt,0.05282382691767351
-./test/cleaneval/output/589.txt,0.8094716671229127
-./test/cleaneval/output/590.txt,0.3720814291649356
-./test/cleaneval/output/591.txt,0.9537253237104648
-./test/cleaneval/output/592.txt,0.23811963622390164
-./test/cleaneval/output/593.txt,0.24059361415080194
-./test/cleaneval/output/594.txt,0.00008539709649868499
-./test/cleaneval/output/595.txt,0.6184036064704322
-./test/cleaneval/output/596.txt,0.46979305740987987
-./test/cleaneval/output/597.txt,0.29306722689075626
-./test/cleaneval/output/598.txt,0.07912781130005486
-./test/cleaneval/output/599.txt,0.024700289375775064
-./test/cleaneval/output/60.txt,0.37812821391840934
-./test/cleaneval/output/600.txt,0.12279866730128508
-./test/cleaneval/output/601.txt,0.2994293723095405
-./test/cleaneval/output/602.txt,0.13455476753349094
-./test/cleaneval/output/603.txt,0.07366638441998308
-./test/cleaneval/output/604.txt,0.17158748310635197
-./test/cleaneval/output/605.txt,0.39810964083175804
-./test/cleaneval/output/606.txt,0.0010548523206751481
-./test/cleaneval/output/607.txt,0.5242696502232016
-./test/cleaneval/output/608.txt,0.00959976369812432
-./test/cleaneval/output/609.txt,0.32823203614633434
-./test/cleaneval/output/61.txt,0.16748308840681125
-./test/cleaneval/output/610.txt,0.5616189954837827
-./test/cleaneval/output/611.txt,0.0918454504346079
-./test/cleaneval/output/612.txt,0.3655112651646447
-./test/cleaneval/output/613.txt,0.7537109966676765
-./test/cleaneval/output/614.txt,0.17688606365602788
-./test/cleaneval/output/615.txt,0.38104524180967236
-./test/cleaneval/output/616.txt,0.8835005133875681
-./test/cleaneval/output/617.txt,0.15992757996379003
-./test/cleaneval/output/618.txt,0.35499359795134444
-./test/cleaneval/output/619.txt,0.6746068815195392
-./test/cleaneval/output/62.txt,0.2254961156060057
-./test/cleaneval/output/620.txt,0.28362521112987826
-./test/cleaneval/output/621.txt,0.6821174611535423
-./test/cleaneval/output/622.txt,0.2678689908920924
-./test/cleaneval/output/623.txt,0.6123504806633888
-./test/cleaneval/output/624.txt,0.4970628493213186
-./test/cleaneval/output/625.txt,0.31625300240192156
-./test/cleaneval/output/626.txt,0.07481564172078725
-./test/cleaneval/output/627.txt,0.33137110620554333
-./test/cleaneval/output/628.txt,0.904706901530465
-./test/cleaneval/output/629.txt,0.1653546657589039
-./test/cleaneval/output/63.txt,0.6096659183942955
-./test/cleaneval/output/630.txt,0.8725032836632094
-./test/cleaneval/output/631.txt,0.001970222211137962
-./test/cleaneval/output/632.txt,0.30768084630857484
-./test/cleaneval/output/633.txt,0.08986208920187788
-./test/cleaneval/output/634.txt,0.06559431087030143
-./test/cleaneval/output/635.txt,0.6137685091867586
-./test/cleaneval/output/636.txt,0.5924781732706514
-./test/cleaneval/output/637.txt,0.004142011834319503
-./test/cleaneval/output/638.txt,0.5545604094315482
-./test/cleaneval/output/639.txt,0.37552769469017167
-./test/cleaneval/output/64.txt,0.000052347798775054244
-./test/cleaneval/output/640.txt,0.15888244596731682
-./test/cleaneval/output/641.txt,0.27606523378582204
-./test/cleaneval/output/642.txt,0.09164230265147699
-./test/cleaneval/output/643.txt,0.47749642800444514
-./test/cleaneval/output/644.txt,0.15762789983100323
-./test/cleaneval/output/645.txt,0.22163999433507997
-./test/cleaneval/output/646.txt,0.4083946503771577
-./test/cleaneval/output/647.txt,0.6508645533141211
-./test/cleaneval/output/648.txt,0.6960466998034909
-./test/cleaneval/output/649.txt,0.044547563805104384
-./test/cleaneval/output/65.txt,0.3877338877338877
-./test/cleaneval/output/650.txt,0.645658263305322
-./test/cleaneval/output/651.txt,0.12580525272547072
-./test/cleaneval/output/652.txt,0.05968455690457275
-./test/cleaneval/output/653.txt,0.3476726229869843
-./test/cleaneval/output/654.txt,0.49378287900526063
-./test/cleaneval/output/655.txt,0.18625972615959951
-./test/cleaneval/output/656.txt,0.6386381631037212
-./test/cleaneval/output/657.txt,0.05682782018659882
-./test/cleaneval/output/658.txt,0.5289015723798333
-./test/cleaneval/output/659.txt,0.4462533104844991
-./test/cleaneval/output/66.txt,0.766068909933508
-./test/cleaneval/output/660.txt,0.5589246318813812
-./test/cleaneval/output/661.txt,0.26536312849162014
-./test/cleaneval/output/662.txt,0.249669133865987
-./test/cleaneval/output/663.txt,0.00005657388549440423
-./test/cleaneval/output/664.txt,0.00015923566878983664
-./test/cleaneval/output/665.txt,0.1466915978044514
-./test/cleaneval/output/666.txt,0.24706694271911667
-./test/cleaneval/output/667.txt,0.2702097235462345
-./test/cleaneval/output/668.txt,0.018155497919054242
-./test/cleaneval/output/669.txt,0.047922665569724354
-./test/cleaneval/output/67.txt,0.32725668920905615
-./test/cleaneval/output/670.txt,0.3057902011979726
-./test/cleaneval/output/671.txt,0.1423676748582231
-./test/cleaneval/output/672.txt,0.7735545023696683
-./test/cleaneval/output/673.txt,0.18145215407327875
-./test/cleaneval/output/674.txt,0.6501333606893722
-./test/cleaneval/output/675.txt,0.4871087432213871
-./test/cleaneval/output/676.txt,0.06567366283006093
-./test/cleaneval/output/677.txt,0.7189033677441191
-./test/cleaneval/output/678.txt,0.5959752321981424
-./test/cleaneval/output/679.txt,0.39007510187586303
-./test/cleaneval/output/68.txt,0.4038097137728134
-./test/cleaneval/output/680.txt,0.25453887447976353
-./test/cleaneval/output/681.txt,0.5233347181830772
-./test/cleaneval/output/682.txt,0.18518518518518523
-./test/cleaneval/output/683.txt,0.10122311261071282
-./test/cleaneval/output/684.txt,0.4057844979942211
-./test/cleaneval/output/685.txt,0.08873908719195489
-./test/cleaneval/output/686.txt,0.000022532672374953044
-./test/cleaneval/output/687.txt,0.41439310752597347
-./test/cleaneval/output/688.txt,0.3533483178136929
-./test/cleaneval/output/689.txt,0.00015250876925421153
-./test/cleaneval/output/69.txt,0.10405603886566495
-./test/cleaneval/output/690.txt,0.0060240963855421326
-./test/cleaneval/output/691.txt,0.34877305665349145
-./test/cleaneval/output/692.txt,0.775483870967742
-./test/cleaneval/output/693.txt,0.6037151702786377
-./test/cleaneval/output/694.txt,0.07450254511800092
-./test/cleaneval/output/695.txt,0.867063899732895
-./test/cleaneval/output/696.txt,0.000060565683483781996
-./test/cleaneval/output/697.txt,0.03389830508474578
-./test/cleaneval/output/698.txt,0.1178599433017673
-./test/cleaneval/output/699.txt,0.22818119495860356
-./test/cleaneval/output/70.txt,0.002110318730897953
-./test/cleaneval/output/700.txt,0.16580916744621144
-./test/cleaneval/output/701.txt,0.8040369297610427
-./test/cleaneval/output/702.txt,0.1715339455065482
-./test/cleaneval/output/703.txt,0.371629467165527
-./test/cleaneval/output/704.txt,0.6041141897565072
-./test/cleaneval/output/705.txt,0.4124280675700761
-./test/cleaneval/output/706.txt,0.7161410018552876
-./test/cleaneval/output/707.txt,0.0003668378576668907
-./test/cleaneval/output/708.txt,0.12583668005354753
-./test/cleaneval/output/709.txt,0.23710718378671813
-./test/cleaneval/output/71.txt,0.7283913436303403
-./test/cleaneval/output/710.txt,0.48040342142218817
-./test/cleaneval/output/711.txt,0.8577438454347148
-./test/cleaneval/output/712.txt,0.1906510034263338
-./test/cleaneval/output/713.txt,0.861541453296169
-./test/cleaneval/output/714.txt,0.1534246575342466
-./test/cleaneval/output/715.txt,0.0820482612080029
-./test/cleaneval/output/716.txt,0.18253195565465907
-./test/cleaneval/output/717.txt,0.3499514405956621
-./test/cleaneval/output/718.txt,0.3051843243592227
-./test/cleaneval/output/719.txt,0.0010945273631840502
-./test/cleaneval/output/72.txt,0.4651391747963841
-./test/cleaneval/output/720.txt,0.0034712178189181264
-./test/cleaneval/output/721.txt,0.2541166535979251
-./test/cleaneval/output/722.txt,0.0018986861092123997
-./test/cleaneval/output/723.txt,0.001816118047673121
-./test/cleaneval/output/724.txt,0.7653631284916201
-./test/cleaneval/output/725.txt,0.4794173068560661
-./test/cleaneval/output/726.txt,0.38189109805693633
-./test/cleaneval/output/727.txt,0.08963585434173671
-./test/cleaneval/output/728.txt,0.18761207773954347
-./test/cleaneval/output/729.txt,0.6724262059035278
-./test/cleaneval/output/73.txt,0.13070752156342358
-./test/cleaneval/output/730.txt,0.6813000242541838
-./test/cleaneval/output/731.txt,0.23660730282724762
-./test/cleaneval/output/732.txt,0.3439923799156348
-./test/cleaneval/output/733.txt,0.8113038812377035
-./test/cleaneval/output/734.txt,0.3841761827079935
-./test/cleaneval/output/735.txt,0.5799448656099242
-./test/cleaneval/output/736.txt,0.23870291058473914
-./test/cleaneval/output/737.txt,0.34129850884504953
-./test/cleaneval/output/738.txt,0.285842604557345
-./test/cleaneval/output/739.txt,0.40718562874251496
-./test/cleaneval/output/74.txt,0.14828968216982008
-./test/cleaneval/output/740.txt,0.5597742432016419
-./test/cleaneval/output/741.txt,0.360899712497886
-./test/cleaneval/output/742.txt,0.7610640095562742
-./test/cleaneval/output/743.txt,0.3745030969769807
-./test/cleaneval/output/744.txt,0.11934995723402853
-./test/cleaneval/output/745.txt,0.13468846130647205
-./test/cleaneval/output/746.txt,0.5211890391505019
-./test/cleaneval/output/747.txt,0.735517498138496
-./test/cleaneval/output/748.txt,0.6184258694325808
-./test/cleaneval/output/749.txt,0.015728013829805265
-./test/cleaneval/output/75.txt,0.037870879120879164
-./test/cleaneval/output/750.txt,0.13828996282527883
-./test/cleaneval/output/752.txt,0.018938009986603332
-./test/cleaneval/output/754.txt,0.9046405823475887
-./test/cleaneval/output/755.txt,0.07727876602425854
-./test/cleaneval/output/756.txt,0.11643570488503519
-./test/cleaneval/output/757.txt,0.3254462432544625
-./test/cleaneval/output/758.txt,0.31493506493506496
-./test/cleaneval/output/759.txt,0.5427993059572007
-./test/cleaneval/output/76.txt,0.6866846137916753
-./test/cleaneval/output/760.txt,0.08994708994709
-./test/cleaneval/output/761.txt,0.5583239865406184
-./test/cleaneval/output/762.txt,0.31071103008204193
-./test/cleaneval/output/763.txt,0.4855911050601316
-./test/cleaneval/output/764.txt,0.37537286719961815
-./test/cleaneval/output/765.txt,0.043885748289199666
-./test/cleaneval/output/766.txt,0.4548410404624278
-./test/cleaneval/output/767.txt,0.13143132878943242
-./test/cleaneval/output/768.txt,0.5125546735784869
-./test/cleaneval/output/77.txt,0.0918620689655173
-./test/cleaneval/output/770.txt,0.5710023487589666
-./test/cleaneval/output/771.txt,0.00006863889079555818
-./test/cleaneval/output/772.txt,0.0000961723408348103
-./test/cleaneval/output/773.txt,0.5659395973154362
-./test/cleaneval/output/774.txt,0.7893322718678475
-./test/cleaneval/output/775.txt,0.3769646998196341
-./test/cleaneval/output/776.txt,0.2791914816820068
-./test/cleaneval/output/777.txt,0.3589778076664425
-./test/cleaneval/output/778.txt,0.48994557433400177
-./test/cleaneval/output/779.txt,0.41278534138601697
-./test/cleaneval/output/78.txt,0.9626432715437951
-./test/cleaneval/output/780.txt,0.33263712313839444
-./test/cleaneval/output/781.txt,0.42546972860125265
-./test/cleaneval/output/782.txt,0.30230408661781216
-./test/cleaneval/output/783.txt,0.24497066219614416
-./test/cleaneval/output/784.txt,0.834027662056324
-./test/cleaneval/output/785.txt,0.32933365330773534
-./test/cleaneval/output/786.txt,0.6248479318734793
-./test/cleaneval/output/787.txt,0.15718225119077467
-./test/cleaneval/output/788.txt,0.534037558685446
-./test/cleaneval/output/789.txt,0.29811838494707954
-./test/cleaneval/output/79.txt,0.029977682610531353
-./test/cleaneval/output/790.txt,0.7218395265353643
-./test/cleaneval/output/791.txt,0.23801560758082496
-./test/cleaneval/output/792.txt,0.09656328583403184
-./test/cleaneval/output/793.txt,0.05066433055920572
-./test/cleaneval/output/794.txt,0.0874040632054176
-./test/cleaneval/output/795.txt,0.010309278350515427
-./test/cleaneval/output/796.txt,0.3134877873563219
-./test/cleaneval/output/797.txt,0.03747323340471087
-./test/cleaneval/output/798.txt,0.07449912468391362
-./test/cleaneval/output/799.txt,0.04538527794341751
-./test/cleaneval/output/80.txt,0.40191145015516627
-./test/cleaneval/output/81.txt,0.6993850235138068
-./test/cleaneval/output/82.txt,0.007092198581560294
-./test/cleaneval/output/83.txt,0.39360446643366165
-./test/cleaneval/output/84.txt,0.38110428024591114
-./test/cleaneval/output/85.txt,0.01986598344501378
-./test/cleaneval/output/86.txt,0.38160250671441365
-./test/cleaneval/output/87.txt,0.7159837347513294
-./test/cleaneval/output/88.txt,0.43296983152670754
-./test/cleaneval/output/89.txt,0.311175580221998
-./test/cleaneval/output/90.txt,0.5094145840465594
-./test/cleaneval/output/91.txt,0.2593521018125723
-./test/cleaneval/output/92.txt,0.3169949610627577
-./test/cleaneval/output/93.txt,0.2842236024844721
-./test/cleaneval/output/94.txt,0.4306431273644389
-./test/cleaneval/output/95.txt,0.28689601855431
-./test/cleaneval/output/96.txt,0.5396978463516554
-./test/cleaneval/output/97.txt,0.29637191770064397
-./test/cleaneval/output/98.txt,0.22773125865365595
-./test/cleaneval/output/99.txt,0.8300130491518052
+"sep= "
+./test/cleaneval/output/103.txt 0.5570991287967977 classifier div 894 londonmark.blogspot.com http://londonmark.blogspot.com/ 1ed7f54288328308a4ac21298ff85998
+./test/cleaneval/output/104.txt 0.18758472839622942 classifier div 1847 macdailynews.com http://macdailynews.com/index.php/weblog/comments/5933/ c532270fb7a9e0b216fe894cd7e7a187
+./test/cleaneval/output/105.txt 0.5694552666997237 classifier div 1623 medicine.ucsf.edu http://medicine.ucsf.edu/housestaff/handbook/HospH2002_C7.htm 26d8fa92a0f05f1d345b37139e00a85f
+./test/cleaneval/output/106.txt 0.6398763523956723 classifier div 62 mednewsarchive.wustl.edu http://mednewsarchive.wustl.edu/medadmin/PAnews.nsf/0/B6ADE8FC84A7CAF086256B1E00792CDE 054d3732b0a227844e010a0263930d68
+./test/cleaneval/output/107.txt 0.2804753000784125 classifier div 389 melizzard.typepad.com http://melizzard.typepad.com/ 0db7b9031db7f7ba1178b4b83a280481
+./test/cleaneval/output/108.txt 0.4921804007843512 classifier div 179 members.iinet.net.au http://members.iinet.net.au/~jgowland/plp/The%20Republic.htm 7c1d1884aaab9e687dd0641e3ee07415
+./test/cleaneval/output/109.txt 0.134617576655648 classifier div 118 members.ozemail.com.au http://members.ozemail.com.au/~annandbilld/vomitorium/ 4c9ffd037552b46337652e55853e4c3a
+./test/cleaneval/output/110.txt 0.7476543209876543 classifier div 172 members.shaw.ca http://members.shaw.ca/save-wild-horses/index1.htm aa1efd7c4ed5cd02bb79be7c0b7c712a
+./test/cleaneval/output/111.txt 0.2026230376896072 classifier div 311 memory.loc.gov http://memory.loc.gov/ammem/ndlpedu/collections/ed/thinking.html f66407bfc7013d7355a3583ee82ab3e7
+./test/cleaneval/output/112.txt 0.012304722842149673 classifier div 345 mobyrebuttal.blogspot.com http://mobyrebuttal.blogspot.com/ 763553e2772363f2e1b7375a46fce438
+./test/cleaneval/output/113.txt 0.2448378579649313 classifier div 980 mrbeaks.typepad.com http://mrbeaks.typepad.com/for_no_good_reason/2005/01/ 702b5e1ea788dc75edda4b39ceb4f9a6
+./test/cleaneval/output/114.txt 0.12937240190611377 classifier table 1365 musicbeat.searchbeat.com http://musicbeat.searchbeat.com/classical/philip-glass.htm 98f0271c7490ee0cb5b84e00effec07a
+./test/cleaneval/output/115.txt 0.6229969075063255 classifier div 239 mutualfunds.about.com http://mutualfunds.about.com/cs/retirement/a/millionaire.htm 87db2053981cde848de59dad6339a4aa
+./test/cleaneval/output/116.txt 0.1995947792489281 classifier div 262 nefertiti.iwebland.com http://nefertiti.iwebland.com/timelines/topics/workrelations.htm e74cd55193c3ea5e4317f3505b79ad83
+./test/cleaneval/output/117.txt 0.5251306651392569 classifier div 116 news-service.stanford.edu http://news-service.stanford.edu/news/january31/minutes-131.html 6c46a70241908363e4344e4faf64faf0
+./test/cleaneval/output/118.txt 0.7137452711223202 schnuffel div 414 news.bbc.co.uk http://news.bbc.co.uk/1/hi/scotland/2555753.stm 1495dc5379cac136ed4e268c7481d567
+./test/cleaneval/output/119.txt 0.418490412629582 schnuffel div 672 news.bbc.co.uk http://news.bbc.co.uk/1/hi/talking_point/4436425.stm 2dd07c49d4924c081e53ed5cfa5c8468
+./test/cleaneval/output/120.txt 0.7743023172394002 schnuffel div 403 news.bbc.co.uk http://news.bbc.co.uk/1/hi/uk_politics/4578889.stm 627ad96cfdab6ca7490a3112a257d7a8
+./test/cleaneval/output/121.txt 0.6708253358925145 schnuffel div 393 news.bbc.co.uk http://news.bbc.co.uk/1/hi/world/middle_east/4547195.stm bc587a38da924a261bc55d4625ded808
+./test/cleaneval/output/122.txt 0.6933015980958858 schnuffel div 290 news.bbc.co.uk http://news.bbc.co.uk/2/hi/business/3630986.stm 482d1a969ac4de00c009396909659136
+./test/cleaneval/output/123.txt 0.26626506024096386 schnuffel div 523 news.com.com http://news.com.com/Sun+open-source+license+could+mean+Solaris-Linux+barrier/2100-7344_3-5475182.html f7dfe8fdfdd67346aeabbcdc34259490
+./test/cleaneval/output/124.txt 0.43497608187785075 schnuffel div 572 news.com.com http://news.com.com/Supreme+Court+rules+against+file+swapping/2100-1030_3-5764135.html 776a517018ac7241b4f613523a33a9d8
+./test/cleaneval/output/125.txt 0.35167464114832536 classifier div 344 newsweaver.ie http://newsweaver.ie/ralphaverbuch/index000039908.cfm c870ed7e144553b378cbf9d358dc089e
+./test/cleaneval/output/126.txt 0.3893638420920291 classifier div 71 nfapp.east.asu.edu http://nfapp.east.asu.edu/Newsletters/1997/oct97.htm 44908ac423b386c49b2d35ca85ab6736
+./test/cleaneval/output/127.txt 0.2427383099577355 classifier div 495 norwesty.blogspot.com http://norwesty.blogspot.com/ 773451d7bd84148b14b7f72ff6c16375
+./test/cleaneval/output/128.txt 0.6642563616247827 classifier table 565 nsr.mij.mrs.org http://nsr.mij.mrs.org/1/20/complete.sym.html 71751a6c923b4294b79cc18bdb213386
+./test/cleaneval/output/129.txt 0.18900015895724054 classifier div 219 observantlittle.blogspot.com http://observantlittle.blogspot.com/2005/06/dr-death-enquiry.html 90611a48e2eaaf4f1726bea58ad280e3
+./test/cleaneval/output/130.txt 0.7134915544152234 classifier div 447 observer.guardian.co.uk http://observer.guardian.co.uk/iraq/story/0,12239,905990,00.html 60afd8bc792d48f792b0c6dadeaccce6
+./test/cleaneval/output/131.txt 0.8029226437860303 classifier table 152 onlineethics.org http://onlineethics.org/essays/shuttle/pre-dis.html 95964560ef1279fd3ad86c46eef2653b
+./test/cleaneval/output/132.txt 0.22479126525369297 classifier div 123 oppenheim.thefreelibrary.com http://oppenheim.thefreelibrary.com/The-Kingdom-of-the-Blind/32-1 e5638dec806df00d8553871f7262e784
+./test/cleaneval/output/133.txt 0.2102557948841023 classifier div 484 orsa.blogspot.com http://orsa.blogspot.com/ 5780f19082e0afbc8ade1a5a910fd8f0
+./test/cleaneval/output/134.txt 0.23757993113625187 classifier div 449 oval.mitre.org http://oval.mitre.org/community/board/minutes/2004-09-21.html de489662ef5b0c7d54d4a76bcbfd9495
+./test/cleaneval/output/135.txt 0.3546593578700078 classifier div 318 overcaffeinated.net http://overcaffeinated.net/archives/2004_08.html ab668f0cd34b5ae9c41477e62824935c
+./test/cleaneval/output/136.txt 0.22571004304430364 classifier div 445 oxblog.blogspot.com http://oxblog.blogspot.com/2005_06_12_oxblog_archive.html fd52e9badb17a99e7c86055da2519d33
+./test/cleaneval/output/137.txt 0.22329452922371673 classifier div 198 pacs.petfinder.org http://pacs.petfinder.org/ b132936241b2ed4c773418ea7e88abc9
+./test/cleaneval/output/138.txt 0.193086592178771 classifier div 28 pao.navair.navy.mil http://pao.navair.navy.mil/press_releases/index.cfm?fuseaction=press_release_view&Press_release_id=3239&site_id=6 ad20d1e7bc67fe1f7fb829448b1d51c2
+./test/cleaneval/output/139.txt 0.10854831657192832 schnuffel div 84 parents.berkeley.edu http://parents.berkeley.edu/advice/babies/laundry.html 85d3a37ed747c2fb33a5febf68b607a5
+./test/cleaneval/output/140.txt 0.3557671020588886 schnuffel div 97 parents.berkeley.edu http://parents.berkeley.edu/advice/sleep/crib.html d33978da4ac7c9309efe4ebd67bf0e50
+./test/cleaneval/output/141.txt 0.45972439266941323 classifier div 69 paulstudier.com http://paulstudier.com/incometax/taxgo2.htm a6e9bba52323fe6fa8461b11758a4abb
+./test/cleaneval/output/142.txt 0.7112740084100466 classifier div 202 plus.maths.org http://plus.maths.org/issue14/features/smith/ 17e0a79ddc6f7f68b83e6fef5981b10f
+./test/cleaneval/output/143.txt 0.000044261496923825305 classifier div 81 pmo-sun.uoregon.edu http://pmo-sun.uoregon.edu/~pmo/class_outreach_gen_overview_nov03.html 55dac45f4d5c7fb0ccc6abb5d5a39ec2
+./test/cleaneval/output/144.txt 0.338702393496914 classifier div 235 poisonivy.aesir.com http://poisonivy.aesir.com/view/control.html 69c20571202ead3624912db7b0639032
+./test/cleaneval/output/145.txt 0.13961688744877543 classifier div 59 pubadvocate.nyc.gov http://pubadvocate.nyc.gov/policy/prescription_drugs.html 37cde49219b78ab02d2a5f886abb1df6
+./test/cleaneval/output/146.txt 0.5819642534753566 classifier div 124 pubs.socialistreviewindex.org.uk http://pubs.socialistreviewindex.org.uk/sr279/rose.htm 56ef6a07059f878eeec5e7818bce4262
+./test/cleaneval/output/147.txt 0.5603528066641259 classifier div 159 pubs.usgs.gov http://pubs.usgs.gov/gip/continents/ 13bbc0cdf9b7c8f9d55810312b31b35a
+./test/cleaneval/output/148.txt 0.25746943344239714 classifier div 615 radaronline.com http://radaronline.com/fresh-intelligence/index.php 51e6f95a8fdf21802fda59e9d4233b6f
+./test/cleaneval/output/149.txt 0.5157962604771116 schnuffel div 270 radio.weblogs.com http://radio.weblogs.com/0106327/2005/01/20.html bebb30970e4868474c425b80a2770099
+./test/cleaneval/output/150.txt 0.028436018957345932 schnuffel div 786 radio.weblogs.com http://radio.weblogs.com/0107233/categories/thanks/2005/01/03.html 1948509d19858c1fd74faf03e0214aa5
+./test/cleaneval/output/151.txt 0.22415178571428573 classifier div 250 rajkblogs.blogspot.com http://rajkblogs.blogspot.com/ 310434664d8db51e0d01cc8bf5fe73a9
+./test/cleaneval/output/152.txt 0.5791510460757044 classifier div 121 redclay.chattablogs.com http://redclay.chattablogs.com/archives/020769.html e15420293424fde79f336a5bf243220a
+./test/cleaneval/output/153.txt 0.3866666666666667 classifier table 298 ref.web.cern.ch http://ref.web.cern.ch/ref/CERN/CNL/2001/002/cern-computing/ 2ca768bad7661adf3e1fa13b824f089f
+./test/cleaneval/output/154.txt 0.1922447156891932 classifier div 438 respectfulofotters.blogspot.com http://respectfulofotters.blogspot.com/2004_07_01_respectfulofotters_archive.html 11ffd94039e95276f5a806737100e7f3
+./test/cleaneval/output/155.txt 0.5129008016032064 classifier div 304 response.restoration.noaa.gov http://response.restoration.noaa.gov/kids/spills.html ead99d1a022ead035339764781c077dc
+./test/cleaneval/output/156.txt 0.24017467248908297 classifier div 217 reviews.cnet.com http://reviews.cnet.com/Anarchy_Online_PC/4512-9696_7-30977189.html a428e1a16718bcc70e3537e807168772
+./test/cleaneval/output/157.txt 0.4122340425531915 classifier table 172 rivers.affordabletours.com http://rivers.affordabletours.com/search/it/?id=365 704ca72fb75761a55cc644cc3c06eb4d
+./test/cleaneval/output/158.txt 0.2529935523487872 classifier div 210 sbinfocanada.about.com http://sbinfocanada.about.com/od/salesselling/ f036970b3a2f13cc77521faee65664e2
+./test/cleaneval/output/159.txt 0.27396373056994816 classifier div 198 science.nasa.gov http://science.nasa.gov/headlines/y2004/23apr_biocorr2.htm 9df1e8ea2c2ef27dfbfb63c5761aa672
+./test/cleaneval/output/160.txt 0.037592986184909694 classifier div 264 search.universalclass.com http://search.universalclass.com/i/search/Creating-information.htm 54c00c872b21a2add427b4588ac2f8be
+./test/cleaneval/output/161.txt 0.8453884424033677 classifier div 307 seattlepi.nwsource.com http://seattlepi.nwsource.com/getaways/040298/dest02.html 3d67d52b27d04f8046077cd03d753aa5
+./test/cleaneval/output/162.txt 0.48493079808562933 classifier div 415 seattletimes.nwsource.com http://seattletimes.nwsource.com/html/localnews/2002340883_gayscience19m.html 020cd5ca2c5b23649de9a6e6621e2a85
+./test/cleaneval/output/163.txt 0.2467858172383972 classifier div 968 shakespeareauthorship.com http://shakespeareauthorship.com/ 8290b58f9ebb018fdcb363b8f4a22f70
+./test/cleaneval/output/164.txt 0.22708039492242593 classifier div 240 shopping.yahoo.com http://shopping.yahoo.com/s:Pants:4157-Gender=Female,Unisex:4204-Age=Adult:browsename=Women's%20Pants:4348-Pant%20Fit=Loose%20Fit:4349-Pant%20Leg=Tapered:refspaceid=20151776 50e69853942d80c2214ff35e733a1721
+./test/cleaneval/output/165.txt 0.38206788468676534 classifier div 290 skazat.com http://skazat.com/justin/currents.cgi/1999/7 e585eb0e176afe1fc451f45303a28f81
+./test/cleaneval/output/166.txt 0.7318626689451608 classifier div 296 society.guardian.co.uk http://society.guardian.co.uk/socialexclusion/story/0,11499,1439797,00.html b135cbb016542b407606ce166ab6b202
+./test/cleaneval/output/167.txt 0.6114359047483245 classifier div 154 som.binghamton.edu http://som.binghamton.edu/programs/phd/marketing.htm b3c1678bd7351bb68983f2d6fb91419e
+./test/cleaneval/output/168.txt 0.8218289085545722 classifier div 139 son.nasa.gov http://son.nasa.gov/tass/magnetosphere/ob_tromso_e.htm d898bcfcb0fde7bb3a4f984fe64c3174
+./test/cleaneval/output/169.txt 0.4545374681542651 classifier div 233 southsudanfriends.org http://southsudanfriends.org/wunlit/day2.html b7121b2841fa4d9c78fcd03d465cfd8e
+./test/cleaneval/output/170.txt 0.7980442176870748 classifier div 229 sport.guardian.co.uk http://sport.guardian.co.uk/lions2005/story/0,15994,1498887,00.html 4b5542296da39eaaa2e062a529f5acef
+./test/cleaneval/output/171.txt 0.9375326257177657 classifier div 329 sport.scotsman.com http://sport.scotsman.com/topics.cfm?tid=668&id=1367012004 a676dd6faf68434ed27d14b52900c1a7
+./test/cleaneval/output/172.txt 0.7077306733167082 classifier div 247 sports.yahoo.com http://sports.yahoo.com/nascar/news?slug=jb-martinretires1014&prov=yhoo&type=lgns 97937b8e18fd72e41249ae3f3eb72b51
+./test/cleaneval/output/173.txt 0.5950272479564033 classifier div 493 stereophile.com http://stereophile.com/news/11315/ df3b194754e9c0203779e944a151ac0b
+./test/cleaneval/output/174.txt 0.34705819196907883 classifier div 383 sundriesshack.com http://sundriesshack.com/index.php?p=885 9661ce74c11eef2268c0fbbee3bb50a1
+./test/cleaneval/output/175.txt 0.5734958111195735 classifier div 273 switzerland.isyours.com http://switzerland.isyours.com/e/guide/basics/carrying.html d6fda1448039f20f87b88d531dc4084b
+./test/cleaneval/output/176.txt 0.6535648994515539 classifier table 1009 teachers.net http://teachers.net/gazette/APR01/sigmon.html 273241b83472a728d9082a460cd723e4
+./test/cleaneval/output/177.txt 0.05821545157780195 classifier table 110 techcenter.gmu.edu http://techcenter.gmu.edu/programs/summit/cohen's_2001_remarks.html a1d18769950bd8e444c0863ecbcaac56
+./test/cleaneval/output/178.txt 0.24328147100424324 classifier div 306 therapists.psychologytoday.com http://therapists.psychologytoday.com/medicinenet/6692.html d8450a8d329f59eba0ef767c906a3a1c
+./test/cleaneval/output/179.txt 0.2421019868236759 classifier div 511 thestoppedclock.blogspot.com http://thestoppedclock.blogspot.com/2004_09_26_thestoppedclock_archive.html ffe2475c4a0021978e175cb553b55dc6
+./test/cleaneval/output/180.txt 0.17812336644014637 classifier div 369 thomas.loc.gov http://thomas.loc.gov/cgi-bin/cpquery/R?cp107:FLD010:@1(hr116) 1ef6b86215b8817f18005567feef8ddd
+./test/cleaneval/output/181.txt 0.6751951176574145 classifier div 304 today.java.net http://today.java.net/pub/a/today/2004/07/06/3ddesktop.html f85b57c683cf34a836749d15a4d8925d
+./test/cleaneval/output/182.txt 0.3542260208926875 classifier table 664 travel.state.gov http://travel.state.gov/travel/tips/brochures/brochures_1230.html de05e45ab703ad788665a1b89efc9cd0
+./test/cleaneval/output/183.txt 0.7020527859237536 classifier table 648 trishwilson.typepad.com http://trishwilson.typepad.com/blog/2005/02/term_wife_beate.html 8b0f5058019abb2e1ad1a0113716e3a6
+./test/cleaneval/output/184.txt 0.3469012218460179 classifier div 89 ucsu.colorado.edu http://ucsu.colorado.edu/~obrian/02rev4.html 6727877c614137c8fba81294ec65ee26
+./test/cleaneval/output/185.txt 0.3681974509407242 classifier div 233 uk.geocities.com http://uk.geocities.com/stephenbirkett/04.html 8bde1713a380eb88a1c7255d23ac9fd3
+./test/cleaneval/output/186.txt 0.41126222322131056 classifier div 163 usctrojans.collegesports.com http://usctrojans.collegesports.com/genrel/usc-recruiting-definitions-common-questions.html c0fdb913d8e37a1b67bdc130998228ad
+./test/cleaneval/output/187.txt 0.4191024011771788 classifier div 292 users.ox.ac.uk http://users.ox.ac.uk/~ougym/constitution.htm e8d05ffbaba4279c9717542dadd4b8b4
+./test/cleaneval/output/188.txt 0.6016985138004246 classifier div 111 usinfo.state.gov http://usinfo.state.gov/usinfo/Archive/2005/Jun/15-742705.html b356d66dd0347c2795fc07866a758094
+./test/cleaneval/output/189.txt 0.27052295072079136 classifier div 1075 victorhanson.com http://victorhanson.com/ a893d79470659bab7ea8a0725125622f
+./test/cleaneval/output/190.txt 0.7273163706192991 classifier div 63 vision.arc.nasa.gov http://vision.arc.nasa.gov/personnel/jbm/home/vislab/exps/java/safe_txt.html d016a500bcea89306f9a6a2b0286daad
+./test/cleaneval/output/191.txt 0.17632070054550675 classifier div 1030 volokh.com http://volokh.com/posts/1116453076.shtml abb07322847ba067593e1b1189917e70
+./test/cleaneval/output/192.txt 0.3447113358617784 classifier div 281 walking.about.com http://walking.about.com/cs/measure/a/aaidol.htm 70b3047a6dfad45a9cdd4ff00855e989
+./test/cleaneval/output/193.txt 0.6148899258195741 classifier div 224 watch.pair.com http://watch.pair.com/roundtable.html cf375b0b073a1875ea876e5df638d022
+./test/cleaneval/output/194.txt 0.44008945386064036 classifier div 217 waysandmeans.house.gov http://waysandmeans.house.gov/hearings.asp?formmode=view&id=1440 f420170272b710163234822fa8fa43a1
+./test/cleaneval/output/195.txt 0.6904761904761905 classifier table 175 web.indstate.edu http://web.indstate.edu/ctl/tips/tip1_16.html 75398fa45777209975c2b4f13869f7f0
+./test/cleaneval/output/196.txt 0.2833768733672487 classifier div 296 web.stlawu.edu http://web.stlawu.edu/scarlet/1-21-02.htm 38449a272b858686c8280dfeced5b360
+./test/cleaneval/output/197.txt 0.5293434405184008 classifier table 1813 whyslopes.com http://whyslopes.com/etc/CalculusAndBeyond/ch22.html 76b52affa4152b64af221ef567907402
+./test/cleaneval/output/198.txt 0.00486342194756284 classifier div 723 www-cmod.psfc.mit.edu http://www-cmod.psfc.mit.edu/cmod/shot_display.php?shot=1010719014 888df3f19a2fdba46cce934a1d4c9953
+./test/cleaneval/output/199.txt 0.06569861900893581 classifier div 67 www-ilo-mirror.cornell.edu http://www-ilo-mirror.cornell.edu/public/english/bureau/inf/features/05/flexicurity.htm f26b13de0dc17e8fdab09769a90774d1
+./test/cleaneval/output/200.txt 0.11708461122136027 classifier div 67 www-tech.mit.edu http://www-tech.mit.edu/V121/N11/11RCupdate.11n.html 7213094166ad4e48ae4e1698a4ae9314
+./test/cleaneval/output/201.txt 0.7085326953748006 classifier div 295 www.10ktruth.com http://www.10ktruth.com/track/preclassic.htm 3f383a293f60f91cf384d197b44bed15
+./test/cleaneval/output/202.txt 0.6226864577606743 classifier div 225 www.1335.com http://www.1335.com/unionjack.html 4575583482e385d8370901ca9f799ee6
+./test/cleaneval/output/203.txt 0.08721735117674201 classifier div 117 www.1aiel.com http://www.1aiel.com/risky.htm e92c41f663e31eff7ff9df508d5ba71e
+./test/cleaneval/output/204.txt 0.22440891075577418 classifier div 194 www.43things.com http://www.43things.com/entries/view/26754 ccf12c584995b2ddcdf7117b991c5ce9
+./test/cleaneval/output/205.txt 0.5622713453908383 classifier div 474 www.7nights.com http://www.7nights.com/asterisk/archives05/2005/05/technological-excuses-a-rant 57e58a82f17da2c21f2be93de3aae339
+./test/cleaneval/output/206.txt 0.46245969599263015 schnuffel div 176 www.aamc.org http://www.aamc.org/data/facultyroster/reports.htm 97169f78a0dd9ed06248f4e59a2d8521
+./test/cleaneval/output/207.txt 0.5153423199716212 schnuffel div 153 www.aamc.org http://www.aamc.org/members/facultydev/facultyvitae/jan05/lessons.htm fb70b686c9829e953db67fe416516983
+./test/cleaneval/output/208.txt 0.20072075092189068 classifier div 59 www.aappb.net http://www.aappb.net/ma_the_defendant.html ad85151a7e7e196ee920913e7d9b85a0
+./test/cleaneval/output/209.txt 0.2437925857489317 classifier div 142 www.abanet.org http://www.abanet.org/irr/hr/spring02/vitiello.html a7d079350b8e77061bdf7736e74721d2
+./test/cleaneval/output/210.txt 0.03044564522688975 classifier div 176 www.abc.net.au http://www.abc.net.au/rn/science/incon/stories/s1370806.htm 4df0a56b808727f3a5c813260b839e01
+./test/cleaneval/output/211.txt 0.29927448609431684 classifier div 342 www.aboutmyjob.com http://www.aboutmyjob.com/main.php3?action=displayarticle&artid=1539 a6887a0f3cc23e529ec5ae71df6f46f4
+./test/cleaneval/output/212.txt 0.6816344858554109 classifier div 501 www.abqtrib.com http://www.abqtrib.com/albq/bu_local/article/0,2565,ALBQ_19838_3459266,00.html 285581c7e8089a8fe1ccfddee6cdf458
+./test/cleaneval/output/213.txt 0.5305428355488374 classifier table 608 www.abs.gov.au http://www.abs.gov.au/Ausstats/abs@.nsf/0/3f14d8d52dbf8c89ca256ef9000c2074?OpenDocument 36b7586ae9d99aea3f992f3d68c7fd93
+./test/cleaneval/output/214.txt 0.00012677484787015914 classifier div 84 www.afi.com http://www.afi.com/tvevents/laa/laa05.aspx bf382e129117ae2af66409b5dbcdfcf9
+./test/cleaneval/output/215.txt 0.6340018845066631 classifier div 394 www.agentsearch.com http://www.agentsearch.com/real_estate/indiana.htm ed85d9e92f0590259b7e797b8d6cbb1a
+./test/cleaneval/output/216.txt 0.05815567049325088 classifier div 66 www.aidindia.org http://www.aidindia.org/publications/proceedings/india_1999/volun2.htm b33561792d8c0a788185e4fe65c153db
+./test/cleaneval/output/217.txt 0.4453575301032928 classifier div 261 www.airpower.maxwell.af.mil http://www.airpower.maxwell.af.mil/airchronicles/aureview/1984/may-jun/jensen.html 046b3ac7c4da2fcc11bfdf64f7e9b5db
+./test/cleaneval/output/218.txt 0.6287439613526571 classifier div 401 www.aish.com http://www.aish.com/dating/advice/Dating_Advice_12_-_Financial_Decisions.asp 8369d8adc909f2c52be15c579f3dfb19
+./test/cleaneval/output/219.txt 0.6360927991886409 classifier div 399 www.alittlepregnant.com http://www.alittlepregnant.com/alittlepregnant/2005/05/keep_your_powde.html 0116f16d4ce957e142c92963e7ffcef4
+./test/cleaneval/output/220.txt 0.4254897644728153 classifier div 52 www.almanacnews.com http://www.almanacnews.com/morgue/2004/2004_08_11.annex.shtml e011a80fe2594b1ec2ace2e41f1e9780
+./test/cleaneval/output/221.txt 0.7227518390632037 classifier div 261 www.alternet.org http://www.alternet.org/story.html?StoryID=13160 9dd9020514260173b913c2ae91355004
+./test/cleaneval/output/222.txt 0.5015384615384615 classifier div 156 www.amaranthwomyn.com http://www.amaranthwomyn.com/hbpage-2.html ce6a59f53820173e373dec7fbe8b7ba6
+./test/cleaneval/output/223.txt 0.12027263405513 classifier div 76 www.american-music-club.com http://www.american-music-club.com/ 5d6adfe538efc1597f2abd58520a4e26
+./test/cleaneval/output/224.txt 0.048720698636433246 classifier div 993 www.andyweiser.com http://www.andyweiser.com/listings/ 4e097d918864fbb204ce83db0b0b9155
+./test/cleaneval/output/225.txt 0.10326499620349283 schnuffel div 265 www.angelfire.com http://www.angelfire.com/empire/qbrute/puzzles.htm 38e9c905f7eaa72d1194308d0072bfb4
+./test/cleaneval/output/226.txt 0.004177930695502541 schnuffel div 700 www.angelfire.com http://www.angelfire.com/mo/sassafrassgrove/homeschool/unit_studies.html fe41ba8d157b699f9b4f0d44011f98de
+./test/cleaneval/output/227.txt 0.1682871203937102 classifier div 171 www.angryharry.com http://www.angryharry.com/esMenearnquarterofamillionpoundsmore.htm c5a56fac81ea5ebbc0afabbf367be1fb
+./test/cleaneval/output/228.txt 0.6769007615133567 classifier div 156 www.animationschoolreview.com http://www.animationschoolreview.com/sketches/2004/09/king-camera-used-toon-boom-animation-software-for-ad-spot.html 8ef21560609c7d6e488e81942a0ef2b8
+./test/cleaneval/output/229.txt 0.24138970987393693 classifier div 671 www.annecollins.com http://www.annecollins.com/ 4599e4e75c72671bbe03edb4a2e81a22
+./test/cleaneval/output/230.txt 0.11338707545923088 classifier div 128 www.ans.org http://www.ans.org/pi/news/d-1022187916 aa3cdc05c75670fb46ca6d4aa93a4492
+./test/cleaneval/output/231.txt 0.2168706758914316 classifier div 1042 www.answers.com http://www.answers.com/the+muppets 9acc1696e2f67e9cf16394aa952bf4c6
+./test/cleaneval/output/232.txt 0.06182456525316804 classifier div 341 www.apa.org http://www.apa.org/science/ttrr.html aaaebca08f568af90f41979f960e1be4
+./test/cleaneval/output/233.txt 0.4462170273258569 classifier div 116 www.appliedimprov.net http://www.appliedimprov.net/articles/parachute.htm 940c7c4b5096bfba2eabe3b9153abb82
+./test/cleaneval/output/234.txt 0.1739139344262295 classifier table 656 www.appraiservalues.com http://www.appraiservalues.com/ 0c08d178d71e2a9532b3ddb90f503ac8
+./test/cleaneval/output/235.txt 0.14269419413710505 classifier div 343 www.archaeologychannel.org http://www.archaeologychannel.org/member.html ad09baacaf98cee5319dce2c32355519
+./test/cleaneval/output/236.txt 0.24784365763918215 classifier div 259 www.architectureforhumanity.org http://www.architectureforhumanity.org/ dc0a6980fa149f3f0c8f4c4fb183d1fc
+./test/cleaneval/output/237.txt 0.10158188585607941 classifier div 222 www.arizona-bed-breakfast.com http://www.arizona-bed-breakfast.com/standards-and-bylaws.html 459c30e1186ffbc6dabc38aaadd54be6
+./test/cleaneval/output/238.txt 0.00043731778425659673 schnuffel div 401 www.armscontrol.org http://www.armscontrol.org/act/2003_12/Bunn.asp 3e3f7ec3976df81c9e827508c9cf203b
+./test/cleaneval/output/239.txt 0.0010396554284866077 schnuffel div 93 www.armscontrol.org http://www.armscontrol.org/act/2005_05/NK_Talks.asp?print 7a650f6be5acbd3ae6cb2a76f624d422
+./test/cleaneval/output/240.txt 0.8365108164689463 classifier div 180 www.army.mil http://www.army.mil/cmh-pg/books/pd-c-01.htm c734ce4f910fa2cb52c9a33db412e631
+./test/cleaneval/output/241.txt 0.3131038236494761 classifier div 186 www.artmargins.com http://www.artmargins.com/content/feature/sokolina3.html 168599684a1caeb34c922bac5e9a2888
+./test/cleaneval/output/242.txt 0.23553893479703236 classifier table 1222 www.aryabhatt.com http://www.aryabhatt.com/ 8260577eb970c3524cb0e8bf50ca268c
+./test/cleaneval/output/243.txt 0.0013231013495633714 schnuffel div 121 www.aryabhatt.com http://www.aryabhatt.com/fast_fair_festival/Fairs/Kaila_Devi_Fair.htm 59c4e917dd97cfd5f8f0c1a386cfcf79
+./test/cleaneval/output/244.txt 0.3726127590410402 classifier div 135 www.ashanet.org http://www.ashanet.org/projects/document-view.php?id=1743 69b0155300edd2c06b101ecbd21efedb
+./test/cleaneval/output/245.txt 0.3394853832682204 classifier div 211 www.asne.org http://www.asne.org/kiosk/editor/01.may-june/hoyt1.htm bb730405db9500ab21af1e495c86c13e
+./test/cleaneval/output/246.txt 0.17419354838709677 classifier div 105 www.aspsys.com http://www.aspsys.com/systems/viewspecs.aspx/video/29/14.aspx e7244516a1db029c1f7c20978fb6dc20
+./test/cleaneval/output/247.txt 0.13734658094681473 classifier div 377 www.astronomy.com http://www.astronomy.com/asy/default.aspx?c=ss&id=10 4dea43c66934e0f6da69a3c90e975bfa
+./test/cleaneval/output/249.txt 0.8093286062486151 classifier div 177 www.atpm.com http://www.atpm.com/10.10/segments.shtml 2a9e9a00dbc6ea0b44c137e22e26bc89
+./test/cleaneval/output/250.txt 0.08419174438487653 classifier div 2143 www.au.af.mil http://www.au.af.mil/au/awc/awcgate/awc-comm.htm 293b81385e663b5eb9f8b3d71f1aad08
+./test/cleaneval/output/251.txt 0.5789761092150171 classifier div 153 www.audiencedialogue.org http://www.audiencedialogue.org/kya11b.html 9c4159041af7467bd4756d694b42a46a
+./test/cleaneval/output/252.txt 0.11983772681751059 classifier div 441 www.avert.org http://www.avert.org/ukaidsnews.htm 305c57b728edf06dc6be84b95248c504
+./test/cleaneval/output/253.txt 0.002151462994836484 schnuffel div 230 www.azcentral.com http://www.azcentral.com/families/articles/1227fam_parenting12251.html aa65460b3b7a40f2c020c8a237a3b178
+./test/cleaneval/output/254.txt 0.4382588478429347 schnuffel div 278 www.azcentral.com http://www.azcentral.com/specials/special11/articles/0107asuteam09.html 620250bcd566b638fafdd90a74752c84
+./test/cleaneval/output/255.txt 0.007939287799182737 schnuffel div 343 www.azcentral.com http://www.azcentral.com/style/articles/0122eyecream.html 0c68e74d90accc9e2bdb8dfda1ede45f
+./test/cleaneval/output/256.txt 0.264127565587459 classifier div 305 www.babyfeathers.net http://www.babyfeathers.net/fine_print.htm f23ff4cf495fb72f958eb9b6b64539e8
+./test/cleaneval/output/257.txt 0.590609756097561 classifier div 70 www.back.com http://www.back.com/articles-chicken.html dd816a3186152707f65cd8ac184e68f0
+./test/cleaneval/output/258.txt 0.8001680142812139 classifier div 132 www.bae.ncsu.edu http://www.bae.ncsu.edu/programs/extension/publicat/postharv/ag-413-7/ 0fa67171ea7491a24a360bd38b2929be
+./test/cleaneval/output/259.txt 0.3189189189189189 classifier div 109 www.baraita.net http://www.baraita.net/blog/archives/2005_05.html 7f857e846367497e1eece2b5195bb9d0
+./test/cleaneval/output/260.txt 0.13781942078364562 classifier div 433 www.barbarafeldman.com http://www.barbarafeldman.com/cat_working_at_home.html 0e37ff851484a1b5b2dbd4fd957f986c
+./test/cleaneval/output/261.txt 0.6761104867806234 classifier div 478 www.bartleby.com http://www.bartleby.com/320/2/3.html a391fc3a95df9a2cc34617ce507671dd
+./test/cleaneval/output/262.txt 0.2249462365591398 schnuffel div 267 www.bbc.co.uk http://www.bbc.co.uk/commissioning/contacts/index.shtml?genre=L&category=EB&template=contacts.tmpl&data=contacts.dat a3597ce3364b78a0e3d49adaa7490127
+./test/cleaneval/output/263.txt 0.025201612903225756 schnuffel table 173 www.bbc.co.uk http://www.bbc.co.uk/communicate/archive/sonofgod/page1.shtml e43246cfda429cb0945a05d1486b5426
+./test/cleaneval/output/264.txt 0.02904998691442029 schnuffel div 287 www.bbc.co.uk http://www.bbc.co.uk/nature/animals/features/298feature1.shtml 1324c090fb202cd6b2e356e6c1098a90
+./test/cleaneval/output/265.txt 0.6880193905817175 schnuffel div 688 www.bbc.co.uk http://www.bbc.co.uk/northyorkshire/greedypig/food/reviews/restaurants/plunketts.shtml 9ad130f67d3a15b175540cf51586fa1f
+./test/cleaneval/output/266.txt 0.019845644983461974 schnuffel div 248 www.bbc.co.uk http://www.bbc.co.uk/radio2/soldonsong/songlibrary/yourviews/one.shtml 39176ccc298c7a7efdedef37e0a5ddd5
+./test/cleaneval/output/267.txt 0.01476193623724853 schnuffel div 500 www.bbc.co.uk http://www.bbc.co.uk/wales/northeast/sites/rhyl_town/pages/memories.shtml 5ad845a97a647c6e25778f13a7b64484
+./test/cleaneval/output/268.txt 0.0023560503122701526 schnuffel div 853 www.bbc.co.uk http://www.bbc.co.uk/wales/southeast/sites/ilovewales/pages/scary.shtml 27743c0c7ee28919faf61dbbaecb75b2
+./test/cleaneval/output/269.txt 0.6924914675767918 classifier div 26 www.bc.edu http://www.bc.edu/bc_org/rvp/pubaf/04/StarLedgerCameraMouse.html 60f38bf6482054ccf7e1fb6ecf7ad318
+./test/cleaneval/output/270.txt 0.296875 classifier div 24 www.bcbudget.gov.bc.ca http://www.bcbudget.gov.bc.ca/annualreports/wlap/Report_on_Performance.htm faf11b77611341a1554fb893c0bceb28
+./test/cleaneval/output/271.txt 0.4075382803297998 classifier div 170 www.bccba.org http://www.bccba.org/Guest_Lounge/dialcontent.asp?id=120 1ed3949864ed3c6d73b4e38fd6a37971
+./test/cleaneval/output/272.txt 0.19995082672567455 classifier div 655 www.beenleigss.qld.edu.au http://www.beenleigss.qld.edu.au/webquest/actualquest/actualquest.htm a6d1cd0083133bd1b796589a05feafc7
+./test/cleaneval/output/273.txt 0.777673451594514 classifier div 1271 www.belairfinishing.com http://www.belairfinishing.com/practical_guide_to_mass_finishing.htm 76076ec36e8f57190561e019a1f045f4
+./test/cleaneval/output/274.txt 0.3317307692307693 classifier div 111 www.belgraviadispatch.com http://www.belgraviadispatch.com/archives/001570.html b6cab50964ffc68a4d0f765de2408cd6
+./test/cleaneval/output/275.txt 0.33156498673740054 classifier div 72 www.belleandsebastian.com http://www.belleandsebastian.com/diary.php?did=193 ad5de56a299ad31bf09bcfb304b88c5d
+./test/cleaneval/output/276.txt 0.30715577370188585 classifier div 241 www.besiweb.com http://www.besiweb.com/HKANTAR2.html 6cf58867606a683dacb65039e9ff006d
+./test/cleaneval/output/277.txt 0.4946195720977339 classifier div 145 www.bicc.de http://www.bicc.de/publications/survey/2001/introduction.php b2b9f5991a17d0a960a0cf6b2369ba40
+./test/cleaneval/output/278.txt 0.050000000000000044 classifier div 2 www.billingsclinic.com http://www.billingsclinic.com/AboutUs/NN_011602.htm c87d7590cbc0d83e7d787fa524d57df3
+./test/cleaneval/output/279.txt 0.48390929795029214 classifier div 113 www.billmon.org http://www.billmon.org/archives/000242.html c304248d79b95c730cd5d8ce6428756b
+./test/cleaneval/output/280.txt 0.4126040428061831 schnuffel div 1096 www.biomedcentral.com http://www.biomedcentral.com/1471-2105/6/S1/S15 79b90e5df1777547ce3dc1c75b74731c
+./test/cleaneval/output/281.txt 0.7290580071658579 schnuffel div 992 www.biomedcentral.com http://www.biomedcentral.com/1471-2288/4/29 f11092e7f09edc555cde88bf94a8df4f
+./test/cleaneval/output/282.txt 0.4572150299968425 schnuffel div 1199 www.biomedcentral.com http://www.biomedcentral.com/1741-7015/3/1 176525a1eaa9ac49dc7f9611f0b08c64
+./test/cleaneval/output/283.txt 0.665678409487269 schnuffel table 252 www.biomedcentral.com http://www.biomedcentral.com/news/20030312/01/ 7ffb3519f86655560ebad1e3ae7af81a
+./test/cleaneval/output/284.txt 0.9363395225464191 classifier table 303 www.bis.org http://www.bis.org/publ/cpss68.htm 8736a078c3b7fbaa77691073e02158f9
+./test/cleaneval/output/285.txt 0.21132596685082872 classifier div 114 www.bit-tech.net http://www.bit-tech.net/bits/2005/05/24/amd_lucas_starwars/1.html ec5345a4e059dada0be2d0e53630568a
+./test/cleaneval/output/286.txt 0.23884820239680427 classifier div 96 www.bizatomic.com http://www.bizatomic.com/terms.html c78e518f5f9f58e712cf2d4cfce409ad
+./test/cleaneval/output/287.txt 0.8232425843153189 classifier div 163 www.bized.ac.uk http://www.bized.ac.uk/educators/16-19/business/marketing/activity/research.htm 2868db40d2bcab2dcaa9bd41687c54f0
+./test/cleaneval/output/288.txt 0.05692213083250053 classifier div 202 www.bookreporter.com http://www.bookreporter.com/reviews/006056038X-excerpt.asp ea8a6591a29b390ee79c65ff8f1c2b86
+./test/cleaneval/output/289.txt 0.5366067942210074 classifier div 188 www.borderlands.com http://www.borderlands.com/archives/arch/thermo.html 48496a3c701401b6e645ae88f89c78ef
+./test/cleaneval/output/290.txt 0.2401263823064771 classifier div 205 www.boston.com http://www.boston.com/sports/basketball/celtics/articles/2005/02/03/a_passing_interest_in_kidd/ 64515d59dd1ac12eb873728dc67d385d
+./test/cleaneval/output/291.txt 0.5363974836307613 classifier div 212 www.boxesandbubbles.co.uk http://www.boxesandbubbles.co.uk/moving-tips.php 825785708997dd5ac1c7fb59fa50b5a5
+./test/cleaneval/output/292.txt 0.3907228229937393 classifier div 124 www.breakfastandbrunch.com http://www.breakfastandbrunch.com/recipes2.php?rcpid=54 f84ab084ac43279ae2b0069878182a3e
+./test/cleaneval/output/293.txt 0.29613095238095233 classifier div 159 www.breakthechain.org http://www.breakthechain.org/exclusives/clintonhunt.html 4fe31e3091a556784eb969c19e07d703
+./test/cleaneval/output/294.txt 0.91027496382055 classifier div 250 www.brighthand.com http://www.brighthand.com/article/Three_Hot_Technologies_Part_4?site=Learn 242e15b2e60280928faa096180eb8653
+./test/cleaneval/output/295.txt 0.0018655628752988207 schnuffel div 386 www.bris.ac.uk http://www.bris.ac.uk/Depts/History/Postgrads/pgdissertations.htm 06eaf25c818a8ca7c087a792332617aa
+./test/cleaneval/output/296.txt 0.0009138261902585931 schnuffel div 271 www.bris.ac.uk http://www.bris.ac.uk/studentfinance/financing-studies.html 098674cf454cb3bdf2ace20770ef5fdc
+./test/cleaneval/output/297.txt 0.5613354037267081 classifier div 278 www.britishsoftdrinks.com http://www.britishsoftdrinks.com/htm/qa/Packaging/Packaging.htm bea4c9123220dd0fa2bcc7ef38a49502
+./test/cleaneval/output/298.txt 0.616869351779538 classifier div 92 www.brookesnews.com http://www.brookesnews.com/041312colebatch_print.html c1585f32af2f57ede5600b2a8dc534a0
+./test/cleaneval/output/299.txt 0.04290307762976575 classifier div 154 www.brudirect.com http://www.brudirect.com/DailyInfo/News/Archive/Jan05/060105/nite02.htm d0fae0b1165a7c543e21715b357e5034
+./test/cleaneval/output/300.txt 0.5378388554216867 classifier div 221 www.bsr.org http://www.bsr.org/CSRResources/Environment/EnvResources.cfm a06e3c3e837582cdec74acad50afed5f
+./test/cleaneval/output/301.txt 0.6267617592120903 classifier div 564 www.bumperdumper.com http://www.bumperdumper.com/bumper2.htm 488c72c51ab1392c9f78a6274f708831
+./test/cleaneval/output/302.txt 0.6435754189944134 classifier table 220 www.buyblue.org http://www.buyblue.org/detail.php?corpId=7 f2ce3df4e629bf2e4331371945ac55d9
+./test/cleaneval/output/303.txt 0.4606715731370745 classifier div 94 www.caligirl.net http://www.caligirl.net/cg/aboutme-cravings.htm 53617cf9afbe2ebf21115ca39157e73a
+./test/cleaneval/output/304.txt 0.630745948672678 classifier div 377 www.calmis.ca.gov http://www.calmis.ca.gov/file/oesstructure/oes_def3.htm ce81ca839971ccd18cab82e65739030f
+./test/cleaneval/output/305.txt 0.3499882711705372 classifier div 272 www.cambridgeesol.org http://www.cambridgeesol.org/research/savisual.htm b42df727342be35562f5c0f735d2272e
+./test/cleaneval/output/306.txt 0.3784245714572966 classifier div 612 www.canadapost.ca http://www.canadapost.ca/textonly/tools/pg/manual/b03-E.asp 0f027928ba00e3e5b2806aefe7adebb1
+./test/cleaneval/output/307.txt 0.4441489361702128 classifier table 285 www.canadianchristianity.com http://www.canadianchristianity.com/cgi-bin/na.cgi?nationalupdates/050202liberals a8ef64c2383a1d4bd35320cd34465c87
+./test/cleaneval/output/308.txt 0.3740334055057223 classifier div 373 www.canadiandemocraticmovement.ca http://www.canadiandemocraticmovement.ca/displayarticle559.html fe1b83d0aed8e89f878f97c96614db1a
+./test/cleaneval/output/309.txt 0.22232945292237172 classifier div 656 www.carbuyingtips.com http://www.carbuyingtips.com/ e62a30db3145092e3ced99753c74cc5f
+./test/cleaneval/output/310.txt 0.885024154589372 classifier div 630 www.carmel.ac.uk http://www.carmel.ac.uk/pages/english/art_courses.html 10b89178ab6577dde87c8917b5ee352c
+./test/cleaneval/output/311.txt 0.5318439624193618 classifier div 300 www.catholicculture.org http://www.catholicculture.org/docs/doc_view.cfm?recnum=890 b9f361210e233fc58efd856d20219a37
+./test/cleaneval/output/312.txt 0.7097244303126656 classifier div 220 www.cato.org http://www.cato.org/testimony/ct-ce120601.html 9b6aa9362c7b18bf88b4826de632a0e2
+./test/cleaneval/output/313.txt 0.49300364193981216 classifier div 52 www.cavaliers.co.uk http://www.cavaliers.co.uk/articles/testing.htm 5afaf35bcc2dcb307179e9f414624386
+./test/cleaneval/output/314.txt 0.6709987397605546 classifier div 98 www.cavebear.com http://www.cavebear.com/icann-board/diary/mar-13-2001.htm 4c26dc00809734c6546d2141bb9176b3
+./test/cleaneval/output/315.txt 0.00018814675446843232 classifier div 89 www.caw.ca http://www.caw.ca/whatwedo/bargaining/bycompany/starbucks/april25_index.asp b3bcf0133d1a184e75d47359036b2a43
+./test/cleaneval/output/316.txt 0.2609391951232113 classifier div 216 www.cbrrescue.org http://www.cbrrescue.org/articles/bringhome.htm 85ec06f93e3dd335aeefc010368210c9
+./test/cleaneval/output/317.txt 0.24504792332268366 schnuffel div 295 www.cbsnews.com http://www.cbsnews.com/stories/2004/11/03/60II/main653503.shtml 18377ff5740f93244af1458784af5300
+./test/cleaneval/output/318.txt 0.06598114824335899 schnuffel div 398 www.cbsnews.com http://www.cbsnews.com/stories/2005/01/16/iraq/main667256.shtml 1a62cc633e87a201a95e54cd40af4bf8
+./test/cleaneval/output/319.txt 0.5145255748204137 classifier div 2972 www.ccedtraining.mchenry.edu http://www.ccedtraining.mchenry.edu/courses/ViewCcedCoursesByProgramId.asp?ProgramId=5 7d0cca7078d24c3ab685ace932a6e177
+./test/cleaneval/output/320.txt 0.6132345217949466 classifier div 409 www.ccne-ethique.fr http://www.ccne-ethique.fr/english/avis/a_028.htm 7fe956623707d93997b91fa6eb851720
+./test/cleaneval/output/321.txt 0.011736334405144655 schnuffel div 43 www.cdc.gov http://www.cdc.gov/ncidod/eid/vol4no3/hopkins.htm 56b3aab4eb9a28535027a019ec77c97d
+./test/cleaneval/output/322.txt 0.04772703844964432 schnuffel div 291 www.cdc.gov http://www.cdc.gov/youthcampaign/research/resources.htm f093d00821fdc31014e03f6d67236e7c
+./test/cleaneval/output/323.txt 0.4929383396486393 classifier table 710 www.cduniverse.com http://www.cduniverse.com/search/xx/music/pid/1107874/a/Greatest+Hits.htm ab79c6bb86ddeeab4fc72240827775db
+./test/cleaneval/output/324.txt 0.55263776486786 classifier div 579 www.cem.msu.edu http://www.cem.msu.edu/~reusch/VirtualText/react3.htm 2d38d1d6df36decfb099e44f5a61285e
+./test/cleaneval/output/325.txt 0.8280023899621589 classifier div 198 www.ces.ncsu.edu http://www.ces.ncsu.edu/nreos/forest/xmas/growing/ag95-IV.htm aa843b7755c4508dd327762372c4c7c8
+./test/cleaneval/output/326.txt 0.6517687333586915 classifier div 33 www.cgernon.com http://www.cgernon.com/sptf/care.htm 06f564817fd530f811aa5023873f66e4
+./test/cleaneval/output/327.txt 0.011164274322169043 classifier div 245 www.channel4.com http://www.channel4.com/4car/road-tests/C/citroen/c3pluriel03-/c3pluriel03--comequipt.html c895d4696a338a9cfd8c4b2957112e78
+./test/cleaneval/output/328.txt 0.1586283802620574 classifier div 134 www.chemguide.co.uk http://www.chemguide.co.uk/physical/phaseeqia/vapourpress.html 24b4051324f1980cf16ce198f53e5e37
+./test/cleaneval/output/329.txt 0.0625 classifier div 45 www.chess-dictionary-chesmayne.net http://www.chess-dictionary-chesmayne.net/Women.htm 9545ffdc76162e5d0d289d6e578b7324
+./test/cleaneval/output/330.txt 0.4097166353803522 classifier div 454 www.chfpatients.com http://www.chfpatients.com/faq/dhf.htm 7ebcaff2f12d51cf71b07b5a7c19f1ef
+./test/cleaneval/output/331.txt 0.46443636363636365 classifier table 409 www.childrensabilityfund.ab.ca http://www.childrensabilityfund.ab.ca/donatenow.htm 08acd096e6636da9865398891b1f6c42
+./test/cleaneval/output/332.txt 0.9244046318549268 classifier div 245 www.chiroweb.com http://www.chiroweb.com/archives/16/04/02.html c19fdda4d4b9d040adefce43b89db5b5
+./test/cleaneval/output/333.txt 0.8650793650793651 classifier div 319 www.christianitytoday.com http://www.christianitytoday.com/ct/2004/001/30.35.html c03e9ad2c0ca8510a494519cbbcf2f75
+./test/cleaneval/output/334.txt 0.25833886241630977 classifier div 474 www.chuggnutt.com http://www.chuggnutt.com/ 10ddcbcde39bfacce28ce94ed33791c2
+./test/cleaneval/output/335.txt 0.8154350828729282 classifier div 104 www.ci.nyc.ny.us http://www.ci.nyc.ny.us/html/dep/html/history.html 65f9f65f2da6c16884f0d6cfbbc633ce
+./test/cleaneval/output/336.txt 0.41099694529297415 classifier div 189 www.civil.canterbury.ac.nz http://www.civil.canterbury.ac.nz/staff/pmoss.asp 5e775a124343b66751b4fe3b38891c9c
+./test/cleaneval/output/337.txt 0.20104590354445095 classifier div 173 www.claremont.org http://www.claremont.org/weblog/ 77932e043825f35feeb93431b91bf2aa
+./test/cleaneval/output/338.txt 0.6296181310152127 classifier div 226 www.cmic.info http://www.cmic.info/stories01C/ ee2eb4c8a528d586a140cd5b7db482a2
+./test/cleaneval/output/339.txt 0.7247356560929104 classifier div 19 www.co.pacific.wa.us http://www.co.pacific.wa.us/boards%20and%20commissions/boewin.htm 9a27a0cf5f766dad3ae251f9b8182b01
+./test/cleaneval/output/340.txt 0.3453292496171516 classifier div 388 www.collectics.com http://www.collectics.com/education_imperial.html e9a69cd9b4c0d1f5c9bde635b65a21c3
+./test/cleaneval/output/341.txt 0.11372662476000106 schnuffel div 305 www.columbia.edu http://www.columbia.edu/itc/mealac/pritchett/00islamlinks/txt_sir_sayyid_lucknow_1887.html fb1b13cd454f8bc4be945ba3340c4f24
+./test/cleaneval/output/342.txt 0.18974703380344748 schnuffel div 447 www.columbia.edu http://www.columbia.edu/kermit/support.html 00d34bf441b13a63785f7d17e25a2ebd
+./test/cleaneval/output/343.txt 0.5695946417358544 classifier div 138 www.commondreams.org http://www.commondreams.org/views/022400-108.htm cd720fb00bba981c54852051f98e4473
+./test/cleaneval/output/344.txt 0.11201932008173876 classifier div 135 www.commonground.org http://www.commonground.org/org_info/media/articles/2004-04-01_chronicle/ 39b05933253447928318f65400b25dea
+./test/cleaneval/output/345.txt 0.03352992573176061 classifier div 31 www.conjunctions.com http://www.conjunctions.com/webcon/roeggla.htm 7f54e532ec82000a7fb77696eb3ec99d
+./test/cleaneval/output/346.txt 0.7629238795352146 classifier div 247 www.consumersearch.com http://www.consumersearch.com/www/house_and_home/long_distance_phone_service/fullstory.html 6ebb0b3f84f068294e597e3afcd92d6c
+./test/cleaneval/output/347.txt 0.4837061828430509 classifier div 1048 www.corante.com http://www.corante.com/importance/archives/cat_induce_act.php 991a68d39c7a1a304d85190b38feb0b7
+./test/cleaneval/output/348.txt 0.7284831193533048 classifier div 53 www.cordis.lu http://www.cordis.lu/mariecurie-actions/mscoop/apply.htm ead53c3d3c16a849329a551e5a73c6a4
+./test/cleaneval/output/349.txt 0.05199068823494302 classifier div 39 www.corichan.com http://www.corichan.com/contrib/eigocuri.html 9137749a01d2e76e254365df007be6e6
+./test/cleaneval/output/350.txt 0.024673851389676704 schnuffel div 224 www.corpwatch.org http://www.corpwatch.org/article.php?id=11127 137a16a119118af50441a533a0174f27
+./test/cleaneval/output/351.txt 0.07483772432226043 schnuffel div 199 www.corpwatch.org http://www.corpwatch.org/article.php?id=12201 cce5fc74dbe98acf5ce3aeee773a1fd7
+./test/cleaneval/output/352.txt 0.301366044047951 classifier div 844 www.cottagesunlimited.com http://www.cottagesunlimited.com/sales.htm 3800c64b8816e8cf2379fabb71287eaa
+./test/cleaneval/output/353.txt 0.19071669071669073 classifier div 318 www.countyofinyo.org http://www.countyofinyo.org/Board%20Agenda%20Minutes/board_mi_nutes_-_july_23,_2002.htm 1dc1f5363af801752ccb3674eb221cf7
+./test/cleaneval/output/354.txt 0.6712515489467162 classifier div 164 www.cpa.ed.ac.uk http://www.cpa.ed.ac.uk/edit/2.03/018_Itsafamilyaffair.html 7427bdec18a54ae13fe8d2b920e6c8b7
+./test/cleaneval/output/355.txt 0.7762868015221309 classifier div 132 www.cri.ca http://www.cri.ca/publications/june03_communique/licence_application.html 9b734f98fd05bb04c585ba7b13438ef2
+./test/cleaneval/output/356.txt 0.3489720611491829 schnuffel div 378 www.crimelibrary.com http://www.crimelibrary.com/criminal_mind/forensics/serology/8.html?sect=21 15f0495f3a735d487864a626338759fb
+./test/cleaneval/output/357.txt 0.4377214113646025 schnuffel div 349 www.crimelibrary.com http://www.crimelibrary.com/notorious_murders/mass/south_africa/2.html?sect=8 4ced3ba60df7b796d8a9fb4bed26ec82
+./test/cleaneval/output/358.txt 0.47269303201506596 classifier div 137 www.crimethinc.com http://www.crimethinc.com/a/sh/letters.html 1e4e1666fd6a760988fc044920462923
+./test/cleaneval/output/359.txt 0.40117670522536897 classifier div 892 www.crossroad.to http://www.crossroad.to/articles2/TwistingTruth.html 0d34815145ea6fdb987ee958587938d9
+./test/cleaneval/output/360.txt 0.23744017899687175 classifier div 408 www.cuke.com http://www.cuke.com/excerpts-articles/cc%20excerpts/Final%20Season,%20ch19%20Ryuho.html cd08740f81536d1a9db007e3b7ffd605
+./test/cleaneval/output/361.txt 0.16973684210526319 classifier div 39 www.culture.gov.uk http://www.culture.gov.uk/global/press_notices/archive_2005/dvdmarketboost_pactdcms.htm c4e266c94fc47be2e51914a2e9db0ac3
+./test/cleaneval/output/362.txt 0.5039001560062403 classifier div 122 www.cwa.tnet.co.th http://www.cwa.tnet.co.th/Network/tf_domestic.html 6ef949c257497c797d40d83e00f030b6
+./test/cleaneval/output/363.txt 0.5046040515653776 classifier div 194 www.cwoodshop.com http://www.cwoodshop.com/gun_knife.shtml a902650292c8e6b76d692be0b09a2711
+./test/cleaneval/output/364.txt 0.4545454545454546 classifier div 53 www.cyberbilly.com http://www.cyberbilly.com/meathenge/archives/000225.html e85db895e78e34a20e743746a38f3339
+./test/cleaneval/output/365.txt 0.5156915313042107 classifier div 89 www.cyberussr.com http://www.cyberussr.com/hcunn/guns/proh-def.html 7a10afbae08cc26746c93ea041225eb3
+./test/cleaneval/output/366.txt 0.10345508390918068 classifier div 304 www.d.umn.edu http://www.d.umn.edu/~scastleb/Some%20Interesting%20(and%20some%20useful)%20Web%20Pages.htm b418a54f0200e1f0ccdfc356fc9e811b
+./test/cleaneval/output/367.txt 0.6936257102272727 classifier div 259 www.danagioia.net http://www.danagioia.net/essays/elongfellow.htm a92e1b9a9738ed29e2a42df546749ef5
+./test/cleaneval/output/368.txt 0.3923116526514502 classifier div 102 www.darjnet.com http://www.darjnet.com/darjeeling/darjeeling/travel/train/train.htm 04dd80a70b062b182f2f444a6f93472b
+./test/cleaneval/output/369.txt 0.005350454788657033 schnuffel div 439 www.dealtime.com http://www.dealtime.com/xDN-Sport_and_Outdoor--personal_fitness-weight_training_equipment-weight_lifting_equipment_guide~V-rows 6b5d6df6c860f72664cae6ca79ed714a
+./test/cleaneval/output/370.txt 0.006776239907727799 schnuffel div 262 www.dealtime.com http://www.dealtime.com/xPR-Sony_CCD_TRV308~RD-81212771972 c6c9eacb8201882b31fa3138cbec68db
+./test/cleaneval/output/371.txt 0.4184296464574755 classifier div 159 www.dec.state.ny.us http://www.dec.state.ny.us/website/dfwmr/wildlife/guide/trapping.html 108e6d4d1285854139f8b37680eeb1df
+./test/cleaneval/output/372.txt 0.846932542106641 classifier div 178 www.deh.gov.au http://www.deh.gov.au/minister/ps/97/mc26nov97_fenner.html 470b17d0734ed052317f8e1ab7ccc5fb
+./test/cleaneval/output/373.txt 0.19515816655907037 classifier div 335 www.dfait-maeci.gc.ca http://www.dfait-maeci.gc.ca/arms/gov_report-en.asp 47dcbb9390197de90b45d21c86d36f82
+./test/cleaneval/output/374.txt 0.5024395417904115 classifier div 142 www.dharmamind.net http://www.dharmamind.net/Archive5.htm df0dc0f11dcbd2941193f972a64c34e0
+./test/cleaneval/output/375.txt 0.209470304975923 classifier div 174 www.dhhs.state.sc.us http://www.dhhs.state.sc.us/InsideDHHS/Bureaus/BureauofSeniorServices/service1038532003.htm 334ad6a4d65397a7281e227a55232a96
+./test/cleaneval/output/376.txt 0.7262673820212416 classifier div 302 www.directionjournal.com http://www.directionjournal.com/spirituality/rumme.htm 21746540730ee7f33800d7089a98aefd
+./test/cleaneval/output/377.txt 0.22172628023403096 classifier div 93 www.dissectionchoice.org http://www.dissectionchoice.org/ 55efa33e32b042065534e768016e1c0d
+./test/cleaneval/output/378.txt 0.13523662267380865 classifier div 409 www.divorce.co.uk http://www.divorce.co.uk/legal/englandwales/legalcloserlook/questions/freqaskquestions.htm 72587ff435f718c5e8dd355f54265e60
+./test/cleaneval/output/379.txt 0.27112786679233425 classifier div 200 www.divorcenet.com http://www.divorcenet.com/states/colorado/co_art09 096ccf406d5d391f2236d0a5b3ee6b74
+./test/cleaneval/output/380.txt 0.6377025036818851 classifier div 123 www.dlib.org http://www.dlib.org/dlib/june04/king/06king.html 46524fcb6966585b7a552c6d52c3110d
+./test/cleaneval/output/381.txt 0.617240512691631 classifier div 125 www.doacs.state.fl.us http://www.doacs.state.fl.us/ai/main/equine_ecard.shtml 3de2c8eb13a82f4905b52b3abee95c0e
+./test/cleaneval/output/382.txt 0.2935746823303764 classifier table 237 www.dod.gov http://www.dod.gov/transcripts/2003/tr20030414-secdef0104.html ce18bf52e283078e3d9f973b0afc3346
+./test/cleaneval/output/383.txt 0.23276723276723277 classifier div 223 www.dpi.qld.gov.au http://www.dpi.qld.gov.au/kids/ 6cd885fe3ea3626f547f95b4c914f132
+./test/cleaneval/output/384.txt 0.43120142693336727 classifier div 190 www.dsavoy.com http://www.dsavoy.com/text/lady_in_red.htm 800f633a9e5596da936c0e6a203b744e
+./test/cleaneval/output/385.txt 0.0909314126698314 classifier div 87 www.dunoon-observer.co.uk http://www.dunoon-observer.co.uk/archive/arcaug20008.html b8fb273e5995d748a8e24183f21d4cb1
+./test/cleaneval/output/386.txt 0.41501723917762734 classifier div 419 www.dvdtalk.com http://www.dvdtalk.com/reviews/read.php?ID=14278 c3eea745e527772542a03e7b56646bfa
+./test/cleaneval/output/387.txt 0.24817275747508305 classifier div 118 www.early2bed.com http://www.early2bed.com/pages/calendar.html 592f1b66cd1e3262c315dddb0e9a234b
+./test/cleaneval/output/388.txt 0.0000406487541156908 classifier div 412 www.earthtym.net http://www.earthtym.net/ref-altitude.htm 4db8f8253297d0f7e4bc2d85d702918f
+./test/cleaneval/output/389.txt 0.4780531501940878 classifier div 229 www.ecchk.org http://www.ecchk.org/T01/tapestry-01Q1-e1.htm 8ade73b3ea17cbe6feb3ede82112530d
+./test/cleaneval/output/390.txt 0.00008216251745951642 classifier div 190 www.ecs.soton.ac.uk http://www.ecs.soton.ac.uk/~harnad/Hypermail/Thinking.Psychologically96/0059.html 76b12c04ccd514c3209f0c0884ee91a0
+./test/cleaneval/output/391.txt 0.1440387668142702 classifier table 317 www.ed.gov http://www.ed.gov/news/speeches/2005/02/02282005.html 85b75e1017220950c3d65c749efb71af
+./test/cleaneval/output/392.txt 0.826334453154162 classifier div 233 www.edri.org http://www.edri.org/issues/governance/eupolicy?from=70 42a760443ab01bacf4037f5b835f9ab2
+./test/cleaneval/output/393.txt 0.37286736378646124 classifier table 169 www.eelaart.com http://www.eelaart.com/control.htm 3c36382f5b5ff6e973fe3e89ff362e00
+./test/cleaneval/output/394.txt 0.569578243834985 classifier div 489 www.eia.doe.gov http://www.eia.doe.gov/oiaf/issues/wind_supply.html 638b3a03a617a7c352833f59f2df44c6
+./test/cleaneval/output/395.txt 0.4048023284016493 classifier div 400 www.electricscotland.com http://www.electricscotland.com/familytree/magazine/febmar2004/burns.htm e1a71d318dbfcc4769f0292ae1b02ed0
+./test/cleaneval/output/396.txt 0.3406728124722753 classifier table 1221 www.emcit.com http://www.emcit.com/emcit113.shtml b8aa74085ff5693ad7bbb198695a6e28
+./test/cleaneval/output/397.txt 0.3965670976370932 classifier div 94 www.emro.who.int http://www.emro.who.int/Publications/HealthEdReligion/AIDS/Chapter6.htm 7e0b5be834ffd182feb7a16a7c249d76
+./test/cleaneval/output/398.txt 0.4721689577875604 classifier table 1242 www.enchantedlearning.com http://www.enchantedlearning.com/subjects/dinosaurs/questions/QnsAug00.shtml b685083b7c4b4f79f951d446bf6061dc
+./test/cleaneval/output/399.txt 0.2788836001730852 classifier table 496 www.enjoy-europe.com http://www.enjoy-europe.com/hte/chap05/clothes.htm 92f51d12be6accf29455e255857294fa
+./test/cleaneval/output/400.txt 0.11317981381675646 classifier div 144 www.enn.com http://www.enn.com/aff.html?id=684 9992431b312cb15aa16504e4e82e16c0
+./test/cleaneval/output/401.txt 0.781948424068768 classifier div 139 www.entemp.ie http://www.entemp.ie/press/2005/20050519B.htm 1bf2066b617c498d8fc2b2a724525e95
+./test/cleaneval/output/402.txt 0.6504938988959907 classifier div 396 www.epa.gov http://www.epa.gov/wtc/stories/yearreview.htm fd0dca9988fdc262c561886d38759dfb
+./test/cleaneval/output/403.txt 0.6140030249558861 classifier div 760 www.epic.co.uk http://www.epic.co.uk/content/resources/email_newsletter/December2004.htm 832d01671f49ecbcbd487531232a637d
+./test/cleaneval/output/404.txt 0.3430410875632063 classifier div 317 www.epinet.org http://www.epinet.org/content.cfm/briefingpapers_comp 72c792abfdf329a5f34db92a029a9740
+./test/cleaneval/output/405.txt 0.09905518444966 classifier div 409 www.epinions.com http://www.epinions.com/inst-review-120-11F157CF-39775E60-prod2 afd190a692e8fe40b3ccb91719125d26
+./test/cleaneval/output/406.txt 0.33140729327170004 classifier div 260 www.eskimo.com http://www.eskimo.com/~leiba/history.html 733be642453bdceb38e95bdbf6c6c5f8
+./test/cleaneval/output/407.txt 0.5125266088095628 classifier div 134 www.essent-finance.nl http://www.essent-finance.nl/knowledge/bg4.jsp 128aa4f9b48c9e95ff45a54c91068a12
+./test/cleaneval/output/408.txt 0.7125494215844194 classifier div 37 www.eurekalert.org http://www.eurekalert.org/pub_releases/2005-06/uomh-aae061505.php 7295c01bb285bf57dc0f1052b53b7587
+./test/cleaneval/output/409.txt 0.2948891140380502 classifier div 906 www.euroeducation.net http://www.euroeducation.net/prof/ukrco.htm 7c507e146061359d8ad64793ff853f46
+./test/cleaneval/output/410.txt 0.44246447705567205 classifier div 241 www.eurofighter-typhoon.co.uk http://www.eurofighter-typhoon.co.uk/Eurofighter/tech.html 87f39ad2a2c760a08a163f3118e6254e
+./test/cleaneval/output/411.txt 0.41999131210132834 classifier div 633 www.event-solutions.com http://www.event-solutions.com/halloffame/2002halloffamers.html c7c06aeb25058de88792c69d18ca39f7
+./test/cleaneval/output/412.txt 0.29147389292795767 classifier div 1114 www.everything2.com http://www.everything2.com/index.pl?node=union 805e830bed88068f0c2ce220ce0c6e24
+./test/cleaneval/output/413.txt 0.6789514663898262 classifier div 729 www.everythingiknowiswrong.com http://www.everythingiknowiswrong.com/2004/04/the_torricelli_.html 4eb438da6357fe6fb310224a533cc390
+./test/cleaneval/output/414.txt 0.1731804534630914 classifier div 1052 www.eweightlosstips.com http://www.eweightlosstips.com/weightlossltr.htm 12d662f69c10a0a6fd01a9eb3fdf87f0
+./test/cleaneval/output/415.txt 0.6626303397241844 classifier div 331 www.fairfield-city.org http://www.fairfield-city.org/PubWorks/pwdump.cfm 0eb5402ca3f4eb266b99929b3d19569f
+./test/cleaneval/output/416.txt 0.4330270119743804 classifier div 142 www.familyrecords.gov.uk http://www.familyrecords.gov.uk/focuson/womeninuniform/wrns_profile.htm 6f9df8536361e5bdd36d2321a381b2ea
+./test/cleaneval/output/417.txt 0.4682331863285557 classifier div 243 www.faqs.org http://www.faqs.org/docs/electric/Semi/SEMI_9.html a26cb7a8f980b5da03ccc4ee92f3a087
+./test/cleaneval/output/418.txt 0.5342118094190306 classifier div 368 www.fas.org http://www.fas.org/man/congress/1996/s960315t.htm 15d770bae73a4f0bdac2cab618ca53b9
+./test/cleaneval/output/419.txt 0.11876470233427827 classifier div 130 www.fermanaghtabletennis.com http://www.fermanaghtabletennis.com/ fc01549a093dd3c4975802d7802d5b1a
+./test/cleaneval/output/420.txt 0.4036109112317655 classifier div 100 www.filmsite.org http://www.filmsite.org/crow.html 1ab4b02b9cf244e777fcfbd1234917b5
+./test/cleaneval/output/421.txt 0.6429466299173139 schnuffel div 230 www.findarticles.com http://www.findarticles.com/p/articles/mi_m0FKX/is_1-2_39/ai_n6146847/pg_7 d9ac21703d855e98b765aad4ba8e9fbf
+./test/cleaneval/output/422.txt 0.35279590756747226 schnuffel div 229 www.findarticles.com http://www.findarticles.com/p/articles/mi_qa3977/is_200409/ai_n9449884 ef799e2310d063a55cd89c9d8ef79c32
+./test/cleaneval/output/424.txt 0.09859722129001947 classifier div 177 www.firstamendmentcenter.org http://www.firstamendmentcenter.org/Speech/overview.aspx b49dd64c4786aca1863147f3ebdaec8f
+./test/cleaneval/output/425.txt 0.5298915562146631 classifier div 507 www.firstmonday.org http://www.firstmonday.org/issues/issue5_2/delong/ 2e35a6cb4799dbc62ba0e13080c360be
+./test/cleaneval/output/426.txt 0.13966693706160238 classifier div 498 www.fno.org http://www.fno.org/may02/discerning.html e41042ac7b9c8193bb95e2b85cb8d617
+./test/cleaneval/output/427.txt 0.11787905346187555 classifier div 128 www.foe.co.uk http://www.foe.co.uk/pubsinfo/infoteam/pressrel/1997/19970403134300.html 70c3e22717c03b04ccee0c193c8b8bf1
+./test/cleaneval/output/428.txt 0.00014604936468531893 classifier div 53 www.foe.org http://www.foe.org/new/releases/0503cornshow.html 6d034216cb331630cccd74f28eddbf99
+./test/cleaneval/output/429.txt 0.07374063638237927 classifier div 155 www.foejapan.org http://www.foejapan.org/en/aid/jbic02/sondu-miriu/letter-pm01082001.htm 4f14328e67dd662e501536b24de998a2
+./test/cleaneval/output/430.txt 0.234373610740642 classifier div 630 www.food.gov.uk http://www.food.gov.uk/news/newsarchive/2005/may/parared 99ed97bebc52cd6dfc8faf378be4f982
+./test/cleaneval/output/431.txt 0.2442196866248525 classifier div 1095 www.foodnetwork.com http://www.foodnetwork.com/food/my_recipe_box/review/0,1973,FOOD_9919_17372,00.html afa4d70443a7b1783b188a1dbc47bef0
+./test/cleaneval/output/433.txt 0.12953595777435667 classifier div 397 www.forbes.com http://www.forbes.com/markets/2005/01/19/cx_pk_0119eyeonstocks.html 9ed092a28262fcaebb01a8afa8fe6c5f
+./test/cleaneval/output/434.txt 0.8147693817468106 schnuffel div 180 www.foreignaffairs.org http://www.foreignaffairs.org/20040301faessay83204-p10/andrei-shleifer-daniel-treisman/a-normal-country.html 5009590efc5e5fa0c7cec2bd470104a3
+./test/cleaneval/output/435.txt 0.7660630449362844 schnuffel div 159 www.foreignaffairs.org http://www.foreignaffairs.org/20050101faessay84109/selig-s-harrison/did-north-korea-cheat.html 7dcb6eaa55f35c895f8d2d287c2ef036
+./test/cleaneval/output/436.txt 0.7525380710659899 classifier div 198 www.franklin.com http://www.franklin.com/pressroom/news/arch00/000106_a.asp 41bd558c072eeb0ac712b6f8e534357c
+./test/cleaneval/output/437.txt 0.00010899182561308063 classifier div 104 www.freedomforum.org http://www.freedomforum.org/templates/document.asp?documentID=14129 f6a106db1f2e6579513be6cd5fc143ea
+./test/cleaneval/output/438.txt 0.15023667421280096 classifier div 37 www.freedomworks.org http://www.freedomworks.org/processor/printer.php?issue_id=2099 c1aa762205a8ccfe749e2b49ed9063dd
+./test/cleaneval/output/439.txt 0.479650655021834 classifier div 1276 www.freerepublic.com http://www.freerepublic.com/focus/f-news/1305291/posts 3f469748756bac1bb52f12d5e415fcdb
+./test/cleaneval/output/440.txt 0.604502688172043 classifier div 133 www.freeswan.org http://www.freeswan.org/freeswan_trees/freeswan-1.99/doc/quickstart-firewall.html 2e776ba9d3babff758693bebb3b7d7f8
+./test/cleaneval/output/441.txt 0.6272545090180361 classifier div 199 www.frif.com http://www.frif.com/cat97/a-e/blood_in.html 41a22090c725d87b2abc6dd09ff34feb
+./test/cleaneval/output/442.txt 0.40846504411907303 classifier div 401 www.ftb.ca.gov http://www.ftb.ca.gov/forms/updates/updateResults.asp?FormNum=Publication+1001 eeb8b20b4135e573b51ccc102aae79c2
+./test/cleaneval/output/443.txt 0.4478486036493877 classifier div 651 www.ftc.gov http://www.ftc.gov/speeches/muris/murisaba.htm 61e0dfc89e6b50642216866b5d432009
+./test/cleaneval/output/444.txt 0.1984489051094891 classifier table 786 www.fxstreet.com http://www.fxstreet.com/nou/content/103340/content.asp?menu=knowledge f1f90bfd1450a0d5ba9c42e596f7046a
+./test/cleaneval/output/445.txt 0.3463490055520416 classifier div 1129 www.gapingvoid.com http://www.gapingvoid.com/Moveable_Type/archives/2004_09.html 7784bb544d84931f7d0581abf01d4ea8
+./test/cleaneval/output/446.txt 0.3929327126534067 classifier div 46 www.gardenforever.com http://www.gardenforever.com/pages/artwater.htm ebed3435ad65069f9eefbe82b76bf822
+./test/cleaneval/output/447.txt 0.6048627071489052 classifier div 176 www.garella.com http://www.garella.com/rich/camret.htm 488495bed1c2f970a97e68c6477d3926
+./test/cleaneval/output/448.txt 0.2707039025272936 classifier div 966 www.gdi-solutions.com http://www.gdi-solutions.com/ 825ed5c74f368ab40f8b5ec3bc42f199
+./test/cleaneval/output/449.txt 0.051311419081433995 classifier div 66 www.gebible.org http://www.gebible.org/jesus.html b62df6a1ec9308dbf701956e5bc641e8
+./test/cleaneval/output/450.txt 0.6878032642258491 schnuffel div 354 www.geocities.com http://www.geocities.com/Athens/Acropolis/7001/alrm.htm 6ba7b96b0f3824400e2e121b0f50c24a
+./test/cleaneval/output/451.txt 0.8495708154506438 schnuffel div 10 www.geocities.com http://www.geocities.com/CollegePark/6174/eat-dog-groak.htm bbb81d84dc98cd610fc262d9c36e1d4a
+./test/cleaneval/output/452.txt 0.34354838709677415 schnuffel div 71 www.geocities.com http://www.geocities.com/chessdp/ttchsrules.htm a8750c893ffaf5633b9e6107ac0d2085
+./test/cleaneval/output/453.txt 0.15369865348559741 schnuffel div 779 www.geocities.com http://www.geocities.com/pharsea/RightsOfWrong.html e9cd7e84624f4cfb44530f3351c0923e
+./test/cleaneval/output/454.txt 0.0007063722209830203 schnuffel div 809 www.geocities.com http://www.geocities.com/~pack215/webelos-cere.html 4f09eca152d5e2015d16a5a4d596d9d5
+./test/cleaneval/output/455.txt 0.25239949542039164 classifier div 212 www.george.net.au http://www.george.net.au/ f31d02d0d0bdb403caf05f2eb19a1c13
+./test/cleaneval/output/456.txt 0.29939467312348667 classifier div 467 www.gidesigns.net http://www.gidesigns.net/clearance.html 6436eaae9c02f3c163d62e5834574317
+./test/cleaneval/output/457.txt 0.8105474561142517 classifier div 279 www.glass.co.nz http://www.glass.co.nz/johnwalshwalsh.htm 03263e79725342391d5638ef33ef1903
+./test/cleaneval/output/458.txt 0.00992033669021497 schnuffel table 391 www.globalsecurity.org http://www.globalsecurity.org/military/ 1ac1d9dfa11be8d0ae29aa3edf08e452
+./test/cleaneval/output/459.txt 0.012566489361702127 schnuffel table 160 www.globalsecurity.org http://www.globalsecurity.org/military/ops/enduring-freedom.htm 17b92c61c6b453fb0f39c4a18df75c69
+./test/cleaneval/output/460.txt 0.0022788605697151576 schnuffel div 594 www.globalvolunteers.org http://www.globalvolunteers.org/1main/hungary/hungaryfaq.htm bd766bda008389920d7269d16940e890
+./test/cleaneval/output/461.txt 0.022100732813772228 schnuffel div 959 www.globalvolunteers.org http://www.globalvolunteers.org/1main/italy/italyfaq.htm 7ed422ee8fd0caddccab98e7b65488fb
+./test/cleaneval/output/462.txt 0.682498518079431 classifier div 237 www.gnu.org http://www.gnu.org/gnu/manifesto.html fd7f6f7b8bc9fb8d663b28a3282c0afe
+./test/cleaneval/output/463.txt 0.8125802310654686 classifier div 386 www.goarch.org http://www.goarch.org/en/ourfaith/articles/article7064.asp d3db1601b453d8a89a94abfe61192965
+./test/cleaneval/output/464.txt 0.10904826270175716 classifier div 355 www.godspy.com http://www.godspy.com/issues/WHATS-LOVE-GOT-TO-DO-WITH-IT-The-Ethical-Contradictions-of-Peter-Singer-by-Dr-Peter-J-Colosi.cfm 798049fa04efcf246e57de4c41b02f31
+./test/cleaneval/output/465.txt 0.42334089998664703 classifier div 234 www.gotw.ca http://www.gotw.ca/publications/concurrency-ddj.htm 82ed95a7193c518e1e0caf152744ad22
+./test/cleaneval/output/466.txt 0.05736172266119788 classifier div 267 www.grannysgardenschool.com http://www.grannysgardenschool.com/ 0cca70ee51fc3ea21b99cb41f6cab395
+./test/cleaneval/output/467.txt 0.4093692590324556 classifier div 871 www.grecoreport.com http://www.grecoreport.com/slavery_in_the_ancient_greek_world_an_objective_approach_to_the_matter.htm a080035e55cb27f8cb873096eb4a63cd
+./test/cleaneval/output/468.txt 0.36064744562468387 classifier div 340 www.greenair.com http://www.greenair.com/interpri.htm 1bebdecc52f7df05744cd01dfa4b3bde
+./test/cleaneval/output/469.txt 0.23200346921075454 classifier div 101 www.greenfleet.com.au http://www.greenfleet.com.au/transport/41.asp 05cc28e898a4f497b7b33acabc24db08
+./test/cleaneval/output/470.txt 0.31870096335286524 classifier div 273 www.gse.buffalo.edu http://www.gse.buffalo.edu/programs/tei/undergrad/ f2e4b0b96a7738be2c3651f797456890
+./test/cleaneval/output/471.txt 0.0019342359767892114 classifier table 175 www.gtaforums.com http://www.gtaforums.com/index.php?showtopic=175345 f1c9bc7511848740e10f284bc3920cf7
+./test/cleaneval/output/472.txt 0.34515744960381 classifier div 210 www.gu.edu.au http://www.gu.edu.au/school/art/text/oct02/letters.htm e2f2174b51f6463191b8fecc93615b44
+./test/cleaneval/output/473.txt 0.671519109954889 classifier div 351 www.guardian.co.uk http://www.guardian.co.uk/afghanistan/story/0,1284,1440836,00.html 58241faf88213d9ec61bdfb16325f041
+./test/cleaneval/output/474.txt 0.10249828884325807 classifier div 240 www.handsoffvenezuela.org http://www.handsoffvenezuela.org/natfhe_support_bolivarian_revolution.htm 560aecc2af90c8de1408188c0d7282bd
+./test/cleaneval/output/475.txt 0.7647249540689506 classifier table 500 www.harpers.org http://www.harpers.org/TheColumnsOfLiberty.html 5e4e7fded24b0bf9f4ce1d7e84999eb5
+./test/cleaneval/output/476.txt 0.1428571428571429 classifier div 250 www.harrymccracken.com http://www.harrymccracken.com/blog/ d0f05ebd4857d3d11a0bfa9ab6738377
+./test/cleaneval/output/477.txt 0.24521665728756326 classifier div 196 www.hazards.org http://www.hazards.org/rehab/ 074f54c73d2569bb88e6422edde96cfb
+./test/cleaneval/output/478.txt 0.16682969242473644 classifier div 87 www.healthinschools.org http://www.healthinschools.org/focus/2002/no3.htm 9e4c40d98632202279fcc7c363f2c1ac
+./test/cleaneval/output/479.txt 0.613704323146318 classifier div 219 www.helmets.org http://www.helmets.org/astmdocs/min0211.htm 87b994ad8d27f9846160a6127136a51e
+./test/cleaneval/output/480.txt 0.16849451645064806 classifier table 373 www.hereinreality.com http://www.hereinreality.com/insidertrading.html cfe084ac4bd95f1d8b62f000e70ff213
+./test/cleaneval/output/481.txt 0.11245122383824047 classifier div 328 www.hgtv.com http://www.hgtv.com/hgtv/chats/article/0,1783,HGTV_3224_1387988,00.html b2558e590a55892a5e0eed7f8ca6aab1
+./test/cleaneval/output/482.txt 0.12444961369111907 classifier div 167 www.hhof.com http://www.hhof.com/html/exSCJ_29.shtml 4d695364b28d96474bde8007a383184e
+./test/cleaneval/output/483.txt 0.39625344352617076 classifier div 229 www.hi-fiworld.co.uk http://www.hi-fiworld.co.uk/hfw/featureshtml/turntableroundup.html a4d211d7eaf5355b5560156fdf3e9f03
+./test/cleaneval/output/484.txt 0.913721225303607 classifier div 474 www.hinduism.co.za http://www.hinduism.co.za/speech-.htm 81f804cc87201ea651017940434e1371
+./test/cleaneval/output/485.txt 0.07744698778261483 classifier div 199 www.hipmama.com http://www.hipmama.com/node/view/1461 882d644da80ac7f839cedb99ec1fd679
+./test/cleaneval/output/486.txt 0.8585826771653543 classifier div 242 www.historians.org http://www.historians.org/info/annualreports/2002/committeereports.cfm b7a834ec1a02c9787bbf33a40ced183c
+./test/cleaneval/output/487.txt 0.3639408317052749 classifier div 139 www.historylearningsite.co.uk http://www.historylearningsite.co.uk/1997_general_election.htm 1634bbc8e2e87a1b40c513f4047e6a83
+./test/cleaneval/output/488.txt 0.1431931962120755 classifier div 1057 www.hotvsnot.com http://www.hotvsnot.com/ 9e40799b6e345bd333c9f9bba5f60b08
+./test/cleaneval/output/489.txt 0.2001398356930607 classifier div 133 www.house.gov http://www.house.gov/mcdermott/agoa/index.shtml f48da512ae7bbb51788b07a5a1077ad3
+./test/cleaneval/output/490.txt 0.2201986754966887 classifier div 50 www.housing.lon.ac.uk http://www.housing.lon.ac.uk/site7/Postcodes/SE15.htm 7904a7fded723b36e36e42e4ed5c8f19
+./test/cleaneval/output/491.txt 0.025332409099502184 classifier div 349 www.hr.queensu.ca http://www.hr.queensu.ca/benefits/sup-plan.php 815eb33ddf3c3ac8b8f33c1cd2e0660c
+./test/cleaneval/output/492.txt 0.10356098400137626 classifier div 149 www.hrw.org http://www.hrw.org/press98/jan/eu-china.htm b138e9849f35b56823304c3752e3c208
+./test/cleaneval/output/493.txt 0.4769930960003086 classifier div 220 www.htservices.com http://www.htservices.com/Tools/VBandC/SerialCommunications.htm f8871ce49f637333a335549a13c76053
+./test/cleaneval/output/494.txt 0.1309964617789846 classifier div 166 www.humanrights.gov.au http://www.humanrights.gov.au/movingforward/speech_ruddock.html 7a3b4c9a6e0fe6d8d6309094153a6ed3
+./test/cleaneval/output/495.txt 0.4679245283018868 classifier div 155 www.iabc.com http://www.iabc.com/members/faqmem.htm 3419c5a7771e753849f492d1c31b916e
+./test/cleaneval/output/496.txt 0.15781563126252507 classifier div 89 www.iasp-pain.org http://www.iasp-pain.org/TC98SeptOct.html 06d37d4d3c7ae11e4d00fae862022193
+./test/cleaneval/output/497.txt 0.767314990512334 classifier div 197 www.ibiblio.org http://www.ibiblio.org/cisco/tracy-article.html 0fa4752b4f837e941d4e901ddd814028
+./test/cleaneval/output/498.txt 0.752383439989552 classifier div 386 www.iccweb.com http://www.iccweb.com/industry/industry.asp?pageid=17 0a35183d9acf4b964f39516aff63f98b
+./test/cleaneval/output/499.txt 0.33974683544303796 classifier div 201 www.idsachicago.org http://www.idsachicago.org/past/2003.html d7c4a5627c3f69336b53ea9ad2c9ba30
+./test/cleaneval/output/500.txt 0.18544404062995057 classifier div 153 www.igs.berkeley.edu http://www.igs.berkeley.edu/publications/uspolitics.html 16b404633369f5d2f04331ba83e1d40c
+./test/cleaneval/output/501.txt 0.27072163136151883 classifier div 898 www.illinoistrialpractice.com http://www.illinoistrialpractice.com/ 934825bb81e2473969188051c3b9e36f
+./test/cleaneval/output/502.txt 0.08410336726703216 classifier div 372 www.imakenews.com http://www.imakenews.com/ptcexpress/e_article000310857.cfm?x=b3G28WM,0,w 66876160abeed56941d1acdb9f4d8ca7
+./test/cleaneval/output/503.txt 0.034075104311543813 classifier div 22 www.imnotsorry.net http://www.imnotsorry.net/stacy.htm f27e452c88bcbe656f32ad5dc3991fdf
+./test/cleaneval/output/504.txt 0.3636957231472413 classifier div 902 www.indymedia.org.uk http://www.indymedia.org.uk/en/regions/oxford/topics/socialstruggles/ 5a64d676e97d5d0014aed11d9263b2be
+./test/cleaneval/output/505.txt 0.010783189070810328 schnuffel div 609 www.infed.org http://www.infed.org/archives/nayc/ferris_girls_clubs_leader.htm 27dfa592e41038017e82f9640d33d258
+./test/cleaneval/output/506.txt 0.01830189598869225 schnuffel div 457 www.infed.org http://www.infed.org/archives/settlements/esa_community_education.htm 1a4fefcac25dac4c4977affc3d22f202
+./test/cleaneval/output/507.txt 0.2534129692832765 classifier div 56 www.info.gov.za http://www.info.gov.za/speeches/2003/03091809461006.htm cb455f2eb19df6b13efc24400f39280f
+./test/cleaneval/output/508.txt 0.6184757505773673 classifier div 422 www.infoplease.com http://www.infoplease.com/ipa/A0781456.html 0fcf1a527f760f3a1703789abca454c3
+./test/cleaneval/output/509.txt 0.3799101035763143 classifier table 149 www.inlandrevenue.gov.uk http://www.inlandrevenue.gov.uk/manuals/cismanual/html/cis6300/34_0018_CIS6358.htm 42226c054fdc4648dff729d4546a81e8
+./test/cleaneval/output/510.txt 0.4928288068355203 classifier div 181 www.innovations-report.com http://www.innovations-report.com/html/reports/medicine_health/report-39516.html d50c4eab2beee1467b86c6cc30a078fc
+./test/cleaneval/output/561.txt 0.5338604331385356 classifier div 261 www.massmutual.com http://www.massmutual.com/mmfg/prepare/events/job.html 3df2ab817c2646e42c6ba10e2d8bb973
+./test/cleaneval/output/562.txt 0.400854602148054 classifier table 740 www.matchtech.com http://www.matchtech.com/engineering/power-nuclear/ ff7d948fd9df0432db2ec3fd7d0034e5
+./test/cleaneval/output/563.txt 0.4807972102260918 classifier div 370 www.math.columbia.edu http://www.math.columbia.edu/~woit/blog/archives/000031.html c1cafe5aa155555cd22a4f01788c8c4e
+./test/cleaneval/output/564.txt 0.4923990498812352 classifier div 135 www.mccoyconsulting.com http://www.mccoyconsulting.com/interest.htm 7e0e458efa444caf1dc51feedaeaadb6
+./test/cleaneval/output/565.txt 0.213730039579637 classifier div 84 www.mcz.com http://www.mcz.com/sport/fatboys.htm 00ec004893241daa0c19534833beb644
+./test/cleaneval/output/566.txt 0.656707842573973 classifier div 342 www.mediabistro.com http://www.mediabistro.com/articles/cache/a170.asp ae2b227a34eb7bb7fd8fb4d38f0c9e97
+./test/cleaneval/output/567.txt 0.30143408714837283 classifier div 276 www.menc.org http://www.menc.org/guides/explor/explor1.html 7af3a3bf6b23c3f6dd38fd8694463c8f
+./test/cleaneval/output/568.txt 0.062359723628042096 classifier div 405 www.mercola.com http://www.mercola.com/2001/mar/24/coconut_oil.htm c1ce9edc3eb8824257e8bde6434062ec
+./test/cleaneval/output/569.txt 0.5958445040214477 classifier div 486 www.mercycorps.org http://www.mercycorps.org/items/1150/ 8e4e987a598e2787cba80a891d3837c9
+./test/cleaneval/output/570.txt 0.2148483423465789 classifier div 485 www.metroplexatheists.org http://www.metroplexatheists.org/ 7061bcc22d73cb45516036bf126696e4
+./test/cleaneval/output/571.txt 0.2839033723989476 classifier div 196 www.michaelgreer.com http://www.michaelgreer.com/keep_moving.htm 7a7df80c4bd7892233111ee58f5c1076
+./test/cleaneval/output/572.txt 0.4934154267145545 classifier div 267 www.michener.ca http://www.michener.ca/ce/csu_corpbio_master.php 2dfebd2658cf721559f8afefdf8fb401
+./test/cleaneval/output/573.txt 0.4686137750653879 classifier table 119 www.microsoft.com http://www.microsoft.com/resources/documentation/WindowsServ/2003/standard/proddocs/en-us/upgrading_a_mixed_domain.asp 5892335b977193791dac53af640738dd
+./test/cleaneval/output/574.txt 0.09960341671751072 classifier div 239 www.military.com http://www.military.com/NewContent/0,13190,Smith_051905,00.html d99779913a07c364a832668187c29f76
+./test/cleaneval/output/575.txt 0.1729244214274155 classifier div 402 www.mindweavers.co.uk http://www.mindweavers.co.uk/main.asp?sitepages=NewsCompany 4b1efac61b816a965a6ba469184b6825
+./test/cleaneval/output/576.txt 0.6691937994990862 classifier div 317 www.mirror.co.uk http://www.mirror.co.uk/sport/readeonsport/tm_column_date=18102003-name_index.html dccc3de265964c85798db96d0641171e
+./test/cleaneval/output/577.txt 0.5568548387096774 classifier table 356 www.mit.com.au http://www.mit.com.au/business_605_%20IT_Contract_Management.htm cde422ab581f4306fbf524e9654b446c
+./test/cleaneval/output/578.txt 0.17583239805462025 classifier div 180 www.mndaily.com http://www.mndaily.com/daily/2001/01/18/news/new6/ 14977e712873592250bd8c4b29d4d461
+./test/cleaneval/output/579.txt 0.5022096167798957 classifier div 396 www.mnllp.com http://www.mnllp.com/EEnivfamily.html 5c3e717e3b2b41f02990fd29b8841c7a
+./test/cleaneval/output/580.txt 0.0012468827930174342 classifier div 84 www.moderncreative.com http://www.moderncreative.com/services/event_management_fundraisers.asp a0cd770552b72d281833f567088e4550
+./test/cleaneval/output/581.txt 0.38265394622723325 classifier table 279 www.momsview.com http://www.momsview.com/discus/messages/23/13275.html 71b25840ee3ae8d999981a13aa2eefb3
+./test/cleaneval/output/582.txt 0.29666311138199 schnuffel div 285 www.mosnews.com http://www.mosnews.com/feature/2004/04/12/police.shtml a950aa591a5951f4ffe82a69eca3ef96
+./test/cleaneval/output/583.txt 0.10193707926913043 schnuffel div 259 www.mosnews.com http://www.mosnews.com/money/2004/10/05/mobilecasinos.shtml 8ae3074e3fa920c8e14d399fa936cc88
+./test/cleaneval/output/584.txt 0.722397476340694 classifier div 311 www.motherjones.com http://www.motherjones.com/news/dailymojo/2004/11/10_503.html be109a4d907f67426003f6a09c7f648c
+./test/cleaneval/output/585.txt 0.2343846629560915 classifier div 681 www.mothernature.com http://www.mothernature.com/Library/Bookshelf/Books/16/208.cfm b97e6eb69ac6c1c946311c023221c203
+./test/cleaneval/output/586.txt 0.6200746578183327 classifier div 976 www.moviesunlimited.com http://www.moviesunlimited.com/musite/product.asp?sku=D37860++ 5443a3ac8083f8be2c11e6186766fed1
+./test/cleaneval/output/587.txt 0.2457466918714556 classifier div 378 www.movinghands.net http://www.movinghands.net/nac/nov04index.asp f6e55ccbd148da6b366ef154d502b88c
+./test/cleaneval/output/588.txt 0.05282382691767351 classifier div 1403 www.mrc.org http://www.mrc.org/projects/mww/welcome.asp 6149d1a8c218882be1dee7429a1d2977
+./test/cleaneval/output/589.txt 0.8094716671229127 classifier table 810 www.msnbc.msn.com http://www.msnbc.msn.com/id/6595798/site/newsweek/ 8fe1579741ba20e2e1429d4b971df339
+./test/cleaneval/output/590.txt 0.3720814291649356 classifier div 620 www.msno.org http://www.msno.org/pay.html 728437e3c56e82b30890b03be690658f
+./test/cleaneval/output/591.txt 0.9537253237104648 classifier div 67 www.myclan.com http://www.myclan.com/clans/Balfour_152/default.php 7cafa3609a2ab6922c00209df332d296
+./test/cleaneval/output/592.txt 0.23811963622390164 classifier div 463 www.myeclipseide.com http://www.myeclipseide.com/PNphpBB2+file-viewtopic-t-75.html e6e0408cac9e12a518f0d59f566daea0
+./test/cleaneval/output/593.txt 0.24059361415080194 classifier div 25 www.myenvoy.com http://www.myenvoy.com/sleepybear/teeth.html 4b9fafa792c890d00833f9122fa703f1
+./test/cleaneval/output/594.txt 0.00008539709649868499 classifier div 328 www.myjanee.com http://www.myjanee.com/PSRL/tutfx.htm 8cfc9e62844342b8b7814159b00ffefb
+./test/cleaneval/output/595.txt 0.6184036064704322 classifier div 269 www.mymotherlode.com http://www.mymotherlode.com/Fire_Information/ f3998dd8085c9637b9cca718b6229eec
+./test/cleaneval/output/596.txt 0.46979305740987987 classifier div 294 www.nadwatululama.org http://www.nadwatululama.org/intr1.htm 8baafcc68d8f50a7e5f530c999e72737
+./test/cleaneval/output/597.txt 0.29306722689075626 classifier table 676 www.nanowrimo.org http://www.nanowrimo.org/modules/newbb/viewtopic.php?viewmode=flat&order=DESC&topic_id=25191&forum=160 b5fd6b72a8ee16dbe5388b3ff8df2cab
+./test/cleaneval/output/598.txt 0.07912781130005486 classifier div 72 www.nasaexplores.com http://www.nasaexplores.com/extras/astronauts/lu.html 23bc032177334ffcadb29810e48aadf6
+./test/cleaneval/output/599.txt 0.024700289375775064 classifier div 134 www.nattax.com http://www.nattax.com/testimonials.htm 8f5764a1684b4424b4fbf80a5ecd0adc
+./test/cleaneval/output/60.txt 0.37812821391840934 classifier div 196 flakmag.com http://flakmag.com/film/sunshine.html 17bc6ce1f99e59c289d42f738fb6ba3e
+./test/cleaneval/output/600.txt 0.12279866730128508 classifier div 148 www.naturalhealthmag.com http://www.naturalhealthmag.com/energy/6 e16564018d4e8e58718720f706e37bc0
+./test/cleaneval/output/601.txt 0.2994293723095405 classifier div 45 www.naturalstrength.com http://www.naturalstrength.com/weightroom/detail.asp?ArticleID=164 201b66cf456e6a66bb673b090983d673
+./test/cleaneval/output/602.txt 0.13455476753349094 classifier div 215 www.nbnnews.com http://www.nbnnews.com/NBN/textonly/2003-07-21/Seniors+Housing/ cb006a6e984a56bb79951e619a174736
+./test/cleaneval/output/603.txt 0.07366638441998308 classifier div 22 www.nedo.go.jp http://www.nedo.go.jp/english/archives/170601/170601.html e52936ff64a7e92936d36ecaf3fac485
+./test/cleaneval/output/604.txt 0.17158748310635197 classifier div 311 www.netcomuk.co.uk http://www.netcomuk.co.uk/~rwevans1/FabianWales/essay0001.html 97716033209c2a20fdb5509ec9b16381
+./test/cleaneval/output/605.txt 0.39810964083175804 classifier div 452 www.netdoctor.co.uk http://www.netdoctor.co.uk/features/pelvicexercises_003841.htm 0cc80b13d7cb786da449323817bc057f
+./test/cleaneval/output/606.txt 0.0010548523206751481 classifier div 142 www.newchurchissues.org http://www.newchurchissues.org/nce/nceint.htm 6e04fa72388c23fb3bdc7814e25d32c2
+./test/cleaneval/output/607.txt 0.5242696502232016 classifier div 189 www.newhumanist.org.uk http://www.newhumanist.org.uk/volume118issue3_more.php?id=94_0_21_0_C 0fa55e80ff1d4d205c3fc64962401c14
+./test/cleaneval/output/608.txt 0.00959976369812432 classifier div 316 www.news-gazette.com http://www.news-gazette.com/special/scottone/index.cfm?page=story&id=14 a34ace0602e5071e45cef0bc4ef14ae7
+./test/cleaneval/output/609.txt 0.32823203614633434 classifier div 204 www.news-medical.net http://www.news-medical.net/?id=3651 8bdfd87f5f95e8f7f4060ac06a39294a
+./test/cleaneval/output/61.txt 0.16748308840681125 classifier table 834 flyawaysimulation.com http://flyawaysimulation.com/posts4492-0.html f22921c0764982dc2ad493953b8c0e0b
+./test/cleaneval/output/610.txt 0.5616189954837827 classifier div 341 www.nisat.org http://www.nisat.org/publications/us_arms_central_america.htm 9f637009a2cba78da16d51fe80dbf5e8
+./test/cleaneval/output/611.txt 0.0918454504346079 classifier table 348 www.nolo.com http://www.nolo.com/product.cfm/ObjectID/48BB18A0-4224-4A2B-AA1929A13C4B02EA/update/1/118/209/ 10b9ac1d200fa107313b295dd9e75429
+./test/cleaneval/output/612.txt 0.3655112651646447 classifier div 588 www.nps.gov http://www.nps.gov/efmo/parks/glossary.htm b75c8db073a0910ab30276bf524d225c
+./test/cleaneval/output/613.txt 0.7537109966676765 classifier div 147 www.nsna.org http://www.nsna.org/career/juggling.asp 2ea84dc175682c62b4c301cd7356fa06
+./test/cleaneval/output/614.txt 0.17688606365602788 classifier div 189 www.nysscpa.org http://www.nysscpa.org/cpajournal/2004/604/essentials/p36.htm 7f4ce14cbffa81a4e4c9faa3c7842996
+./test/cleaneval/output/615.txt 0.38104524180967236 classifier div 440 www.oecd.org http://www.oecd.org/topic/0,2686,en_2649_37439_1_1_1_1_37439,00.html 969e9f41f0f700b7357546481a8c1732
+./test/cleaneval/output/616.txt 0.8835005133875681 classifier table 413 www.oecdobserver.org http://www.oecdobserver.org/news/fullstory.php/aid/713/Wanted:_Jubilee_2010.html ded966afb0d197f3440bb308e33e1bd5
+./test/cleaneval/output/617.txt 0.15992757996379003 classifier div 239 www.offoffoff.com http://www.offoffoff.com/theater/2004/corporaterock.php 8ab0b4f5199d2f7bad5c6be603b6d0e4
+./test/cleaneval/output/618.txt 0.35499359795134444 classifier div 387 www.ohio.com http://www.ohio.com/mld/ohio/sports/columnists/marla_ridenour/ f32945d488eddb604b763227993812d1
+./test/cleaneval/output/619.txt 0.6746068815195392 classifier div 111 www.operationrebirth.com http://www.operationrebirth.com/archive/tacl-leviticus.html 1fb8b386c49a6064b9fcb2e5a6c94e7e
+./test/cleaneval/output/62.txt 0.2254961156060057 classifier div 208 forum.hypnosis.com http://forum.hypnosis.com/archive/index.php/t-724.html cc1ead59fb47ffe3e28a73551ea9b589
+./test/cleaneval/output/620.txt 0.28362521112987826 classifier div 316 www.opinionjournal.com http://www.opinionjournal.com/best/?id=110002241 76f057336dfacaf28bfddf2f81164ce2
+./test/cleaneval/output/621.txt 0.6821174611535423 classifier div 246 www.opm.go.kr http://www.opm.go.kr/warp/webapp/content/view?meta_id=english&id=28 650a656f2554a47c879a5367adf8e1b5
+./test/cleaneval/output/622.txt 0.2678689908920924 classifier div 296 www.oswestry.com http://www.oswestry.com/ 06dd2cabb51ac904d060278e3d331055
+./test/cleaneval/output/623.txt 0.6123504806633888 classifier div 880 www.ouboces.org http://www.ouboces.org/MSTgrant2/CONTENT/penguinparade.html 529ec5521df7b89a4cc8da26718778bf
+./test/cleaneval/output/624.txt 0.4970628493213186 classifier div 227 www.outsideshore.com http://www.outsideshore.com/school/art/oil.htm 82c5aa1918bda4a8e68f582bd72ebb78
+./test/cleaneval/output/625.txt 0.31625300240192156 classifier table 216 www.packing.org http://www.packing.org/news/article.jsp/5273 1d2c22c9322b54ce568ba6093c5a7284
+./test/cleaneval/output/626.txt 0.07481564172078725 classifier div 376 www.parliament.nsw.gov.au http://www.parliament.nsw.gov.au/prod/parlment/hansart.nsf/0/d0ae245ca2738df5ca256d360031b23f?OpenDocument d1a57423b8070d287f3b233a42808b58
+./test/cleaneval/output/627.txt 0.33137110620554333 classifier div 33 www.parliament.tas.gov.au http://www.parliament.tas.gov.au/lc/finch/qa/24nov2004.htm 204716569744adc430093834d311be14
+./test/cleaneval/output/628.txt 0.904706901530465 classifier div 98 www.patchworkprogression.com http://www.patchworkprogression.com/index/entry/suddenly-simple/ 28455a17d15e7e8742a710e88c8a5c34
+./test/cleaneval/output/629.txt 0.1653546657589039 classifier div 896 www.paynoincometax.com http://www.paynoincometax.com/ 3817245704e1944bbe99f955013de5b3
+./test/cleaneval/output/63.txt 0.6096659183942955 classifier div 527 forums.alternet.org http://forums.alternet.org/guest/motet?show+-ujI1PA+-ilad+Issues+14 4744a35585294ad9291e113b163bb17e
+./test/cleaneval/output/630.txt 0.8725032836632094 classifier div 117 www.pbc.org http://www.pbc.org/dp/stedman/colossians/4022.html 14d1df1a447bb846fd8c889ab6213d75
+./test/cleaneval/output/631.txt 0.001970222211137962 schnuffel div 268 www.pbs.org http://www.pbs.org/fmc/interviews/oneill.htm fe7546159fd6a279f10a5cdf9a2586c4
+./test/cleaneval/output/632.txt 0.30768084630857484 schnuffel div 173 www.pbs.org http://www.pbs.org/newshour/bb/africa/jan-june01/congo_1-23.html 40f2cd2723a810b2075c84932bfa5efe
+./test/cleaneval/output/633.txt 0.08986208920187788 schnuffel div 155 www.pbs.org http://www.pbs.org/newshour/bb/asia/july-dec97/imf_12-12.html 211502bbd0f2a5912f85353598d8ce93
+./test/cleaneval/output/634.txt 0.06559431087030143 schnuffel div 262 www.pbs.org http://www.pbs.org/newshour/bb/health/july-dec04/odorico.html f98972292a73d97f1c78133099957c51
+./test/cleaneval/output/635.txt 0.6137685091867586 schnuffel div 201 www.pbs.org http://www.pbs.org/newshour/bb/middle_east/jan-june05/negroponte_1-31.html 069d5aa79f2a2a75c3ef115d6dc70f6f
+./test/cleaneval/output/636.txt 0.5924781732706514 schnuffel div 186 www.pbs.org http://www.pbs.org/newshour/bb/terrorism/july-dec01/wolfowitz-9-14.html 17f98b42ddb369a420aabbd6f4eeb565
+./test/cleaneval/output/637.txt 0.004142011834319503 schnuffel div 139 www.pbs.org http://www.pbs.org/wgbh/nova/galileo/mistake.html 26a2bec570b9ffc629c0f435dc8e2272
+./test/cleaneval/output/638.txt 0.5545604094315482 classifier table 803 www.pcworld.idg.com.au http://www.pcworld.idg.com.au/index.php/id;1235678367;fp;512;fpid;1035602669 10de1f48d01c486cbd3af3f855ab041e
+./test/cleaneval/output/639.txt 0.37552769469017167 classifier div 394 www.peacepilgrim.org http://www.peacepilgrim.org/FoPP/newsletter/nl33.htm 0a009a3d0a6713f835b155e57eaad99b
+./test/cleaneval/output/64.txt 0.000052347798775054244 classifier div 43 fp.arizona.edu http://fp.arizona.edu/mesassoc/Bulletin/Pres%20Addresses/khalidi.htm 4dc12edc7034726215eec530dcc7b2ac
+./test/cleaneval/output/640.txt 0.15888244596731682 classifier div 111 www.performance-appraisal.com http://www.performance-appraisal.com/intro.htm 8071e7629ac94b2c92e262870b4a0e0d
+./test/cleaneval/output/641.txt 0.27606523378582204 classifier div 92 www.performance-vision.com http://www.performance-vision.com/articles/art-reengineering-learning.htm c8322d21df1686d6bf965ba66facbf45
+./test/cleaneval/output/642.txt 0.09164230265147699 classifier div 82 www.peter-drucker.com http://www.peter-drucker.com/books/0887306144.html 7db8c9767b5fefd62b789c7b3725cdbe
+./test/cleaneval/output/643.txt 0.47749642800444514 classifier table 284 www.pfdf.org http://www.pfdf.org/leaderbooks/L2L/summer2001/seifter.html 3d9a16c735610c4e9cd2d8147c546b75
+./test/cleaneval/output/644.txt 0.15762789983100323 classifier div 279 www.php-mag.net http://www.php-mag.net/itr/online_artikel/psecom,id,637,nodeid,114.html 0a8a295ef91c1c3bcf77ae171d036b3a
+./test/cleaneval/output/645.txt 0.22163999433507997 classifier div 302 www.pitpass.com http://www.pitpass.com/fes_php/pitpass_feature_item.php?fes_art_id=10344 6ae86331e632ade48bcebf9bc220f9ce
+./test/cleaneval/output/646.txt 0.4083946503771577 classifier div 154 www.pittsbororelayforlife.org http://www.pittsbororelayforlife.org/ReasonForRelay.htm e86f0c21d70b99fdced256e125802f3a
+./test/cleaneval/output/647.txt 0.6508645533141211 classifier div 420 www.planet-rugby.com http://www.planet-rugby.com/Teams/Tonga/story_37086.shtml 235d25162eefcf7d22eaa85e3eb66c0c
+./test/cleaneval/output/648.txt 0.6960466998034909 classifier div 135 www.planning.dot.gov http://www.planning.dot.gov/Documents/PublicInvolvement/arcata.htm 29583bbdf5ac6772204098f0182c73ad
+./test/cleaneval/output/649.txt 0.044547563805104384 classifier div 437 www.pleasantondowntown.net http://www.pleasantondowntown.net/directory.php?page=10&id=&kw= cd93858d4a207493fca131205f7ddb4a
+./test/cleaneval/output/65.txt 0.3877338877338877 classifier div 1337 freshmeat.net http://freshmeat.net/articles/view/141/ 919568ef1b381d046d609746d9948fce
+./test/cleaneval/output/650.txt 0.645658263305322 classifier div 127 www.post-gazette.com http://www.post-gazette.com/localnews/20031222closeuplocal3P3.asp c4d700d178dc01fda734a3f00c9599c6
+./test/cleaneval/output/651.txt 0.12580525272547072 classifier div 955 www.powells.com http://www.powells.com/authors/baxter.html a5cb4e2d3516307b89fafac9428e9b20
+./test/cleaneval/output/652.txt 0.05968455690457275 classifier div 169 www.prc.org http://www.prc.org/resources_student.html 11af3295bd494fb8479a85612a8346fd
+./test/cleaneval/output/653.txt 0.3476726229869843 classifier div 460 www.preschoolrainbow.org http://www.preschoolrainbow.org/prek-fall.htm 7b71720b5dfea4456d21d5d11fe985f8
+./test/cleaneval/output/654.txt 0.49378287900526063 classifier div 126 www.prochelp.com http://www.prochelp.com/ProchelpNews.htm de8118bdaa573eb00ca053103ecc2a0d
+./test/cleaneval/output/655.txt 0.18625972615959951 classifier div 245 www.profit-loss.com http://www.profit-loss.com/ 0a26565d8057ff669ed689cff4b492d2
+./test/cleaneval/output/656.txt 0.6386381631037212 classifier div 172 www.programmersheaven.com http://www.programmersheaven.com/2/Whats-New-in-C-Sharp2-Misc-New-Feature c2ffdf68f7a93a2dd0c0a2f62e3473a6
+./test/cleaneval/output/657.txt 0.05682782018659882 classifier div 137 www.proz.com http://www.proz.com/pro/2503 c6aef72838beca905ddfac9cfefaa532
+./test/cleaneval/output/658.txt 0.5289015723798333 classifier div 348 www.psycho-ward.org http://www.psycho-ward.org/story/return/ch6.shtml 22c2df5a850a8a35e55398d58c0254f2
+./test/cleaneval/output/659.txt 0.4462533104844991 classifier div 100 www.publications.parliament.uk http://www.publications.parliament.uk/pa/cm200405/cmhansrd/cm050324/debtext/50324-17.htm a2c04418debed91a97b967f35b56ce5f
+./test/cleaneval/output/66.txt 0.766068909933508 classifier div 51 ftad.osu.edu http://ftad.osu.edu/dosomethinggreat/miranda.html 9215a9d797b1c74d88823f17b87eef8f
+./test/cleaneval/output/660.txt 0.5589246318813812 classifier div 334 www.pvrblog.com http://www.pvrblog.com/pvr/2005/01/tivo_walked_awa.html 9a6e026e7997ca27f44715c696071981
+./test/cleaneval/output/661.txt 0.26536312849162014 classifier div 349 www.pww.org http://www.pww.org/article/articleview/7159/1/272/ d077696313b5be37c65466e1fcdc0619
+./test/cleaneval/output/662.txt 0.249669133865987 classifier div 259 www.pyongyangsquare.com http://www.pyongyangsquare.com/nuclear/opinion.html f38dce26562b5739a94c9d98a9711ebc
+./test/cleaneval/output/663.txt 0.00005657388549440423 classifier div 487 www.qui-gonline.org http://www.qui-gonline.org/fanfic/moriahAOTC2.htm 043c76919fcd2ef0f7ef58e7864bbe10
+./test/cleaneval/output/664.txt 0.00015923566878983664 classifier div 110 www.quietamerican.org http://www.quietamerican.org/commentary_leaving.html 2be2c4db4a53ead13a5f29a555c76748
+./test/cleaneval/output/665.txt 0.1466915978044514 classifier div 1102 www.radiologyeducation.com http://www.radiologyeducation.com/ f45dc9f5c86f24025bf9e905b7bcefb6
+./test/cleaneval/output/666.txt 0.24706694271911667 classifier div 263 www.rawbw.com http://www.rawbw.com/~hinshaw/cgi-bin/id?61 8a72430e8a7daee3f4f5d18e911a12ee
+./test/cleaneval/output/667.txt 0.2702097235462345 classifier table 372 www.reallysimplesyndication.com http://www.reallysimplesyndication.com/ 0f90e75488a41fa596bce5b3d09d3348
+./test/cleaneval/output/668.txt 0.018155497919054242 classifier div 162 www.reclaimamerica.org http://www.reclaimamerica.org/ a7d522c74a04cde17f3d64ba966eee49
+./test/cleaneval/output/669.txt 0.047922665569724354 classifier div 218 www.recordonline.com http://www.recordonline.com/archive/2004/03/15/jgpensio.htm 1bcd92ead7d30631e07d96c4e84ca122
+./test/cleaneval/output/67.txt 0.32725668920905615 classifier div 402 gloria-brame.com http://gloria-brame.com/therapy/ 44c5df832e04709f670ea3ed687bfe66
+./test/cleaneval/output/670.txt 0.3057902011979726 classifier div 351 www.redlist.org http://www.redlist.org/info/organization.html 99c762cf49dfec78b1ae624272c86d1b
+./test/cleaneval/output/671.txt 0.1423676748582231 classifier div 51 www.redstone.army.mil http://www.redstone.army.mil/history/abmaspec/part2.html ed2bad8755fee55b7f401311d5040397
+./test/cleaneval/output/672.txt 0.7735545023696683 classifier div 447 www.rescomp.berkeley.edu http://www.rescomp.berkeley.edu/~hossman/cs263/paper.html 7e381ff9a12161af70ba7331b96e1951
+./test/cleaneval/output/673.txt 0.18145215407327875 classifier div 54 www.reslife.net http://www.reslife.net/html/faq-students.html 6b600601293073bee2318bbd6ae5bbd0
+./test/cleaneval/output/674.txt 0.6501333606893722 classifier div 1336 www.resource-allocation.com http://www.resource-allocation.com/content/1/1/1 98707f2be2624f85f4c2b1d4e3859d51
+./test/cleaneval/output/675.txt 0.4871087432213871 classifier div 293 www.revenuesa.sa.gov.au http://www.revenuesa.sa.gov.au/taxes/ltax.html 39074faaf6e87063bbb37296cc9ea2bb
+./test/cleaneval/output/676.txt 0.06567366283006093 classifier div 70 www.reviewjournal.com http://www.reviewjournal.com/lvrj_home/1998/Feb-10-Tue-1998/news/6928025.html 58cd8121d9eb0e9633855d1b4e8ea89c
+./test/cleaneval/output/677.txt 0.7189033677441191 classifier div 152 www.rhs.org.uk http://www.rhs.org.uk/publications/pubs/garden1103/mycorrhiza.asp 6d73ad2c432de6d79adde5ad66eb604c
+./test/cleaneval/output/678.txt 0.5959752321981424 classifier div 335 www.rhs51.com http://www.rhs51.com/jukebox.htm 7aaaa4803ea0fc60333a8b9715d4b8fd
+./test/cleaneval/output/679.txt 0.39007510187586303 classifier div 783 www.rightwingnews.com http://www.rightwingnews.com/archives/week_2004_07_11.PHP a1ff48a5ad6e0b10203b1c9532b791ac
+./test/cleaneval/output/68.txt 0.4038097137728134 classifier div 269 h18004.www1.hp.com http://h18004.www1.hp.com/products/servers/benchmarks/ c9a4fd48824fc0386a7f75a4212b9e1c
+./test/cleaneval/output/680.txt 0.25453887447976353 classifier div 176 www.rlapc.com http://www.rlapc.com/ e12b36d32c1e37b9cca95cd0ccbea93c
+./test/cleaneval/output/681.txt 0.5233347181830772 classifier div 352 www.rnib.org.uk http://www.rnib.org.uk/xpedio/groups/public/documents/PublicWebsite/public_rnib003699.hcsp d6ec92058262e9fbbcda1a8fe8559945
+./test/cleaneval/output/682.txt 0.18518518518518523 classifier table 125 www.robyncarr.com http://www.robyncarr.com/recent.html 8d86cbe136fb051475ca6340d65fec20
+./test/cleaneval/output/683.txt 0.10122311261071282 classifier div 315 www.rtnda.org http://www.rtnda.org/resources/speeches/rather3.shtml 1aa314820bbc44c4ec9de3a1cd6e6417
+./test/cleaneval/output/684.txt 0.4057844979942211 classifier div 209 www.rugbycoach.com http://www.rugbycoach.com/club/skills/cognitive.htm 5eb642687a766e0fe1a91249931c7061
+./test/cleaneval/output/685.txt 0.08873908719195489 classifier div 142 www.rushmore.edu http://www.rushmore.edu/practical2.htm b1cda2619b2f93accc68c422cb11e51d
+./test/cleaneval/output/686.txt 0.000022532672374953044 classifier div 183 www.rxmed.com http://www.rxmed.com/b.main/b2.pharmaceutical/b2.1.monographs/CPS-%20Monographs/CPS-%20(General%20Monographs-%20C)/CARDIZEM.html 182cca13cecf5f1675f4fbe9cd416446
+./test/cleaneval/output/687.txt 0.41439310752597347 classifier div 111 www.sacred-texts.com http://www.sacred-texts.com/hin/m12/m12a099.htm ab32bc53d26fdf02b2a11a6b5f2f9078
+./test/cleaneval/output/688.txt 0.3533483178136929 classifier div 264 www.safehaven.com http://www.safehaven.com/article-12.htm c29f9ca09be538b064e54d15f7b7056b
+./test/cleaneval/output/689.txt 0.00015250876925421153 classifier div 138 www.sais-jhu.edu http://www.sais-jhu.edu/pubaffairs/media_events/Media_Advisories/MA2005/atlstorm05.html ce9b34459948275f1237f8b91c748ff9
+./test/cleaneval/output/69.txt 0.10405603886566495 classifier div 190 h20247.www2.hp.com http://h20247.www2.hp.com/PublicSector/cache/96688-0-0-82-150.html 7d92fdbf379d8776062ddc564297c14b
+./test/cleaneval/output/690.txt 0.0060240963855421326 classifier div 181 www.salesjobs.ie http://www.salesjobs.ie/mot_article.asp?aid=1 a12bcea359a9ad996479d85b6166fe5b
+./test/cleaneval/output/691.txt 0.34877305665349145 classifier div 762 www.santacruzsentinel.com http://www.santacruzsentinel.com/archive/2004/October/21/sport/stories/03sport.htm b32839b24c43fe4b8530f5bf048433bb
+./test/cleaneval/output/692.txt 0.775483870967742 classifier table 161 www.sas.com http://www.sas.com/success/bcbsfla_abm.html 5a529cb0691558208bbeedef69e0a99c
+./test/cleaneval/output/693.txt 0.6037151702786377 classifier div 359 www.scotclans.com http://www.scotclans.com/history/1879_tay.html badd01bd0665d921d25ec32eaeee616c
+./test/cleaneval/output/694.txt 0.07450254511800092 classifier div 51 www.scottishrenewables.com http://www.scottishrenewables.com/newsitem.asp?id=38 93b210f99d67ff0c8d583e3061be967c
+./test/cleaneval/output/695.txt 0.867063899732895 classifier div 187 www.scottishtours.co.uk http://www.scottishtours.co.uk/static/Terms%20and%20Conditions.htm f8da02a6269b9a74277c5b69c0803791
+./test/cleaneval/output/696.txt 0.000060565683483781996 classifier div 252 www.screenpages.com http://www.screenpages.com/archives/000231.html 33f79e3ed91a7d8c1de1e2c74033b941
+./test/cleaneval/output/697.txt 0.03389830508474578 classifier div 172 www.scsmallbiz.com http://www.scsmallbiz.com/sections.php?Section=Financial 7ce2e987cc2f949e2912f9b364dcdf9b
+./test/cleaneval/output/698.txt 0.1178599433017673 classifier div 177 www.seagulllighting.com http://www.seagulllighting.com/ d09439d77542bbb3c96dcd635f0b8e4f
+./test/cleaneval/output/699.txt 0.22818119495860356 classifier div 130 www.senser.com http://www.senser.com/04-01-06.htm 3da345b6091fc13e671b61ba12773900
+./test/cleaneval/output/70.txt 0.002110318730897953 schnuffel div 105 hbswk.hbs.edu http://hbswk.hbs.edu/item.jhtml?id=4429&t=innovation 59561c23ab0f49d0eef70417ca71635b
+./test/cleaneval/output/700.txt 0.16580916744621144 schnuffel div 225 www.sfgate.com http://www.sfgate.com/cgi-bin/article.cgi?file=/c/a/2003/02/21/BA49366.DTL 9a5af202d8308ebe892a8725f917a07e
+./test/cleaneval/output/701.txt 0.8040369297610427 schnuffel div 264 www.sfgate.com http://www.sfgate.com/cgi-bin/article.cgi?file=/gate/archive/2005/02/04/bollydance.DTL d962ad116527ab819fb763fc91ae0ba5
+./test/cleaneval/output/702.txt 0.1715339455065482 classifier div 280 www.sfmuseum.org http://www.sfmuseum.org/quake/awss.html 97ae7548f79d511a84796c7b57a921a3
+./test/cleaneval/output/703.txt 0.371629467165527 classifier div 183 www.shd.org.yu http://www.shd.org.yu/HtDocs/SHD/SHD-publishing.htm b67fbda2d1c53448ad1a845b87d31f7d
+./test/cleaneval/output/704.txt 0.6041141897565072 classifier div 58 www.sics.se http://www.sics.se/~martins/research.php 65e9829367ecb72f73ce9b6bf9f4c1cd
+./test/cleaneval/output/705.txt 0.4124280675700761 classifier div 461 www.sierraclub.org http://www.sierraclub.org/sierra/200405/lol.asp 267914c66b60294dae05e9f4eefbf88e
+./test/cleaneval/output/706.txt 0.7161410018552876 classifier div 74 www.sit.edu http://www.sit.edu/sit40/conference.html 5edf1c02e2ece97578f49de4eb2f22e2
+./test/cleaneval/output/707.txt 0.0003668378576668907 classifier div 68 www.sixgolds.com http://www.sixgolds.com/tasi.htm aae48c0ffddb63570a16d794e20f5095
+./test/cleaneval/output/708.txt 0.12583668005354753 classifier div 328 www.skoool.ie http://www.skoool.ie/skoool/examcentre_sc.asp?id=1707 050481312d4bc81db7e5c05f035d70c8
+./test/cleaneval/output/709.txt 0.23710718378671813 classifier div 146 www.slidescanning.com http://www.slidescanning.com/ c6cdf5644ef189462a45899334605370
+./test/cleaneval/output/71.txt 0.7283913436303403 schnuffel table 371 hbswk.hbs.edu http://hbswk.hbs.edu/item.jhtml?id=4834&t=technology 2f05bba8a65b3b9e97a43978f546ee8a
+./test/cleaneval/output/710.txt 0.48040342142218817 classifier div 164 www.smallbusinesscomputing.com http://www.smallbusinesscomputing.com/biztools/print.php/2110351 66ac5943f57cc895541a56bd7fd81267
+./test/cleaneval/output/711.txt 0.8577438454347148 classifier div 684 www.smartmoney.com http://www.smartmoney.com/stockscreen/index.cfm?story=20040805intro fe42ff991d571688456560a4551f9823
+./test/cleaneval/output/712.txt 0.1906510034263338 classifier div 135 www.smartrisk.ca http://www.smartrisk.ca/ContentDirector.aspx?tp=2733 86ee4e6d97fe3af2f1bdebb2109bdda4
+./test/cleaneval/output/713.txt 0.861541453296169 classifier div 75 www.socarchsci.org http://www.socarchsci.org/bulletin/9809/9809n.htm d113256bc04ff54cd44e7369aefc645d
+./test/cleaneval/output/714.txt 0.1534246575342466 classifier table 460 www.socialistworker.co.uk http://www.socialistworker.co.uk/article.php4?article_id=6705 156e4bc87584cabff2c0f78b6a404af3
+./test/cleaneval/output/715.txt 0.0820482612080029 classifier div 1669 www.softlookup.com http://www.softlookup.com/tutorial/SQL/ch03.asp a2297a2da2686e6aa48187db47d45dd8
+./test/cleaneval/output/716.txt 0.18253195565465907 classifier div 392 www.southcarolinabedandbreakfast.com http://www.southcarolinabedandbreakfast.com/by-laws.shtml 81be8923b467f8d9b6bd839d2a17b04a
+./test/cleaneval/output/717.txt 0.3499514405956621 classifier div 353 www.southwalesindex.co.uk http://www.southwalesindex.co.uk/pages/286_625.html 15f9d75e5696930dad8d607d33b9f1ee
+./test/cleaneval/output/718.txt 0.3051843243592227 classifier div 1758 www.sphere.bc.ca http://www.sphere.bc.ca/test/srbooks.html 0c91eab497ed393a6f06f7a0dbf9cb93
+./test/cleaneval/output/719.txt 0.0010945273631840502 schnuffel div 384 www.sptimes.com http://www.sptimes.com/2003/12/06/Tampabay/Flu_vaccine_has_run_o.shtml a00ccd3999b6b9d6afea6e386c228e27
+./test/cleaneval/output/72.txt 0.4651391747963841 classifier div 164 hcrenewal.blogspot.com http://hcrenewal.blogspot.com/2005/05/troubling-study-of-contracts-between.html 06b9e4353e597edb19636f12a760de3b
+./test/cleaneval/output/720.txt 0.0034712178189181264 schnuffel div 290 www.sptimes.com http://www.sptimes.com/2004/10/07/Artsandentertainment/Hack_job.shtml 21de100ff886f9abe04c0edb516e09f1
+./test/cleaneval/output/721.txt 0.2541166535979251 classifier div 414 www.srim.org http://www.srim.org/ 3114ce2af591fcdbae4bf676ffc5f30b
+./test/cleaneval/output/722.txt 0.0018986861092123997 schnuffel div 67 www.stanford.edu http://www.stanford.edu/dept/news/report/news/january13/nie113.html ded3cda8afde769540bcc29d2f3c7234
+./test/cleaneval/output/723.txt 0.001816118047673121 schnuffel div 115 www.stanford.edu http://www.stanford.edu/group/spa/admit/sthought.html 6a877b94ce674aa3debbc16f3d9b9388
+./test/cleaneval/output/724.txt 0.7653631284916201 classifier table 66 www.state.gov http://www.state.gov/p/sa/rls/rm/29230.htm 7399f64855c22b2ac042a6078a728416
+./test/cleaneval/output/725.txt 0.4794173068560661 classifier div 355 www.steelypips.org http://www.steelypips.org/principles/2005_05_08_principlearchive.php ab14a70a3bc994b83c1b6920e3c1b20c
+./test/cleaneval/output/726.txt 0.38189109805693633 classifier div 188 www.stereosociety.com http://www.stereosociety.com/body_foursides.html 8ef615f18a045340de8cb6fabf562002
+./test/cleaneval/output/727.txt 0.08963585434173671 classifier div 114 www.str.org http://www.str.org/free/commentaries/theology/prophand.htm 3992372a5e4d37a944f85b7a641ec278
+./test/cleaneval/output/728.txt 0.18761207773954347 classifier div 227 www.strangehorizons.com http://www.strangehorizons.com/2004/20040906/greenglass-f.shtml 7157497c62a009bd5a7d8684e066db81
+./test/cleaneval/output/729.txt 0.6724262059035278 classifier div 144 www.strength.org http://www.strength.org/nyc_operationfrontline.htm ae9bc6a148b396c2712e770fb20e0f71
+./test/cleaneval/output/73.txt 0.13070752156342358 classifier div 408 home-school.com http://home-school.com/ cf2f27e11b782c3b9083d9478905ed69
+./test/cleaneval/output/730.txt 0.6813000242541838 classifier div 219 www.stripers247.com http://www.stripers247.com/canadastripers.htm 3292552f939abd8860a4d6df84e9aaba
+./test/cleaneval/output/731.txt 0.23660730282724762 classifier div 271 www.stsc.hill.af.mil http://www.stsc.hill.af.mil/crosstalk/2004/11/0411Hunt.html 5f7a83c50a93e83554179f7dc68e7e0f
+./test/cleaneval/output/732.txt 0.3439923799156348 classifier div 72 www.subclub.org http://www.subclub.org/darkroom/splitter.htm d679b52f572a3fdc2528286ba23861bc
+./test/cleaneval/output/733.txt 0.8113038812377035 classifier div 443 www.suburbanhospital.org http://www.suburbanhospital.org/askthedoc/ask_the_doc0602.html 12d4d5becc6641b583461c2ecc9b674e
+./test/cleaneval/output/734.txt 0.3841761827079935 classifier div 142 www.succulent-plant.com http://www.succulent-plant.com/hoya.html 02e08f247969ab5294bdc3a72f3a91cf
+./test/cleaneval/output/735.txt 0.5799448656099242 classifier div 209 www.suite101.com http://www.suite101.com/article.cfm/lutheranism/116637 53b3e268ded5638803f896617a02fd25
+./test/cleaneval/output/736.txt 0.23870291058473914 classifier div 196 www.surgeongeneral.gov http://www.surgeongeneral.gov/news/speeches/alcohol_02122004.htm fb35814622c681272e6adccf44e77994
+./test/cleaneval/output/737.txt 0.34129850884504953 classifier div 296 www.talkingcities.co.uk http://www.talkingcities.co.uk/budapest_pages/sights_museums1.htm 47196cf1f47c1f6928482734272e91ca
+./test/cleaneval/output/738.txt 0.285842604557345 schnuffel div 864 www.talkingpointsmemo.com http://www.talkingpointsmemo.com/archives/week_2004_01_11.php 6871fb80bdb311507ba10346a8209b98
+./test/cleaneval/output/739.txt 0.40718562874251496 schnuffel div 648 www.talkingpointsmemo.com http://www.talkingpointsmemo.com/archives/week_2005_05_22.php 7cb2993d0062f5561a705d48f024bf37
+./test/cleaneval/output/74.txt 0.14828968216982008 classifier div 739 home.cogeco.ca http://home.cogeco.ca/~mansion/stevens1.html 6a12686cbb28755a5244557a9b3b4a0d
+./test/cleaneval/output/740.txt 0.5597742432016419 classifier div 74 www.tasa.com http://www.tasa.com/tasa/pages/tasanews/pr030904.htm 896276a76dffffe2136f62103ed7426b
+./test/cleaneval/output/741.txt 0.360899712497886 classifier div 66 www.teamuse.com http://www.teamuse.com/article_030601.html c1bae38f84614d017296a8c846d732d6
+./test/cleaneval/output/742.txt 0.7610640095562742 classifier div 401 www.testing.com http://www.testing.com/writings/status/status.html 81e7ad38f31dced91fbfc5848dae9524
+./test/cleaneval/output/743.txt 0.3745030969769807 classifier div 122 www.tfhrc.gov http://www.tfhrc.gov/safety/pedbike/articles/wayolife.htm 93209e023d012b5ae0fa7663ba1acf0c
+./test/cleaneval/output/744.txt 0.11934995723402853 classifier div 147 www.thebody.com http://www.thebody.com/pieters/strength.html 3de9034e9c12c87582ec092276f8eebc
+./test/cleaneval/output/745.txt 0.13468846130647205 classifier div 573 www.thebookplace.com http://www.thebookplace.com/ d4168ccce675173f5a19f939eaf185f7
+./test/cleaneval/output/746.txt 0.5211890391505019 classifier div 185 www.thebulletin.org http://www.thebulletin.org/article.php?art_ofn=mj03prados 9c674bf591d89c987b15c30b20a9ec3b
+./test/cleaneval/output/747.txt 0.735517498138496 schnuffel div 89 www.thefire.org http://www.thefire.org/index.php/article/5248.html 3797ef767adc4afabac6a25b53abbbce
+./test/cleaneval/output/748.txt 0.6184258694325808 schnuffel div 150 www.thefire.org http://www.thefire.org/index.php/article/5632.html 76944cdde62d1ab3407d8727db9b5aab
+./test/cleaneval/output/749.txt 0.015728013829805265 classifier div 246 www.themodernword.com http://www.themodernword.com/mulholland_drive.html 0963a0331d6a1d9c3f1dfcdd4a54e761
+./test/cleaneval/output/75.txt 0.037870879120879164 classifier div 700 home.planet.nl http://home.planet.nl/~privacy1/wbp_en_rev.htm dfcbb931620f026671c3cb0968315adf
+./test/cleaneval/output/750.txt 0.13828996282527883 classifier div 214 www.thenationaldebate.com http://www.thenationaldebate.com/blog/ b9644fa8646f0e0224be638a57cbcc2c
+./test/cleaneval/output/752.txt 0.018938009986603332 classifier div 101 www.theparisreview.com http://www.theparisreview.com/viewmedia.php/prmMID/5440 87f5f629abe7b5947bdf7c87a79ba364
+./test/cleaneval/output/754.txt 0.9046405823475887 classifier div 381 www.theusbroker.com http://www.theusbroker.com/newsletters/ c2035dca9d625841861d284048efc532
+./test/cleaneval/output/755.txt 0.07727876602425854 classifier div 566 www.thewisemarketer.com http://www.thewisemarketer.com/features/read.asp?id=45 0189f39a89b32e4181f71d4533d5c8a7
+./test/cleaneval/output/756.txt 0.11643570488503519 classifier div 127 www.thiaoouba.com http://www.thiaoouba.com/see_aura_color.htm baef55cbc176c1996dbd117fb7a6f2b0
+./test/cleaneval/output/757.txt 0.3254462432544625 classifier div 931 www.thingstodo-london.com http://www.thingstodo-london.com/brochure/product_show.jsp?ID=1010&PRODUCTID=1016&CODE=3858EE042 af6dda88d147d1c567d2743b739225a0
+./test/cleaneval/output/758.txt 0.31493506493506496 classifier div 516 www.time.com http://www.time.com/time/europe/ 2e9eeb75e350eadde479a8c0edce5ec0
+./test/cleaneval/output/759.txt 0.5427993059572007 classifier div 104 www.trainingexpert.com http://www.trainingexpert.com/mtip.htm f3d80070f9ec3cda44a4140c1fc1f579
+./test/cleaneval/output/76.txt 0.6866846137916753 classifier div 441 home4.inet.tele.dk http://home4.inet.tele.dk/lepan/lene/indiana/jul99.htm b68e418948f6c1a2e1af5ae7cfa5d1f9
+./test/cleaneval/output/760.txt 0.08994708994709 classifier div 522 www.travelintelligence.net http://www.travelintelligence.net/wsd/hotels/htls_3833_Les_Suites_TaipeiChingCheng_Taipei_review.html 7a2ea8ea6ed145431bacdaaf54a354e0
+./test/cleaneval/output/761.txt 0.5583239865406184 classifier div 402 www.treasury.govt.nz http://www.treasury.govt.nz/forecasts/prefu/1999/summary.asp 487d0cea03fbd3918da08a006ae74f96
+./test/cleaneval/output/762.txt 0.31071103008204193 schnuffel div 573 www.tribuneindia.com http://www.tribuneindia.com/2002/20020103/haryana.htm 55d8033353c6e275f5f28d67de7c8dcf
+./test/cleaneval/output/763.txt 0.4855911050601316 schnuffel div 618 www.tribuneindia.com http://www.tribuneindia.com/2002/20020831/nation.htm cbf0d77dd33fddfa820f4f9abcaa970c
+./test/cleaneval/output/764.txt 0.37537286719961815 schnuffel div 720 www.tribuneindia.com http://www.tribuneindia.com/2003/20030717/biz.htm 32ab0825245a889272623b3233fc981b
+./test/cleaneval/output/765.txt 0.043885748289199666 schnuffel div 304 www.tribuneindia.com http://www.tribuneindia.com/2003/20030909/edu.htm 88530b19663f1f3d577405119e513a1c
+./test/cleaneval/output/766.txt 0.4548410404624278 classifier div 994 www.tripadvisor.com http://www.tripadvisor.com/Hotel_Review-g147275-d151573-Reviews-Hotel_Club_Kawama-Varadero_Beach_Cuba.html 87b63c52a0c3209023e0b9fa63b7387f
+./test/cleaneval/output/767.txt 0.13143132878943242 classifier div 86 www.uda.ural.ru http://www.uda.ural.ru/ 92e6e3e0af3b07e5fb0fb7627c4454fa
+./test/cleaneval/output/768.txt 0.5125546735784869 classifier div 152 www.udel.edu http://www.udel.edu/PR/UDaily/2005/dec/personnel020105.html 1a5ccfbc9a0ccacd73362ccfc5de6c4a
+./test/cleaneval/output/77.txt 0.0918620689655173 classifier div 153 homepage.tinet.ie http://homepage.tinet.ie/~ahlulbyteassociation/ 6b0967ea42f6561ed60cc313c2daff19
+./test/cleaneval/output/770.txt 0.5710023487589666 classifier div 155 www.umsl.edu http://www.umsl.edu/services/govdocs/ooh9899/40.htm 886a880e015e1610d507f9431c44eb68
+./test/cleaneval/output/771.txt 0.00006863889079555818 classifier div 96 www.un.int http://www.un.int/usa/03clp0214.htm fe9dc81637f845d77e4012099140c516
+./test/cleaneval/output/772.txt 0.0000961723408348103 classifier div 171 www.un.kiev.ua http://www.un.kiev.ua/bc/jobs/113/ 15ec09734ad3022deadfc1123e10ac04
+./test/cleaneval/output/773.txt 0.5659395973154362 classifier div 92 www.un.org http://www.un.org/ga/president/58/speeches/031020-2.htm cfc51c231e0e2530e376e93432aadb19
+./test/cleaneval/output/774.txt 0.7893322718678475 classifier div 143 www.unicorn-enterprises.com http://www.unicorn-enterprises.com/uxps_overview.html 8970afdeefb34f597854753a9d637a0b
+./test/cleaneval/output/775.txt 0.3769646998196341 classifier div 493 www.unison.ie http://www.unison.ie/irish_independent/index.php3?ca=35&issue_id=3433 b260d279d849d4dbd5a5c1800e633c58
+./test/cleaneval/output/776.txt 0.2791914816820068 classifier div 96 www.uniteddesign.com http://www.uniteddesign.com/idea_workshop1_97.html 05d1cc6b8c026f712bf11411ad4410a8
+./test/cleaneval/output/777.txt 0.3589778076664425 classifier div 68 www.unitstudy.com http://www.unitstudy.com/articles/Giving%20Thanks.htm ca56740cc00df8c26306f80b512967da
+./test/cleaneval/output/778.txt 0.48994557433400177 classifier div 296 www.unodc.org http://www.unodc.org/unodc/en/speech_2003-10-16_1.html 80077e68448fe7f8fc7cb6ac3f00b053
+./test/cleaneval/output/779.txt 0.41278534138601697 classifier div 208 www.unt.edu http://www.unt.edu/policy/UNT_Policy/volume1/1_5_1.html e4864d01a0a45b6df9bfacc0bc41e807
+./test/cleaneval/output/78.txt 0.9626432715437951 classifier div 2 homepages.tcp.co.uk http://homepages.tcp.co.uk/~maya/thug/thug7.html 6df0fc0f2a5bbf0532d2137b3f71cdcf
+./test/cleaneval/output/780.txt 0.33263712313839444 classifier div 153 www.urban75.com http://www.urban75.com/Action/dsei.html f1de6f012f3de5c732a76096d42d61ad
+./test/cleaneval/output/781.txt 0.42546972860125265 classifier div 456 www.urotoday.org http://www.urotoday.org/prod/contents/confreport/article.asp?cat=confReport&sid=184&tid=397&aid=2507 47e03d5aedd5bc74719970005e20145d
+./test/cleaneval/output/782.txt 0.30230408661781216 classifier div 73 www.userfriendly.org http://www.userfriendly.org/community/iambe/daily.html 53f6672baaeecef482bdb5e765aa28f2
+./test/cleaneval/output/783.txt 0.24497066219614416 classifier div 409 www.users.muohio.edu http://www.users.muohio.edu/kelleycs/mediablog.html 51e7fa095295124f1daca41d582bf823
+./test/cleaneval/output/784.txt 0.834027662056324 classifier div 89 www.utexas.edu http://www.utexas.edu/cc/newsletter/jul2000/virus.html cf23810226fa5d5a37aa0d3dca4842d0
+./test/cleaneval/output/785.txt 0.32933365330773534 classifier div 255 www.utmem.edu http://www.utmem.edu/univheal/OC_Immunizations.html 2b8ea4a62171cc58622edd87bcd4f2d2
+./test/cleaneval/output/786.txt 0.6248479318734793 classifier div 155 www.utoronto.ca http://www.utoronto.ca/writing/critrdg.html 68a9d4f2618b15e9470c7787cfced214
+./test/cleaneval/output/787.txt 0.15718225119077467 classifier div 473 www.valuescale.com http://www.valuescale.com/secamedicalscales.htm a79ee4ee14c10b6df5af515e05decc50
+./test/cleaneval/output/788.txt 0.534037558685446 classifier div 253 www.vgib.com http://www.vgib.com/faq.html 40b8902c978b23a57d94fbe7bf3eb5c2
+./test/cleaneval/output/789.txt 0.29811838494707954 classifier div 123 www.viewnews.com http://www.viewnews.com/2002/VIEW-Feb-06-Wed-2002/East/17972690.html 0d6afcc48b045cbf72e8975396b7c12d
+./test/cleaneval/output/79.txt 0.029977682610531353 classifier div 72 iac.dtic.mil http://iac.dtic.mil/ cb8e102d8939cf326330c3ba05e29009
+./test/cleaneval/output/790.txt 0.7218395265353643 classifier div 616 www.visalaw.com http://www.visalaw.com/news/sfc5262003.htm fd3bdaf3a84a8c481f3a95ab7cc78f05
+./test/cleaneval/output/791.txt 0.23801560758082496 classifier div 242 www.voanews.com http://www.voanews.com/english/NewsAnalysis/2004-12-20-voa28.cfm e67af0497e568de0fa72a8deb2bcb29c
+./test/cleaneval/output/792.txt 0.09656328583403184 classifier div 215 www.vryork.com http://www.vryork.com/pages/yorklinks.html 1b81686495f488109a1ebe890660650c
+./test/cleaneval/output/793.txt 0.05066433055920572 classifier div 55 www.wabaptists.org http://www.wabaptists.org/voto/voto2004-02-23.htm 91d784af35ab445a2cfb499571bb9e27
+./test/cleaneval/output/794.txt 0.0874040632054176 classifier div 101 www.wagingpeace.org http://www.wagingpeace.org/articles/1997/05/06_menuhin_letter.htm 5bbce225db706bbc5c9a86d0aa4f764c
+./test/cleaneval/output/795.txt 0.010309278350515427 classifier div 93 www.walsall.gov.uk http://www.walsall.gov.uk/newsdocs/NewsArticle.asp?NewsId=2858 5ebc01de7e031dca96bab64b7a1d093e
+./test/cleaneval/output/796.txt 0.3134877873563219 classifier div 622 www.warsailors.com http://www.warsailors.com/freefleet/swedenships.html 43e03a9b087be07e70ba3420f89e644a
+./test/cleaneval/output/797.txt 0.03747323340471087 schnuffel div 872 www.washingtonpost.com http://www.washingtonpost.com/wp-dyn/articles/A20471-2004Nov3.html b6994702fb899f3c2651575a9c242cc4
+./test/cleaneval/output/798.txt 0.07449912468391362 schnuffel div 712 www.washingtonpost.com http://www.washingtonpost.com/wp-dyn/articles/A2925-2004Oct2.html 7ff20bef89d6d7be85c51ab59a1726eb
+./test/cleaneval/output/799.txt 0.04538527794341751 schnuffel div 670 www.washingtonpost.com http://www.washingtonpost.com/wp-dyn/content/linkset/2005/04/11/LI2005041100587.html?nav=pq 26f087d567c4aea14432c0846d58691d
+./test/cleaneval/output/80.txt 0.40191145015516627 classifier div 613 ideonomy.mit.edu http://ideonomy.mit.edu/whatcan/things071-080.html 5909ef58cb958107b82f0a91dcf530ae
+./test/cleaneval/output/81.txt 0.6993850235138068 classifier div 193 ils.pennnet.com http://ils.pennnet.com/Articles/Article_Display.cfm?Section=Articles&Subsection=Display&ARTICLE_ID=229568 90d966a25de18059c546f71223a03618
+./test/cleaneval/output/82.txt 0.007092198581560294 classifier div 33 info.channelnewsasia.com http://info.channelnewsasia.com/bb/viewtopic.php?p=120139& 1c5b7414940b635d6cb8d112e19d6cbd
+./test/cleaneval/output/83.txt 0.39360446643366165 classifier div 849 informationr.net http://informationr.net/ir/8-1/paper144.html 7e84b674b748ede4ee23d12cbcc6df4c
+./test/cleaneval/output/84.txt 0.38110428024591114 classifier div 133 intarch.ac.uk http://intarch.ac.uk/journal/issue9/reviews/beowulf.html 0463cb15497f355d98aeaa455cff93be
+./test/cleaneval/output/85.txt 0.01986598344501378 classifier div 724 it.jhu.edu http://it.jhu.edu/applications/clinical/ 1246eda2f79e066a17555b03afd36d61
+./test/cleaneval/output/86.txt 0.38160250671441365 classifier div 88 itre.cis.upenn.edu http://itre.cis.upenn.edu/~myl/languagelog/archives/000844.html ccad0652547dfc5b26aa0c4c43b71e61
+./test/cleaneval/output/87.txt 0.7159837347513294 classifier div 105 jade.bioware.com http://jade.bioware.com/game_info/labour_of_love_p3.html 730077d4847482f8c45c14b1412ca1df
+./test/cleaneval/output/88.txt 0.43296983152670754 classifier div 1018 java.sun.com http://java.sun.com/developer/technicalArticles/javaopensource/plg.html 055622c2127ee643636caa862192ab9a
+./test/cleaneval/output/89.txt 0.311175580221998 classifier div 323 jerz.setonhill.edu http://jerz.setonhill.edu/writing/technical/mechanism.htm 8052f2ce01ac5c67a6d83f12e4de77a6
+./test/cleaneval/output/90.txt 0.5094145840465594 classifier div 530 jmenad.typepad.com http://jmenad.typepad.com/lapdwife/ ddf01d5019b940bf0ce5a4b49eb2a548
+./test/cleaneval/output/91.txt 0.2593521018125723 classifier table 755 jodi.ecs.soton.ac.uk http://jodi.ecs.soton.ac.uk/Articles/v01/i08/Hunter/ 7c3a9ae3987b20b812f5a42960485319
+./test/cleaneval/output/92.txt 0.3169949610627577 classifier div 127 kidshealth.org http://kidshealth.org/kid/feeling/emotion/anger.html 3f42a93cb7904038eb3c9ed8b67e3357
+./test/cleaneval/output/93.txt 0.2842236024844721 schnuffel div 44 laluni.helloyou.ws http://laluni.helloyou.ws/netnews/bk/autobiography/auto1096.html 4dd06b95fe1113d3febe928fbb1f9b66
+./test/cleaneval/output/94.txt 0.4306431273644389 schnuffel div 44 laluni.helloyou.ws http://laluni.helloyou.ws/netnews/bk/bethlehem/beth1058.html 4be275beaa14211f8c9da868a3429c95
+./test/cleaneval/output/95.txt 0.28689601855431 schnuffel div 77 laluni.helloyou.ws http://laluni.helloyou.ws/netnews/bk/discipleship2/disc2164.html e28bde0e29cb1ede4c8aa7649f7bd9f7
+./test/cleaneval/output/96.txt 0.5396978463516554 classifier div 74 leshumas.insa-lyon.fr http://leshumas.insa-lyon.fr/crl/anglais/anglais_eng/Internet%20listening.htm 9ac55105a51a031633ddf6fc7091c62a
+./test/cleaneval/output/97.txt 0.29637191770064397 classifier div 511 library.adoption.com http://library.adoption.com/Holiday-ideas/A-Birthday-Party-with-Meaning/article/2367/1.html 7a0f20e2b3d1912debfceae806d32526
+./test/cleaneval/output/98.txt 0.22773125865365595 classifier table 405 linuxdevices.com http://linuxdevices.com/articles/AT7441855870.html 3e8ef6e597f75ccff76cbb9b7a220c12
+./test/cleaneval/output/99.txt 0.8300130491518052 classifier div 127 lists.debian.org http://lists.debian.org/debian-consultants/2001/12/msg00000.html 8f8b5103f7aab9c2c29481cc944f2d6d
