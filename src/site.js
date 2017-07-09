@@ -153,7 +153,6 @@ class Site {
 		 * If not use only Classifier.
 		 */
 		if (this.activateSchnuffelMode) {
-
 			const sameContext = otherNodes.filter(n => n && n.hash() === node.hash()).filter(n => {
 				const parent = n.getParent();
 				if (parent) {

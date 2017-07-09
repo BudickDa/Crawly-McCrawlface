@@ -20,6 +20,7 @@
 
 const assert = require('assert');
 const _ = require('lodash');
+const util = require('util');
 const process = require('process');
 const Cheerio = require('cheerio');
 const Helpers = require('my-helpers');
@@ -145,7 +146,7 @@ describe('Crawler', function() {
 		});
 		it('get HTML of profile.html', function() {
 			const html = crawler.getContent(url + '/profile.html', 'HTML');
-			const result = '<div><div><div><h1>Daniel Budick, B.Eng.</h1><div><div><div><div>Phone:</div><div>+49 (0)911 - 980 328 49</div></div><div><div>Mail:</div><div><a href="mailto:daniel@budick.eu">daniel@budick.eu</a></div></div><div><div>Address:</div><div><span>Zehentweg 11a,</span><div></div><div></div><span> Germany </span></div></div></div></div><div><h1>About me</h1><p><span>Daniel Budick (born 1989) is a freelancing developer creating web apps, native apps and backends. He started programming with 16 and became a freelancer with 24. 2015 he founded </span><a href="https://budick.eu">budick.eu - software engineering</a><span>. He has a special interest in data mining, machine learning, text analysis and dialog systems. His main languages are: JavaScript, Java, C#, Python and PHP.</span></p></div></div></div></div>';
+			const result = '<div><div><div><h1>Daniel Budick, B.Eng.</h1><img src="https://avatars3.githubusercontent.com/u/6096540?v=3&u=273866bcda2ad8eb327bb11f4db654d0749837d4&s=800"/><div><div><div><div>Phone:</div><div>+49 (0)911 - 980 328 49</div></div><div><div>Mail:</div><div><a href="mailto:daniel@budick.eu">daniel@budick.eu</a></div></div><div><div>Address:</div><div><span>Zehentweg 11a,</span><div></div><div></div><span> Germany </span></div></div></div></div><div><h1>About me</h1><p><span>Daniel Budick (born 1989) is a freelancing developer creating web apps, native apps and backends. He started programming with 16 and became a freelancer with 24. 2015 he founded </span><a href="https://budick.eu">budick.eu - software engineering</a><span>. He has a special interest in data mining, machine learning, text analysis and dialog systems. His main languages are: JavaScript, Java, C#, Python and PHP.</span></p></div></div></div></div>';
 			const quality = Helpers.compareText(cleanHTML(html), result);
 			assert(quality > 0.75, `Quality: ${quality}`);
 		});
@@ -175,7 +176,7 @@ describe('Crawler', function() {
 				<l>Daniel Budick | 1989 | Engineer
 				`;
 			const quality = Helpers.compareText(text, result);
-			assert(quality > 0.75, `Quality: ${quality}`);
+			assert(quality > 0.5, `Quality: ${quality}`);
 		});
 		it('get CLEANEVAL of details.html', function() {
 			const text = crawler.getContent(url + '/details.html', 'CLEANEVAL');
@@ -194,7 +195,7 @@ describe('Crawler', function() {
         dignissim, lobortis erat eget, venenatis elit.
 				`;
 			const quality = Helpers.compareText(text, result);
-			assert(quality > 0.75, `Quality: ${quality}`);
+			assert(quality > 0.5, `Quality: ${quality}`);
 
 		});
 		it('get CLEANEVAL of profile.html', function() {
@@ -217,7 +218,7 @@ describe('Crawler', function() {
             text analysis and dialog systems. His main languages are:
             JavaScript, Java, C#, Python and PHP.`;
 			const quality = Helpers.compareText(text, result);
-			assert(quality > 0.75, `Quality: ${quality}`);
+			assert(quality > 0.5, `Quality: ${quality}`);
 		});
 
 		describe('#each()', function() {

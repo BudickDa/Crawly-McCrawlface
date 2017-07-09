@@ -1,6 +1,6 @@
 {
   "name": "crawly-mccrawlface",
-  "version": "0.4.0",
+  "version": "0.4.2",
   "description": "Crawl data from webpages and apply content extraction.",
   "main": "index.js",
   "scripts": {
@@ -22,20 +22,20 @@
     "babel-plugin-transform-regenerator": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.23.0",
-    "chance": "^1.0.9",
+    "chance": "^1.0.10",
     "cheerio": "^0.22.0",
     "dotenv": "^4.0.0",
-    "fckffdom": "^0.1.0",
+    "fckffdom": "^0.2.5",
     "google-nlp-api": "^0.1.14",
     "leven": "^2.1.0",
     "lodash": "^4.17.4",
-    "my-helpers": "^0.0.3",
+    "my-helpers": "0.0.3",
     "numeric": "^1.2.6",
     "process": "^0.11.10",
     "request": "^2.75.0",
     "robots-parser": "^1.0.1",
     "sitemapper": "^2.1.13",
-    "web-auto-extractor": "^1.0.15",
+    "web-auto-extractor": "^1.0.16",
     "xxhashjs": "^0.2.1"
   },
   "devDependencies": {

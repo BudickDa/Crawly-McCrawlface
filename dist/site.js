@@ -238,7 +238,6 @@ var Site = function () {
     * If not use only Classifier.
     */
 			if (this.activateSchnuffelMode) {
-
 				var sameContext = otherNodes.filter(function (n) {
 					return n && n.hash() === node.hash();
 				}).filter(function (n) {

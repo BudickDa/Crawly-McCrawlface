@@ -84,7 +84,11 @@ function clean(string) {
 
 describe('Run CleanEval as test', function() {
 	it('should return a value between 0 and 100 % about how many is correct.', function(done) {
-		//return done();
+
+		//to run cleaneval (needs a long time, comment the next line)
+		return done();
+
+
 		this.timeout(24 * 60000);
 		createTestData().then(() => {
 			const loadTestFiles = fs.readdirSync(cleanevalPathOutput).map(file => {
