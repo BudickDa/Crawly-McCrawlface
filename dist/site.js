@@ -77,19 +77,21 @@ var Site = function () {
     key: 'load',
     value: function () {
       var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        var counter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(this.url && this.crawler)) {
-                  _context.next = 7;
+                  _context.next = 18;
                   break;
                 }
 
-                _context.next = 3;
+                _context.prev = 1;
+                _context.next = 4;
                 return this.crawler.getDOM(this.url.href);
 
-              case 3:
+              case 4:
                 this.dom = _context.sent;
 
                 if (this.dom.body()) {
@@ -98,15 +100,34 @@ var Site = function () {
                 this.ready = true;
                 return _context.abrupt('return', this);
 
-              case 7:
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context['catch'](1);
+
+                if (!(counter < 5)) {
+                  _context.next = 16;
+                  break;
+                }
+
+                _context.next = 15;
+                return this.load(counter + 1);
+
+              case 15:
+                return _context.abrupt('return', _context.sent);
+
+              case 16:
+                console.error(_context.t0);
                 return _context.abrupt('return', false);
 
-              case 8:
+              case 18:
+                return _context.abrupt('return', false);
+
+              case 19:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[1, 10]]);
       }));
 
       function load() {

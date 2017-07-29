@@ -448,8 +448,7 @@ class Crawler extends EventEmitter {
 			}
 		}
 		try{
-			response = this.clean(await  this.fetch(url));
-			;
+			response = this.clean(await this.fetch(url));
 		}catch (e){
 			console.error(e);
 			throw e;

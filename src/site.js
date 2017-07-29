@@ -41,14 +41,22 @@ class Site {
     this.scores = [];
   }
 
-  async load() {
+  async load(counter = 0) {
     if (this.url && this.crawler) {
-      this.dom = await this.crawler.getDOM(this.url.href);
-      if (this.dom.body()) {
-        this.hash = this.dom.body().hash();
+      try{
+        this.dom = await this.crawler.getDOM(this.url.href);
+        if (this.dom.body()) {
+          this.hash = this.dom.body().hash();
+        }
+        this.ready = true;
+        return this;
+      }catch (e){
+        if (counter < 5) {
+          return await this.load(counter + 1);
+        }
+        console.error(e);
+        return false;
       }
-      this.ready = true;
-      return this;
     }
     return false;
   }
@@ -153,7 +161,7 @@ class Site {
     const dom = new FckffDOM(html);
     const segments = [];
     Site._segmentate(dom.body(), threshold, segments);
-    if(segments.length===0){
+    if (segments.length === 0) {
       return [dom.text()]
     }
     return segments;

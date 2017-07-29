@@ -743,19 +743,17 @@ var Crawler = function (_EventEmitter) {
 							case 28:
 								_context5.t2 = _context5.sent;
 								response = _context5.t1.clean.call(_context5.t1, _context5.t2);
-
-								;
-								_context5.next = 37;
+								_context5.next = 36;
 								break;
 
-							case 33:
-								_context5.prev = 33;
+							case 32:
+								_context5.prev = 32;
 								_context5.t3 = _context5['catch'](24);
 
 								console.error(_context5.t3);
 								throw _context5.t3;
 
-							case 37:
+							case 36:
 								if (this.cache) {
 									expire = this.options.expireDefault;
 
@@ -766,12 +764,12 @@ var Crawler = function (_EventEmitter) {
 								}
 								return _context5.abrupt('return', new _fckffdom2.default(response));
 
-							case 39:
+							case 38:
 							case 'end':
 								return _context5.stop();
 						}
 					}
-				}, _callee5, this, [[2, 20], [24, 33]]);
+				}, _callee5, this, [[2, 20], [24, 32]]);
 			}));
 
 			function getDOM(_x11) {
