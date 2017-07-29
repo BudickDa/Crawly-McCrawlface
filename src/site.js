@@ -26,212 +26,251 @@ import leven from 'leven';
 import Classifier from './classifier';
 
 class Site {
-	constructor(url, crawler) {
-		if (crawler) {
-			this.crawler = crawler;
-		} else {
-			//console.info('This constructor should not be called manually.')
-		}
-		if (url) {
-			this.url = URL.parse(url);
-			this.domain = URL.parse(URL.resolve(this.url.href, '/'));
-		}
-		this.ready = false;
-		this.scored = false;
-		this.scores = [];
-	}
+  constructor(url, crawler) {
+    if (crawler) {
+      this.crawler = crawler;
+    } else {
+      //console.info('This constructor should not be called manually.')
+    }
+    if (url) {
+      this.url = URL.parse(url);
+      this.domain = URL.parse(URL.resolve(this.url.href, '/'));
+    }
+    this.ready = false;
+    this.scored = false;
+    this.scores = [];
+  }
 
-	async load() {
-		if (this.url && this.crawler) {
-			this.dom = await this.crawler.getDOM(this.url.href);
-			if (this.dom.body()) {
-				this.hash = this.dom.body().hash();
-			}
-			this.ready = true;
-			return this;
-		}
-		return false;
-	}
+  async load() {
+    if (this.url && this.crawler) {
+      this.dom = await this.crawler.getDOM(this.url.href);
+      if (this.dom.body()) {
+        this.hash = this.dom.body().hash();
+      }
+      this.ready = true;
+      return this;
+    }
+    return false;
+  }
 
-	simulateLoading(html, url = 'http://localhost:3000', crawler = this.crawler) {
-		this.crawler = crawler;
-		this.dom = new FckffDOM(html);
-		if (this.dom.body()) {
-			this.hash = this.dom.body().hash();
-		}
-		this.ready = true;
-		this.url = URL.parse(url);
-		this.domain = URL.parse(URL.resolve(this.url.href, '/'));
-		return this;
-	}
+  simulateLoading(html, url = 'http://localhost:3000', crawler = this.crawler) {
+    this.crawler = crawler;
+    this.dom = new FckffDOM(html);
+    if (this.dom.body()) {
+      this.hash = this.dom.body().hash();
+    }
+    this.ready = true;
+    this.url = URL.parse(url);
+    this.domain = URL.parse(URL.resolve(this.url.href, '/'));
+    return this;
+  }
 
-	html(selector) {
-		if (selector) {
-			return this.dom.querySelector(selector).map(node => node.html());
-		}
-		return this.dom.html();
-	}
+  html(selector) {
+    if (selector) {
+      return this.dom.querySelector(selector).map(node => node.html());
+    }
+    return this.dom.html();
+  }
 
-	querySelector(selector) {
-		return this.dom.querySelector(selector);
-	}
+  querySelector(selector) {
+    return this.dom.querySelector(selector);
+  }
 
-	getContent(type = 'HTML', force = false) {
-		if (!this.scored || force) {
-			this.scoreDOM();
-		}
+  getContent(type = 'HTML', force = false) {
+    if (!this.scored || force) {
+      this.scoreDOM();
+    }
 
-		const cleanedDom = _.cloneDeep(this.dom);
+    const cleanedDom = _.cloneDeep(this.dom);
 
-		if (!this.activateSchnuffelMode) {
-			const meanScore = Helpers.mean(this.scores);
-			const deviationScore = Helpers.standardDeviation(this.scores, meanScore);
-			cleanedDom._nodes.forEach(node => {
-				const score = (parseFloat(node.data('score')) - meanScore) / (deviationScore || 1);
-				node.data('score', score);
-				if (score < 0) {
-					node.remove();
-				}
-			});
-		} else {
-			cleanedDom._nodes.forEach(node => {
-				const entropies = [parseFloat(node.data('entropy'))];
-				node.getSiblings().forEach(s => {
-					entropies.push(parseFloat(s.data('entropy')));
-				});
-				const meanEntropy = Helpers.mean(entropies);
-				const deviationEntropy = Helpers.standardDeviation(entropies, meanEntropy);
+    if (!this.activateSchnuffelMode) {
+      const meanScore = Helpers.mean(this.scores);
+      const deviationScore = Helpers.standardDeviation(this.scores, meanScore);
+      cleanedDom._nodes.forEach(node => {
+        const score = (parseFloat(node.data('score')) - meanScore) / (deviationScore || 1);
+        node.data('score', score);
+        if (score < 0) {
+          node.remove();
+        }
+      });
+    } else {
+      cleanedDom._nodes.forEach(node => {
+        const entropies = [parseFloat(node.data('entropy'))];
+        node.getSiblings().forEach(s => {
+          entropies.push(parseFloat(s.data('entropy')));
+        });
+        const meanEntropy = Helpers.mean(entropies);
+        const deviationEntropy = Helpers.standardDeviation(entropies, meanEntropy);
 
-				const entropy = (parseFloat(node.data('entropy')) - meanEntropy) / (deviationEntropy || 1);
-				node.data('entropy', entropy);
-				if (entropy < 0) {
-					node.remove();
-				}
-			});
-		}
+        const entropy = (parseFloat(node.data('entropy')) - meanEntropy) / (deviationEntropy || 1);
+        node.data('entropy', entropy);
+        if (entropy < 0) {
+          node.remove();
+        }
+      });
+    }
 
-		if (type === 'PLAIN_TEXT') {
-			return cleanedDom.text().trim();
-		}
-		if (type === 'HTML') {
-			return cleanedDom.html().trim();
-		}
-		if (type === 'CLEANEVAL') {
-			return cleanedDom.cleaneval().trim();
-		}
-	}
+    if (type === 'PLAIN_TEXT') {
+      return cleanedDom.text().trim();
+    }
+    if (type === 'HTML') {
+      return cleanedDom.html().trim();
+    }
+    if (type === 'CLEANEVAL') {
+      return cleanedDom.cleaneval().trim();
+    }
+  }
 
-	returnUrls($ = this.$) {
-		const urls = [];
-		this.dom.getLinks().forEach(href => {
-			if (href.indexOf('mailto:') !== -1) {
-				return;
-			}
-			if (href.indexOf('.pdf') !== -1) {
-				return;
-			}
-			const parsedUrl = URL.parse(href);
-			parsedUrl.hash = null;
-			if (parsedUrl.hostname !== null) {
-				urls.push(parsedUrl);
-			} else {
-				const absoluteUrl = URL.resolve(this.domain.href, href);
-				urls.push(URL.parse(absoluteUrl));
-			}
-		});
-		return _.uniqBy(urls, url => url.href);
-	}
+  static _getChildrenDistances(element, numbers = [], number = 0) {
+    if (element.isLeaf()) {
+      numbers.push(number);
+      return numbers;
+    }
+    return element._children.map(e => {
+      Site._getChildrenDistances(e, numbers, number + 1);
+    });
+  }
 
-	scoreNode(node, otherNodes, allHashes) {
-		/**
-		 * Score it by distance to other sites aka. entropy
-		 */
-		const text = node.text();
-		let entropy = 0;
-		/**
-		 * Test if enough sites were crawled.
-		 * If not use only Classifier.
-		 */
-		if (this.activateSchnuffelMode) {
-			const sameContext = otherNodes.filter(n => n && n.hash() === node.hash()).filter(n => {
-				const parent = n.getParent();
-				if (parent) {
-					return Helpers.compareText(parent.getText(), node.getText()) > 0.8;
-				}
-				return false;
-			});
-			if (sameContext.length > 0) {
-				node.setData('entropy', -sameContext.length);
-				entropy -= sameContext.length;
-			}
+  static _segmentate(element, threshold, segments = [], distanceFromBody = 0) {
+    const sLmin = _.min(Site._getChildrenDistances(element));
+    const t = distanceFromBody / (sLmin || 1);
+    if (element.isLeaf()) {
+      return;
+    }
+    if (t > threshold) {
+      element._children.forEach(e => {
+        segments.push(e.text());
+      });
+      return;
+    }
+    element._children.forEach(e => {
+      Site._segmentate(e, threshold, segments, distanceFromBody + 1);
+    });
+    return;
+  }
+
+  getSegments(html = this.getContent(), threshold = 0.8) {
+    const dom = new FckffDOM(html);
+    const segments = [];
+    Site._segmentate(dom.body(), threshold, segments);
+    if(segments.length===0){
+      return [dom.text()]
+    }
+    return segments;
+  }
+
+  returnUrls($ = this.$) {
+    const urls = [];
+    this.dom.getLinks().forEach(href => {
+      if (href.indexOf('mailto:') !== -1) {
+        return;
+      }
+      if (href.indexOf('.pdf') !== -1) {
+        return;
+      }
+      const parsedUrl = URL.parse(href);
+      parsedUrl.hash = null;
+      if (parsedUrl.hostname !== null) {
+        urls.push(parsedUrl);
+      } else {
+        const absoluteUrl = URL.resolve(this.domain.href, href);
+        urls.push(URL.parse(absoluteUrl));
+      }
+    });
+    return _.uniqBy(urls, url => url.href);
+  }
+
+  scoreNode(node, otherNodes, allHashes) {
+    /**
+     * Score it by distance to other sites aka. entropy
+     */
+    const text = node.text();
+    let entropy = 0;
+    /**
+     * Test if enough sites were crawled.
+     * If not use only Classifier.
+     */
+    if (this.activateSchnuffelMode) {
+      const sameContext = otherNodes.filter(n => n && n.hash() === node.hash()).filter(n => {
+        const parent = n.getParent();
+        if (parent) {
+          return Helpers.compareText(parent.getText(), node.getText()) > 0.8;
+        }
+        return false;
+      });
+      if (sameContext.length > 0) {
+        node.setData('entropy', -sameContext.length);
+        entropy -= sameContext.length;
+      }
 
 
-			if (_.includes(allHashes, n => n === node.hash())) {
-				entropy -= node.getText().length;
-			}
+      if (_.includes(allHashes, n => n === node.hash())) {
+        entropy -= node.getText().length;
+      }
 
-			const lengthSites = otherNodes.length;
-			for (let i = 0; i < lengthSites; i++){
-				if (!otherNodes[i]) {
-					entropy += text.length;
-				} else {
-					const otherText = otherNodes[i].text();
-					entropy += leven(this.clean(text), this.clean(otherText));
-				}
-			}
-		} else {
-			const {textDensity, lqf, partOfNav} = Classifier.classify(node);
-			let offset = 0;
-			if (partOfNav) {
-				offset -= text;
-			}
-			const score = (textDensity + lqf) / 2;
-			node.setData('score', score);
-			this.scores.push(score);
-		}
+      const lengthSites = otherNodes.length;
+      for (let i = 0; i < lengthSites; i++){
+        if (!otherNodes[i]) {
+          entropy += text.length;
+        } else {
+          const otherText = otherNodes[i].text();
+          entropy += leven(this.clean(text), this.clean(otherText));
+        }
+      }
+    } else {
+      const {textDensity, lqf, partOfNav} = Classifier.classify(node);
+      let offset = 0;
+      if (partOfNav) {
+        offset -= text;
+      }
+      const score = (textDensity + lqf) / 2;
+      node.setData('score', score);
+      this.scores.push(score);
+    }
 
-		if (!node.isLeaf()) {
-			const childEntropies = node.getChildren().map((child, index) => {
-				return this.scoreNode(child, otherNodes.map(n => {
-					return n.getChildren()[index];
-				}).filter(n => n instanceof FckffDOM.Node), allHashes)
-			});
-			entropy += _.sum(childEntropies);
-		}
+    if (!node.isLeaf()) {
+      const childEntropies = node.getChildren().map((child, index) => {
+        return this.scoreNode(child, otherNodes.map(n => {
+          return n.getChildren()[index];
+        }).filter(n => n instanceof FckffDOM.Node), allHashes)
+      });
+      entropy += _.sum(childEntropies);
+    }
 
-		node.setData('entropy', entropy);
-		return entropy;
-	}
+    node.setData('entropy', entropy);
+    return entropy;
+  }
 
-	clean(text) {
-		return text.replace(/\t|\n/gi, '');
-	}
+  clean(text) {
+    return text.replace(/\t|\n/gi, '');
+  }
 
-	/**
-	 * This functions runs only once per DOM. For repeated scoring set parameter force true.
-	 * @param site
-	 * @param sites
-	 * @param force (Boolean) if true the DOM is scored again
-	 * @returns {*}
-	 */
-	scoreDOM(site = this, sites = this.crawler.sites) {
-		sites = sites.filter(s => site.domain.hostname === s.domain.hostname);
-		/**
-		 * Sites with the same hash are filtered out.
-		 * The resulting array should contain only unique sites.
-		 * @type {Array.<*>}
-		 */
-		const otherSites = sites.filter(s => {
-			return site.hash !== s.hash;
-		});
+  /**
+   * This functions runs only once per DOM. For repeated scoring set parameter force true.
+   * @param site
+   * @param sites
+   * @param force (Boolean) if true the DOM is scored again
+   * @returns {*}
+   */
+  scoreDOM(site = this, sites = this.crawler.sites) {
+    sites = sites.filter(s => site.domain.hostname === s.domain.hostname);
+    /**
+     * Sites with the same hash are filtered out.
+     * The resulting array should contain only unique sites.
+     * @type {Array.<*>}
+     */
+    const otherSites = sites.filter(s => {
+      return site.hash !== s.hash;
+    });
 
-		const allHashes = _.flatten(otherSites.map(s => s.dom._nodes.filter(n => n.isLeaf()).map(n => n.getHash())));
+    const allHashes = _.flatten(otherSites.map(s => s.dom._nodes.filter(n => n.isLeaf()).map(n => n.getHash())));
 
-		site.activateSchnuffelMode = otherSites.length > 0;
-		site.scoreNode(site.dom.body(), otherSites.map(s => {
-			return s.dom.body();
-		}), allHashes);
-		site.scored = true;
-	}
+    site.activateSchnuffelMode = otherSites.length > 0;
+    site.scoreNode(site.dom.body(), otherSites.map(s => {
+      return s.dom.body();
+    }), allHashes);
+    site.scored = true;
+  }
 }
+
 export {Site as default};

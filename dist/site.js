@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-	value: true
+  value: true
 });
 exports.default = undefined;
 
@@ -56,295 +56,345 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Site = function () {
-	function Site(url, crawler) {
-		_classCallCheck(this, Site);
+  function Site(url, crawler) {
+    _classCallCheck(this, Site);
 
-		if (crawler) {
-			this.crawler = crawler;
-		} else {
-			//console.info('This constructor should not be called manually.')
-		}
-		if (url) {
-			this.url = _url2.default.parse(url);
-			this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
-		}
-		this.ready = false;
-		this.scored = false;
-		this.scores = [];
-	}
+    if (crawler) {
+      this.crawler = crawler;
+    } else {
+      //console.info('This constructor should not be called manually.')
+    }
+    if (url) {
+      this.url = _url2.default.parse(url);
+      this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
+    }
+    this.ready = false;
+    this.scored = false;
+    this.scores = [];
+  }
 
-	_createClass(Site, [{
-		key: 'load',
-		value: function () {
-			var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
-				return regeneratorRuntime.wrap(function _callee$(_context) {
-					while (1) {
-						switch (_context.prev = _context.next) {
-							case 0:
-								if (!(this.url && this.crawler)) {
-									_context.next = 7;
-									break;
-								}
+  _createClass(Site, [{
+    key: 'load',
+    value: function () {
+      var _ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(this.url && this.crawler)) {
+                  _context.next = 7;
+                  break;
+                }
 
-								_context.next = 3;
-								return this.crawler.getDOM(this.url.href);
+                _context.next = 3;
+                return this.crawler.getDOM(this.url.href);
 
-							case 3:
-								this.dom = _context.sent;
+              case 3:
+                this.dom = _context.sent;
 
-								if (this.dom.body()) {
-									this.hash = this.dom.body().hash();
-								}
-								this.ready = true;
-								return _context.abrupt('return', this);
+                if (this.dom.body()) {
+                  this.hash = this.dom.body().hash();
+                }
+                this.ready = true;
+                return _context.abrupt('return', this);
 
-							case 7:
-								return _context.abrupt('return', false);
+              case 7:
+                return _context.abrupt('return', false);
 
-							case 8:
-							case 'end':
-								return _context.stop();
-						}
-					}
-				}, _callee, this);
-			}));
+              case 8:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
 
-			function load() {
-				return _ref.apply(this, arguments);
-			}
+      function load() {
+        return _ref.apply(this, arguments);
+      }
 
-			return load;
-		}()
-	}, {
-		key: 'simulateLoading',
-		value: function simulateLoading(html) {
-			var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'http://localhost:3000';
-			var crawler = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.crawler;
+      return load;
+    }()
+  }, {
+    key: 'simulateLoading',
+    value: function simulateLoading(html) {
+      var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'http://localhost:3000';
+      var crawler = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.crawler;
 
-			this.crawler = crawler;
-			this.dom = new _fckffdom2.default(html);
-			if (this.dom.body()) {
-				this.hash = this.dom.body().hash();
-			}
-			this.ready = true;
-			this.url = _url2.default.parse(url);
-			this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
-			return this;
-		}
-	}, {
-		key: 'html',
-		value: function html(selector) {
-			if (selector) {
-				return this.dom.querySelector(selector).map(function (node) {
-					return node.html();
-				});
-			}
-			return this.dom.html();
-		}
-	}, {
-		key: 'querySelector',
-		value: function querySelector(selector) {
-			return this.dom.querySelector(selector);
-		}
-	}, {
-		key: 'getContent',
-		value: function getContent() {
-			var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'HTML';
-			var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      this.crawler = crawler;
+      this.dom = new _fckffdom2.default(html);
+      if (this.dom.body()) {
+        this.hash = this.dom.body().hash();
+      }
+      this.ready = true;
+      this.url = _url2.default.parse(url);
+      this.domain = _url2.default.parse(_url2.default.resolve(this.url.href, '/'));
+      return this;
+    }
+  }, {
+    key: 'html',
+    value: function html(selector) {
+      if (selector) {
+        return this.dom.querySelector(selector).map(function (node) {
+          return node.html();
+        });
+      }
+      return this.dom.html();
+    }
+  }, {
+    key: 'querySelector',
+    value: function querySelector(selector) {
+      return this.dom.querySelector(selector);
+    }
+  }, {
+    key: 'getContent',
+    value: function getContent() {
+      var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'HTML';
+      var force = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-			if (!this.scored || force) {
-				this.scoreDOM();
-			}
+      if (!this.scored || force) {
+        this.scoreDOM();
+      }
 
-			var cleanedDom = _lodash2.default.cloneDeep(this.dom);
+      var cleanedDom = _lodash2.default.cloneDeep(this.dom);
 
-			if (!this.activateSchnuffelMode) {
-				var meanScore = _myHelpers2.default.mean(this.scores);
-				var deviationScore = _myHelpers2.default.standardDeviation(this.scores, meanScore);
-				cleanedDom._nodes.forEach(function (node) {
-					var score = (parseFloat(node.data('score')) - meanScore) / (deviationScore || 1);
-					node.data('score', score);
-					if (score < 0) {
-						node.remove();
-					}
-				});
-			} else {
-				cleanedDom._nodes.forEach(function (node) {
-					var entropies = [parseFloat(node.data('entropy'))];
-					node.getSiblings().forEach(function (s) {
-						entropies.push(parseFloat(s.data('entropy')));
-					});
-					var meanEntropy = _myHelpers2.default.mean(entropies);
-					var deviationEntropy = _myHelpers2.default.standardDeviation(entropies, meanEntropy);
+      if (!this.activateSchnuffelMode) {
+        var meanScore = _myHelpers2.default.mean(this.scores);
+        var deviationScore = _myHelpers2.default.standardDeviation(this.scores, meanScore);
+        cleanedDom._nodes.forEach(function (node) {
+          var score = (parseFloat(node.data('score')) - meanScore) / (deviationScore || 1);
+          node.data('score', score);
+          if (score < 0) {
+            node.remove();
+          }
+        });
+      } else {
+        cleanedDom._nodes.forEach(function (node) {
+          var entropies = [parseFloat(node.data('entropy'))];
+          node.getSiblings().forEach(function (s) {
+            entropies.push(parseFloat(s.data('entropy')));
+          });
+          var meanEntropy = _myHelpers2.default.mean(entropies);
+          var deviationEntropy = _myHelpers2.default.standardDeviation(entropies, meanEntropy);
 
-					var entropy = (parseFloat(node.data('entropy')) - meanEntropy) / (deviationEntropy || 1);
-					node.data('entropy', entropy);
-					if (entropy < 0) {
-						node.remove();
-					}
-				});
-			}
+          var entropy = (parseFloat(node.data('entropy')) - meanEntropy) / (deviationEntropy || 1);
+          node.data('entropy', entropy);
+          if (entropy < 0) {
+            node.remove();
+          }
+        });
+      }
 
-			if (type === 'PLAIN_TEXT') {
-				return cleanedDom.text().trim();
-			}
-			if (type === 'HTML') {
-				return cleanedDom.html().trim();
-			}
-			if (type === 'CLEANEVAL') {
-				return cleanedDom.cleaneval().trim();
-			}
-		}
-	}, {
-		key: 'returnUrls',
-		value: function returnUrls() {
-			var _this = this;
+      if (type === 'PLAIN_TEXT') {
+        return cleanedDom.text().trim();
+      }
+      if (type === 'HTML') {
+        return cleanedDom.html().trim();
+      }
+      if (type === 'CLEANEVAL') {
+        return cleanedDom.cleaneval().trim();
+      }
+    }
+  }, {
+    key: 'getSegments',
+    value: function getSegments() {
+      var html = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.getContent();
+      var threshold = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0.8;
 
-			var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
+      var dom = new _fckffdom2.default(html);
+      var segments = [];
+      Site._segmentate(dom.body(), threshold, segments);
+      if (segments.length === 0) {
+        return [dom.text()];
+      }
+      return segments;
+    }
+  }, {
+    key: 'returnUrls',
+    value: function returnUrls() {
+      var _this = this;
 
-			var urls = [];
-			this.dom.getLinks().forEach(function (href) {
-				if (href.indexOf('mailto:') !== -1) {
-					return;
-				}
-				if (href.indexOf('.pdf') !== -1) {
-					return;
-				}
-				var parsedUrl = _url2.default.parse(href);
-				parsedUrl.hash = null;
-				if (parsedUrl.hostname !== null) {
-					urls.push(parsedUrl);
-				} else {
-					var absoluteUrl = _url2.default.resolve(_this.domain.href, href);
-					urls.push(_url2.default.parse(absoluteUrl));
-				}
-			});
-			return _lodash2.default.uniqBy(urls, function (url) {
-				return url.href;
-			});
-		}
-	}, {
-		key: 'scoreNode',
-		value: function scoreNode(node, otherNodes, allHashes) {
-			var _this2 = this;
+      var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.$;
 
-			/**
-    * Score it by distance to other sites aka. entropy
-    */
-			var text = node.text();
-			var entropy = 0;
-			/**
-    * Test if enough sites were crawled.
-    * If not use only Classifier.
-    */
-			if (this.activateSchnuffelMode) {
-				var sameContext = otherNodes.filter(function (n) {
-					return n && n.hash() === node.hash();
-				}).filter(function (n) {
-					var parent = n.getParent();
-					if (parent) {
-						return _myHelpers2.default.compareText(parent.getText(), node.getText()) > 0.8;
-					}
-					return false;
-				});
-				if (sameContext.length > 0) {
-					node.setData('entropy', -sameContext.length);
-					entropy -= sameContext.length;
-				}
+      var urls = [];
+      this.dom.getLinks().forEach(function (href) {
+        if (href.indexOf('mailto:') !== -1) {
+          return;
+        }
+        if (href.indexOf('.pdf') !== -1) {
+          return;
+        }
+        var parsedUrl = _url2.default.parse(href);
+        parsedUrl.hash = null;
+        if (parsedUrl.hostname !== null) {
+          urls.push(parsedUrl);
+        } else {
+          var absoluteUrl = _url2.default.resolve(_this.domain.href, href);
+          urls.push(_url2.default.parse(absoluteUrl));
+        }
+      });
+      return _lodash2.default.uniqBy(urls, function (url) {
+        return url.href;
+      });
+    }
+  }, {
+    key: 'scoreNode',
+    value: function scoreNode(node, otherNodes, allHashes) {
+      var _this2 = this;
 
-				if (_lodash2.default.includes(allHashes, function (n) {
-					return n === node.hash();
-				})) {
-					entropy -= node.getText().length;
-				}
+      /**
+       * Score it by distance to other sites aka. entropy
+       */
+      var text = node.text();
+      var entropy = 0;
+      /**
+       * Test if enough sites were crawled.
+       * If not use only Classifier.
+       */
+      if (this.activateSchnuffelMode) {
+        var sameContext = otherNodes.filter(function (n) {
+          return n && n.hash() === node.hash();
+        }).filter(function (n) {
+          var parent = n.getParent();
+          if (parent) {
+            return _myHelpers2.default.compareText(parent.getText(), node.getText()) > 0.8;
+          }
+          return false;
+        });
+        if (sameContext.length > 0) {
+          node.setData('entropy', -sameContext.length);
+          entropy -= sameContext.length;
+        }
 
-				var lengthSites = otherNodes.length;
-				for (var i = 0; i < lengthSites; i++) {
-					if (!otherNodes[i]) {
-						entropy += text.length;
-					} else {
-						var otherText = otherNodes[i].text();
-						entropy += (0, _leven2.default)(this.clean(text), this.clean(otherText));
-					}
-				}
-			} else {
-				var _Classifier$classify = _classifier2.default.classify(node),
-				    textDensity = _Classifier$classify.textDensity,
-				    lqf = _Classifier$classify.lqf,
-				    partOfNav = _Classifier$classify.partOfNav;
+        if (_lodash2.default.includes(allHashes, function (n) {
+          return n === node.hash();
+        })) {
+          entropy -= node.getText().length;
+        }
 
-				var offset = 0;
-				if (partOfNav) {
-					offset -= text;
-				}
-				var score = (textDensity + lqf) / 2;
-				node.setData('score', score);
-				this.scores.push(score);
-			}
+        var lengthSites = otherNodes.length;
+        for (var i = 0; i < lengthSites; i++) {
+          if (!otherNodes[i]) {
+            entropy += text.length;
+          } else {
+            var otherText = otherNodes[i].text();
+            entropy += (0, _leven2.default)(this.clean(text), this.clean(otherText));
+          }
+        }
+      } else {
+        var _Classifier$classify = _classifier2.default.classify(node),
+            textDensity = _Classifier$classify.textDensity,
+            lqf = _Classifier$classify.lqf,
+            partOfNav = _Classifier$classify.partOfNav;
 
-			if (!node.isLeaf()) {
-				var childEntropies = node.getChildren().map(function (child, index) {
-					return _this2.scoreNode(child, otherNodes.map(function (n) {
-						return n.getChildren()[index];
-					}).filter(function (n) {
-						return n instanceof _fckffdom2.default.Node;
-					}), allHashes);
-				});
-				entropy += _lodash2.default.sum(childEntropies);
-			}
+        var offset = 0;
+        if (partOfNav) {
+          offset -= text;
+        }
+        var score = (textDensity + lqf) / 2;
+        node.setData('score', score);
+        this.scores.push(score);
+      }
 
-			node.setData('entropy', entropy);
-			return entropy;
-		}
-	}, {
-		key: 'clean',
-		value: function clean(text) {
-			return text.replace(/\t|\n/gi, '');
-		}
+      if (!node.isLeaf()) {
+        var childEntropies = node.getChildren().map(function (child, index) {
+          return _this2.scoreNode(child, otherNodes.map(function (n) {
+            return n.getChildren()[index];
+          }).filter(function (n) {
+            return n instanceof _fckffdom2.default.Node;
+          }), allHashes);
+        });
+        entropy += _lodash2.default.sum(childEntropies);
+      }
 
-		/**
-   * This functions runs only once per DOM. For repeated scoring set parameter force true.
-   * @param site
-   * @param sites
-   * @param force (Boolean) if true the DOM is scored again
-   * @returns {*}
-   */
+      node.setData('entropy', entropy);
+      return entropy;
+    }
+  }, {
+    key: 'clean',
+    value: function clean(text) {
+      return text.replace(/\t|\n/gi, '');
+    }
 
-	}, {
-		key: 'scoreDOM',
-		value: function scoreDOM() {
-			var site = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
-			var sites = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler.sites;
+    /**
+     * This functions runs only once per DOM. For repeated scoring set parameter force true.
+     * @param site
+     * @param sites
+     * @param force (Boolean) if true the DOM is scored again
+     * @returns {*}
+     */
 
-			sites = sites.filter(function (s) {
-				return site.domain.hostname === s.domain.hostname;
-			});
-			/**
-    * Sites with the same hash are filtered out.
-    * The resulting array should contain only unique sites.
-    * @type {Array.<*>}
-    */
-			var otherSites = sites.filter(function (s) {
-				return site.hash !== s.hash;
-			});
+  }, {
+    key: 'scoreDOM',
+    value: function scoreDOM() {
+      var site = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this;
+      var sites = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.crawler.sites;
 
-			var allHashes = _lodash2.default.flatten(otherSites.map(function (s) {
-				return s.dom._nodes.filter(function (n) {
-					return n.isLeaf();
-				}).map(function (n) {
-					return n.getHash();
-				});
-			}));
+      sites = sites.filter(function (s) {
+        return site.domain.hostname === s.domain.hostname;
+      });
+      /**
+       * Sites with the same hash are filtered out.
+       * The resulting array should contain only unique sites.
+       * @type {Array.<*>}
+       */
+      var otherSites = sites.filter(function (s) {
+        return site.hash !== s.hash;
+      });
 
-			site.activateSchnuffelMode = otherSites.length > 0;
-			site.scoreNode(site.dom.body(), otherSites.map(function (s) {
-				return s.dom.body();
-			}), allHashes);
-			site.scored = true;
-		}
-	}]);
+      var allHashes = _lodash2.default.flatten(otherSites.map(function (s) {
+        return s.dom._nodes.filter(function (n) {
+          return n.isLeaf();
+        }).map(function (n) {
+          return n.getHash();
+        });
+      }));
 
-	return Site;
+      site.activateSchnuffelMode = otherSites.length > 0;
+      site.scoreNode(site.dom.body(), otherSites.map(function (s) {
+        return s.dom.body();
+      }), allHashes);
+      site.scored = true;
+    }
+  }], [{
+    key: '_getChildrenDistances',
+    value: function _getChildrenDistances(element) {
+      var numbers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+      var number = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+
+      if (element.isLeaf()) {
+        numbers.push(number);
+        return numbers;
+      }
+      return element._children.map(function (e) {
+        Site._getChildrenDistances(e, numbers, number + 1);
+      });
+    }
+  }, {
+    key: '_segmentate',
+    value: function _segmentate(element, threshold) {
+      var segments = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      var distanceFromBody = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 0;
+
+      var sLmin = _lodash2.default.min(Site._getChildrenDistances(element));
+      var t = distanceFromBody / (sLmin || 1);
+      if (element.isLeaf()) {
+        return;
+      }
+      if (t > threshold) {
+        element._children.forEach(function (e) {
+          segments.push(e.text());
+        });
+        return;
+      }
+      element._children.forEach(function (e) {
+        Site._segmentate(e, threshold, segments, distanceFromBody + 1);
+      });
+      return;
+    }
+  }]);
+
+  return Site;
 }();
 
 exports.default = Site;
