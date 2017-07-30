@@ -41,6 +41,10 @@ class Site {
     this.scores = [];
   }
 
+  get href(){
+    return this.url.href;
+  }
+
   async load(counter = 0) {
     if (this.url && this.crawler) {
       try{
@@ -54,6 +58,7 @@ class Site {
         if (counter < 5) {
           return await this.load(counter + 1);
         }
+        console.error('Failed repeatedly to load data from url: ', this.url.href);
         console.error(e);
         return false;
       }
@@ -127,6 +132,10 @@ class Site {
     if (type === 'CLEANEVAL') {
       return cleanedDom.cleaneval().trim();
     }
+  }
+
+  getTableData(){
+    return this.dom._tableData;
   }
 
   static _getChildrenDistances(element, numbers = [], number = 0) {

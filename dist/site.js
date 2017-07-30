@@ -83,7 +83,7 @@ var Site = function () {
             switch (_context.prev = _context.next) {
               case 0:
                 if (!(this.url && this.crawler)) {
-                  _context.next = 18;
+                  _context.next = 19;
                   break;
                 }
 
@@ -116,13 +116,14 @@ var Site = function () {
                 return _context.abrupt('return', _context.sent);
 
               case 16:
+                console.error('Failed repeatedly to load data from url: ', this.url.href);
                 console.error(_context.t0);
                 return _context.abrupt('return', false);
 
-              case 18:
+              case 19:
                 return _context.abrupt('return', false);
 
-              case 19:
+              case 20:
               case 'end':
                 return _context.stop();
             }
@@ -215,6 +216,11 @@ var Site = function () {
       if (type === 'CLEANEVAL') {
         return cleanedDom.cleaneval().trim();
       }
+    }
+  }, {
+    key: 'getTableData',
+    value: function getTableData() {
+      return this.dom._tableData;
     }
   }, {
     key: 'getSegments',
@@ -376,6 +382,11 @@ var Site = function () {
         return s.dom.body();
       }), allHashes);
       site.scored = true;
+    }
+  }, {
+    key: 'href',
+    get: function get() {
+      return this.url.href;
     }
   }], [{
     key: '_getChildrenDistances',
