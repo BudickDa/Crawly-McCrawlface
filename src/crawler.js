@@ -239,12 +239,13 @@ class Crawler extends EventEmitter {
     } else if (crawler.queue.length === 0) {
       //This happens when the queue is empty,
       //wait until stack is empty and try again
-      const timeout = 2000;
+      const timeout = 5000;
       if (idle > timeout) {
         console.log('Crawler timed out.');
         crawler.stop();
         if (!crawler.state.finished) {
           //send finished event if not already did so
+          crawler.state.finished = true;
           this.emit('finished', crawler);
         }
         return;
